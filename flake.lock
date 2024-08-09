@@ -1,0 +1,27 @@
+{
+  "nodes": {
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1723151029,
+        "narHash": "sha256-7wD4ZirqgEtc8F4CnoK0XbwP8kg67M230Gsww0Ju12w=",
+        "owner": "chayleaf",
+        "repo": "nixpkgs",
+        "rev": "77f4097425aedb26e3b55cc2bde13fc9e19e2e0c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "chayleaf",
+        "ref": "unbound",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
