@@ -368,9 +368,9 @@ impl UnboundMod for ExampleMod {
                         Err(err) => ret.report("ips", err),
                     }
                 }
-                for domain in v_domains.iter() {
+                for rev_domain in v_domains.iter() {
                     ret.cache4.get_maybe_update_rev(
-                        domain
+                        rev_domain
                             .iter()
                             .map(|x| x.as_slice())
                             .collect::<Vec<_>>()
@@ -384,7 +384,7 @@ impl UnboundMod for ExampleMod {
                         },
                     );
                     ret.cache6.get_maybe_update_rev(
-                        domain
+                        rev_domain
                             .iter()
                             .map(|x| x.as_slice())
                             .collect::<Vec<_>>()
@@ -419,7 +419,6 @@ impl UnboundMod for ExampleMod {
                     match rx.recv() {
                         Ok(val) => {
                             queue_start = Instant::now();
-                            len += val.1.len();
                             Some(val)
                         }
                         Err(RecvError) => break,
@@ -427,20 +426,32 @@ impl UnboundMod for ExampleMod {
                 } else {
                     match rx.recv_timeout((queue_start + Duration::from_secs(30)) - Instant::now())
                     {
-                        Ok(val) => {
-                            len += val.1.len();
-                            Some(val)
-                        }
+                        Ok(val) => Some(val),
                         Err(mpsc::RecvTimeoutError::Timeout) => None,
                         Err(mpsc::RecvTimeoutError::Disconnected) => break,
                     }
                 };
-                let do_it = res.is_none()
-                    || len >= 128
-                    || (Instant::now() - queue_start) > Duration::from_secs(25);
-                if let Some((rulesets, ips)) = res {
-                    for ruleset in rulesets {
-                        bufs[ruleset].extend(ips.iter().copied());
+                let do_it =
+                    res.is_none() || (Instant::now() - queue_start) > Duration::from_secs(25);
+                if let Some((rulesets1, ips)) = res {
+                    for ruleset in rulesets1 {
+                        for ip1 in ips.iter().copied() {
+                            match ip1 {
+                                IpNet::V4(ip) => {
+                                    if !rulesets[ruleset].ips4.contains(&ip) {
+                                        rulesets[ruleset].ips4.insert(ip.into());
+                                        bufs[ruleset].push(ip1);
+                                    }
+                                }
+                                IpNet::V6(ip) => {
+                                    if !rulesets[ruleset].ips6.contains(&ip) {
+                                        rulesets[ruleset].ips6.insert(ip.into());
+                                        bufs[ruleset].push(ip1);
+                                        len += 1;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 struct FlushSetMsg<'a, T> {
@@ -463,7 +474,7 @@ impl UnboundMod for ExampleMod {
                         nftnl_sys::nftnl_set_elems_nlmsg_build_payload(header, self.set.as_ptr());
                     }
                 }
-                if do_it {
+                if do_it || len >= 128 {
                     let mut batch = nftnl::Batch::new();
                     for (ruleset, buf) in rulesets.iter().zip(bufs.iter_mut()) {
                         // internally represented as a range
@@ -663,7 +674,6 @@ impl UnboundMod for ExampleMod {
                     let entry = rrset.entry();
                     let d = entry.data();
                     let rk = rrset.rk();
-                    // IN
                     if rk.rrset_class() != rr_class::IN {
                         continue;
                     }
@@ -684,15 +694,16 @@ impl UnboundMod for ExampleMod {
                     }
                 }
                 if !ip4.is_empty() || !ip6.is_empty() {
-                    let domain = match String::from_utf8(
-                        split_rev_domain
-                            .iter()
-                            .rev()
-                            .map(|x| x.as_slice())
-                            .collect::<Vec<_>>()
-                            .join(&b"."[..]),
-                    ) {
-                        Ok(x) => x,
+                    let domain = match split_rev_domain
+                        .iter()
+                        .rev()
+                        .map(|x| String::from_utf8(x.to_vec()).map(|x| x + "."))
+                        .collect::<Result<String, _>>()
+                    {
+                        Ok(mut x) => {
+                            x.pop();
+                            x
+                        }
                         Err(err) => {
                             self.report("domain utf-8", err);
                             return;
