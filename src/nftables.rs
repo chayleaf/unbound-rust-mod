@@ -11,8 +11,8 @@ use std::{
 };
 
 use ipnet::{IpNet, Ipv4Net, Ipv6Net};
-use nftnl::{nftnl_sys, set::SetKey, Batch, FinalizedBatch, MsgType, NlMsg};
 use mnl::mnl_sys;
+use nftnl::{nftnl_sys, set::SetKey, Batch, FinalizedBatch, MsgType, NlMsg};
 
 fn cidr_bound_ipv4(net: Ipv4Net) -> Option<Ipv4Addr> {
     let data = u32::from(net.network());
@@ -224,7 +224,12 @@ impl Set1 {
             nftnl_sys::nftnl_set_elem_add(self.as_mut_ptr(), elem);
         }
     }
-    pub fn add_cidrs(&self, socket: &mnl::Socket, flush: bool, cidrs: impl IntoIterator<Item = IpNet>) -> io::Result<()> {
+    pub fn add_cidrs(
+        &self,
+        socket: &mnl::Socket,
+        flush: bool,
+        cidrs: impl IntoIterator<Item = IpNet>,
+    ) -> io::Result<()> {
         let mut batch = Batch::new();
         // FIXME: why 2048?
         let max_batch_size = 2048;
@@ -321,7 +326,7 @@ pub fn get_sets(socket: &mnl::Socket) -> io::Result<Vec<Set1>> {
 
 #[cfg(test)]
 mod test {
-    use std::{ffi::CString, net::Ipv6Addr};
+    use std::net::Ipv6Addr;
 
     use ipnet::Ipv6Net;
 
@@ -329,10 +334,6 @@ mod test {
 
     #[test]
     fn test_nftables() {
-        let table = nftnl::Table::new(
-            &CString::from_vec_with_nul(b"test\0".to_vec()).unwrap(),
-            nftnl::ProtoFamily::Inet,
-        );
         let socket = mnl::Socket::new(mnl::Bus::Netfilter).unwrap();
         let sets = get_sets(&socket).unwrap();
         assert!(!sets.is_empty());
