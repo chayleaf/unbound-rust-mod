@@ -22,10 +22,11 @@
 
     devShells.x86_64-linux.default =  let
       pkgs = import nixpkgs { system = "x86_64-linux"; };
-    in pkgs.mkShell {
+    in pkgs.mkShell rec {
       name = "unbound-rust-mod-shell";
       LIBMNL_LIB_DIR = "${nixpkgs.lib.getLib pkgs.libmnl}/lib";
       LIBNFTNL_LIB_DIR = "${nixpkgs.lib.getLib pkgs.libnftnl}/lib";
+      LD_LIBRARY_PATH = "${LIBMNL_LIB_DIR}:${LIBNFTNL_LIB_DIR}";
     };
   };
 }

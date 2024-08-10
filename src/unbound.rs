@@ -401,6 +401,8 @@ impl PackedRrsetData<'_> {
 type RrsetIdType = rrset_id_type;
 
 #[non_exhaustive]
+#[repr(u32)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 pub enum ModuleEvent {
     /// new query
     New = 0,
@@ -434,6 +436,9 @@ impl From<module_ev> for ModuleEvent {
     }
 }
 
+#[non_exhaustive]
+#[repr(u32)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 pub enum SecStatus {
     /// UNCHECKED means that object has yet to be validated.
     Unchecked = 0,
@@ -464,6 +469,9 @@ impl From<sec_status> for SecStatus {
     }
 }
 
+#[non_exhaustive]
+#[repr(i32)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 pub enum SldnsEdeCode {
     None = -1,
     Other = 0,
@@ -527,6 +535,9 @@ impl From<sldns_enum_ede_code> for SldnsEdeCode {
     }
 }
 
+#[non_exhaustive]
+#[repr(u32)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 pub enum RrsetTrust {
     /// Initial value for trust
     None = 0,

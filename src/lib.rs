@@ -8,9 +8,11 @@ use std::panic::{RefUnwindSafe, UnwindSafe};
     unused_imports
 )]
 mod bindings;
+mod combine;
 #[cfg(feature = "example")]
 mod example;
 mod exports;
+mod nftables;
 mod unbound;
 
 pub fn add(left: usize, right: usize) -> usize {
