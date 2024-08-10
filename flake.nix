@@ -25,7 +25,9 @@
     in pkgs.mkShell rec {
       name = "unbound-rust-mod-shell";
       LIBMNL_LIB_DIR = "${nixpkgs.lib.getLib pkgs.libmnl}/lib";
-      LIBNFTNL_LIB_DIR = "${nixpkgs.lib.getLib pkgs.libnftnl}/lib";
+      LIBNFTNL_LIB_DIR = "${nixpkgs.lib.getLib (pkgs.libnftnl.overrideAttrs (old: {
+        patches = (old.patches or []) ++ [ ./libnftnl-fix.patch ];
+      }))}/lib";
       LD_LIBRARY_PATH = "${LIBMNL_LIB_DIR}:${LIBNFTNL_LIB_DIR}";
     };
   };

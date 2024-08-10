@@ -1,29 +1,27 @@
 use std::{
     collections::HashMap,
-    ffi::CString,
     fmt::Display,
     fs::File,
     io::{self, BufRead, BufReader, Write},
     net::{Ipv4Addr, Ipv6Addr},
-    os::raw::c_char,
     path::{Path, PathBuf},
     str::FromStr,
     sync::{
         mpsc::{self, RecvError},
         Mutex, RwLock,
     },
-    time::{Duration, Instant, SystemTime},
+    time::{Duration, SystemTime},
 };
 
 use ctor::ctor;
 use ipnet::{IpNet, Ipv4Net, Ipv6Net};
-use iptrie::{Ipv4Prefix, Ipv6Prefix, RTrieSet};
-use nftnl::set::SetKey;
+use iptrie::{IpPrefix, RTrieSet};
 use prefix_tree::PrefixSet;
 use serde::Deserialize;
 use smallvec::SmallVec;
 
 use crate::{
+    nftables::Set1,
     unbound::{rr_class, rr_type},
     UnboundMod,
 };
@@ -199,11 +197,18 @@ impl<T: FromStr> IpCache<T> {
 }
 
 struct NftData {
-    ips4: iptrie::Ipv4RTrieSet,
-    ips6: iptrie::Ipv6RTrieSet,
-    name4: CString,
-    name6: CString,
+    ips4: RTrieSet<Ipv4Net>,
+    ips6: RTrieSet<Ipv6Net>,
+    dirty4: bool,
+    dirty6: bool,
+    set4: Option<Set1>,
+    set6: Option<Set1>,
+    name4: String,
+    name6: String,
 }
+
+// SAFETY: set4/set6 are None initially and are never actually sent
+unsafe impl Send for NftData {}
 
 struct NftQuery {
     domains: RwLock<prefix_tree::PrefixSet<DomainSeg>>,
@@ -242,16 +247,61 @@ struct DpiInfo {
     // restriction: {"code": "ban"}
 }
 
+trait Helper: iptrie::IpPrefix + PartialEq {
+    const ZERO: Self;
+    fn direct_parent(&self) -> Option<Self>;
+}
+
+impl Helper for Ipv4Net {
+    const ZERO: Self = match Self::new(Ipv4Addr::UNSPECIFIED, 0) {
+        Ok(x) => x,
+        #[allow(clippy::empty_loop)]
+        Err(_) => loop {},
+    };
+    fn direct_parent(&self) -> Option<Self> {
+        self.len()
+            .checked_sub(1)
+            .and_then(|x| Self::new(self.bitslot().into(), x).ok())
+    }
+}
+
+impl Helper for Ipv6Net {
+    const ZERO: Self = match Self::new(Ipv6Addr::UNSPECIFIED, 0) {
+        Ok(x) => x,
+        #[allow(clippy::empty_loop)]
+        Err(_) => loop {},
+    };
+    fn direct_parent(&self) -> Option<Self> {
+        self.len()
+            .checked_sub(1)
+            .and_then(|x| Self::new(self.bitslot().into(), x).ok())
+    }
+}
+
+fn should_add<T: Helper>(trie: &RTrieSet<T>, elem: &T) -> bool {
+    *trie.lookup(elem) == T::ZERO
+}
+
+fn iter_ip_trie<T: Helper>(trie: &RTrieSet<T>) -> impl '_ + Iterator<Item = T> {
+    trie.iter().copied().filter(|x| {
+        if let Some(par) = x.direct_parent() {
+            should_add(trie, &par)
+        } else {
+            *x != T::ZERO
+        }
+    })
+}
+
 impl UnboundMod for ExampleMod {
     type EnvData = ();
     type QstateData = ();
     fn init(_env: &mut crate::unbound::ModuleEnv<Self::EnvData>) -> Result<Self, ()> {
         let mut ret = Self {
             nft_token: std::env::var_os("NFT_TOKEN")
-                .map(|x| x.to_str().ok_or(()).map(|s| ".".to_owned() + s))
+                .map(|x| x.to_str().ok_or(()).map(|s| s.to_owned() + "."))
                 .transpose()?,
             tmp_nft_token: std::env::var_os("NFT_TOKEN")
-                .map(|x| x.to_str().ok_or(()).map(|s| ".tmp".to_owned() + s))
+                .map(|x| x.to_str().ok_or(()).map(|s| s.to_owned() + ".tmp."))
                 .transpose()?,
             ..Self::default()
         };
@@ -295,10 +345,14 @@ impl UnboundMod for ExampleMod {
                     },
                 );
                 rulesets.push(NftData {
+                    set4: None,
+                    set6: None,
                     ips4: RTrieSet::new(),
                     ips6: RTrieSet::new(),
-                    name4: CString::from_vec_with_nul((set4.to_owned() + "\0").into()).unwrap(),
-                    name6: CString::from_vec_with_nul((set6.to_owned() + "\0").into()).unwrap(),
+                    dirty4: true,
+                    dirty6: true,
+                    name4: set4.to_owned(),
+                    name6: set6.to_owned(),
                 });
             }
         }
@@ -352,14 +406,14 @@ impl UnboundMod for ExampleMod {
                         Ok(ips) => {
                             r.ips4.extend(ips.iter().filter_map(|x| {
                                 if let IpNet::V4(x) = x {
-                                    Ipv4Prefix::new(x.addr(), x.prefix_len()).ok()
+                                    Some(*x)
                                 } else {
                                     None
                                 }
                             }));
                             r.ips6.extend(ips.iter().filter_map(|x| {
                                 if let IpNet::V6(x) = x {
-                                    Ipv6Prefix::new(x.addr(), x.prefix_len()).ok()
+                                    Some(*x)
                                 } else {
                                     None
                                 }
@@ -378,7 +432,7 @@ impl UnboundMod for ExampleMod {
                             .into(),
                         |val| {
                             if let Some(val) = val {
-                                r.ips4.extend(val.iter().map(|x| Ipv4Prefix::from(*x)));
+                                r.ips4.extend(val.iter().map(|x| Ipv4Net::from(*x)));
                             }
                             None
                         },
@@ -392,7 +446,7 @@ impl UnboundMod for ExampleMod {
                             .into(),
                         |val| {
                             if let Some(val) = val {
-                                r.ips6.extend(val.iter().map(|x| Ipv6Prefix::from(*x)));
+                                r.ips6.extend(val.iter().map(|x| Ipv6Net::from(*x)));
                             }
                             None
                         },
@@ -403,161 +457,96 @@ impl UnboundMod for ExampleMod {
 
         // add stuff to nftables
         let (tx, rx) = mpsc::channel();
+
         ret.ruleset_queue = Some(tx);
 
         std::thread::spawn(move || {
-            let table = nftnl::Table::new(
-                &CString::from_vec_with_nul(b"global\0".to_vec()).unwrap(),
-                nftnl::ProtoFamily::Inet,
-            );
-            let mut first = true;
-            let mut bufs = vec![Vec::<IpNet>::new(); rulesets.len()];
-            let mut len = 0;
-            let mut queue_start = Instant::now();
-            loop {
-                let res = if len == 0 {
-                    match rx.recv() {
-                        Ok(val) => {
-                            queue_start = Instant::now();
-                            Some(val)
-                        }
-                        Err(RecvError) => break,
+            fn report(err: impl Display) {
+                if let Ok(mut file) = std::fs::OpenOptions::new()
+                    .append(true)
+                    .open("/var/lib/unbound/nftables.log")
+                {
+                    if file.write_all(err.to_string().as_bytes()).is_err() {
+                        return;
                     }
-                } else {
-                    match rx.recv_timeout((queue_start + Duration::from_secs(30)) - Instant::now())
+                    if file.write_all(b"\n").is_err() {
+                        return;
+                    }
+                    file.flush().unwrap_or(());
+                }
+            }
+            let socket = mnl::Socket::new(mnl::Bus::Netfilter).unwrap();
+            let all_sets = crate::nftables::get_sets(&socket).unwrap();
+            for set in all_sets {
+                for ruleset in &mut rulesets {
+                    if set.table_name() == Some("global")
+                        && set.family() == libc::NFPROTO_INET as u32
                     {
-                        Ok(val) => Some(val),
-                        Err(mpsc::RecvTimeoutError::Timeout) => None,
-                        Err(mpsc::RecvTimeoutError::Disconnected) => break,
+                        if set.name() == Some(&ruleset.name4) {
+                            ruleset.set4 = Some(set.clone());
+                        } else if set.name() == Some(&ruleset.name6) {
+                            ruleset.set6 = Some(set.clone());
+                        }
                     }
+                }
+            }
+            for ruleset in &mut rulesets {
+                if !ruleset.name4.is_empty() && ruleset.set4.is_none() {
+                    report(format!("set {} not found", ruleset.name4));
+                    ruleset.ips4 = RTrieSet::new();
+                }
+                if !ruleset.name6.is_empty() && ruleset.set6.is_none() {
+                    report(format!("set {} not found", ruleset.name6));
+                    ruleset.ips6 = RTrieSet::new();
+                }
+            }
+            let mut first = true;
+            loop {
+                for ruleset in &mut rulesets {
+                    if let Some(set) = ruleset.set4.as_mut().filter(|_| ruleset.dirty4) {
+                        if let Err(err) = set.add_cidrs(
+                            &socket,
+                            first,
+                            iter_ip_trie(&ruleset.ips4).map(IpNet::V4),
+                        ) {
+                            report(err);
+                        }
+                    }
+                    if let Some(set) = ruleset.set6.as_mut().filter(|_| ruleset.dirty6) {
+                        if let Err(err) = set.add_cidrs(
+                            &socket,
+                            first,
+                            iter_ip_trie(&ruleset.ips6).map(IpNet::V6),
+                        ) {
+                            report(err);
+                        }
+                    }
+                }
+                first = false;
+                let res = match rx.recv() {
+                    Ok(val) => Some(val),
+                    Err(RecvError) => break,
                 };
-                let do_it =
-                    res.is_none() || (Instant::now() - queue_start) > Duration::from_secs(25);
                 if let Some((rulesets1, ips)) = res {
-                    for ruleset in rulesets1 {
+                    for i in rulesets1.into_iter() {
+                        let ruleset = &mut rulesets[i];
                         for ip1 in ips.iter().copied() {
                             match ip1 {
                                 IpNet::V4(ip) => {
-                                    if !rulesets[ruleset].ips4.contains(&ip) {
-                                        rulesets[ruleset].ips4.insert(ip.into());
-                                        bufs[ruleset].push(ip1);
+                                    if ruleset.set4.is_some() && !should_add(&ruleset.ips4, &ip) {
+                                        ruleset.ips4.insert(ip);
+                                        ruleset.dirty4 = true;
                                     }
                                 }
                                 IpNet::V6(ip) => {
-                                    if !rulesets[ruleset].ips6.contains(&ip) {
-                                        rulesets[ruleset].ips6.insert(ip.into());
-                                        bufs[ruleset].push(ip1);
-                                        len += 1;
+                                    if ruleset.set6.is_some() && !should_add(&ruleset.ips6, &ip) {
+                                        ruleset.ips6.insert(ip);
+                                        ruleset.dirty6 = true;
                                     }
                                 }
                             }
                         }
                     }
-                }
-                struct FlushSetMsg<'a, T> {
-                    set: &'a nftnl::set::Set<'a, T>,
-                }
-                unsafe impl<'a, T> nftnl::NlMsg for FlushSetMsg<'a, T> {
-                    unsafe fn write(
-                        &self,
-                        buf: *mut std::ffi::c_void,
-                        seq: u32,
-                        _msg_type: nftnl::MsgType,
-                    ) {
-                        let header = nftnl_sys::nftnl_nlmsg_build_hdr(
-                            buf as *mut c_char,
-                            libc::NFT_MSG_DELSETELEM as u16,
-                            self.set.get_family() as u16,
-                            0,
-                            seq,
-                        );
-                        nftnl_sys::nftnl_set_elems_nlmsg_build_payload(header, self.set.as_ptr());
-                    }
-                }
-                if do_it || len >= 128 {
-                    let mut batch = nftnl::Batch::new();
-                    for (ruleset, buf) in rulesets.iter().zip(bufs.iter_mut()) {
-                        // internally represented as a range
-                        struct Cidr<T>(T);
-                        impl SetKey for Cidr<Ipv4Net> {
-                            const TYPE: u32 = Ipv4Addr::TYPE;
-                            const LEN: u32 = Ipv4Addr::LEN * 2;
-                            fn data(&self) -> Box<[u8]> {
-                                let data = u32::from_be_bytes(self.0.network().octets());
-                                let mask = u32::from_be_bytes(self.0.netmask().octets());
-                                let mut ret = [0u8; (Self::LEN) as usize];
-                                ret[..(Self::LEN as usize)]
-                                    .copy_from_slice(&self.0.network().octets());
-                                ret[(Self::LEN as usize)..]
-                                    .copy_from_slice(&u32::to_be_bytes(!mask | data));
-                                Box::new(ret)
-                            }
-                        }
-                        impl SetKey for Cidr<Ipv6Net> {
-                            const TYPE: u32 = Ipv6Addr::TYPE;
-                            const LEN: u32 = Ipv6Addr::LEN * 2;
-                            fn data(&self) -> Box<[u8]> {
-                                let data = u128::from_be_bytes(self.0.network().octets());
-                                let mask = u128::from_be_bytes(self.0.netmask().octets());
-                                let mut ret = [0u8; (Self::LEN) as usize];
-                                ret[..(Self::LEN as usize)]
-                                    .copy_from_slice(&self.0.network().octets());
-                                ret[(Self::LEN as usize)..]
-                                    .copy_from_slice(&u128::to_be_bytes(!mask | data));
-                                Box::new(ret)
-                            }
-                        }
-                        let set4 = nftnl::set::Set::<Cidr<Ipv4Net>>::new(
-                            &ruleset.name4,
-                            0,
-                            &table,
-                            nftnl::ProtoFamily::Ipv4,
-                        );
-                        let set6 = nftnl::set::Set::<Cidr<Ipv6Net>>::new(
-                            &ruleset.name6,
-                            0,
-                            &table,
-                            nftnl::ProtoFamily::Ipv6,
-                        );
-                        if first {
-                            batch.add(&FlushSetMsg { set: &set4 }, nftnl::MsgType::Del);
-                            batch.add(&FlushSetMsg { set: &set6 }, nftnl::MsgType::Del);
-                        }
-                        let mut set4 = nftnl::set::Set::new(
-                            &ruleset.name4,
-                            0,
-                            &table,
-                            nftnl::ProtoFamily::Ipv4,
-                        );
-                        let mut set6 = nftnl::set::Set::new(
-                            &ruleset.name6,
-                            0,
-                            &table,
-                            nftnl::ProtoFamily::Ipv6,
-                        );
-                        let mut added4 = false;
-                        let mut added6 = false;
-                        for ip in buf.drain(..) {
-                            match ip {
-                                IpNet::V4(ip) => {
-                                    set4.add(&Cidr(ip));
-                                    added4 = true;
-                                }
-                                IpNet::V6(ip) => {
-                                    set6.add(&Cidr(ip));
-                                    added6 = true;
-                                }
-                            }
-                        }
-                        if added4 {
-                            batch.add_iter(set4.elems_iter(), nftnl::MsgType::Add);
-                        }
-                        if added6 {
-                            batch.add_iter(set6.elems_iter(), nftnl::MsgType::Add);
-                        }
-                    }
-                    len = 0;
-                    first = false;
                 }
             }
         });
@@ -577,12 +566,12 @@ impl UnboundMod for ExampleMod {
         if let Some(rev_domain) = self
             .nft_token
             .as_ref()
-            .and_then(|token| rev_domain.strip_suffix(token.as_bytes()))
+            .and_then(|token| rev_domain.strip_prefix(token.as_bytes()))
         {
             for (qname, query) in self.nft_queries.iter() {
                 if query.dynamic && rev_domain.ends_with(qname.as_bytes()) {
                     if let Some(rev_domain) =
-                        rev_domain.strip_suffix((".".to_owned() + qname).as_bytes())
+                        rev_domain.strip_prefix((qname.to_owned() + ".").as_bytes())
                     {
                         let rev_domain = rev_domain
                             .split(|x| *x == b'.')
@@ -635,12 +624,12 @@ impl UnboundMod for ExampleMod {
         } else if let Some(rev_domain) = self
             .tmp_nft_token
             .as_ref()
-            .and_then(|token| rev_domain.strip_suffix(token.as_bytes()))
+            .and_then(|token| rev_domain.strip_prefix(token.as_bytes()))
         {
             for (qname, query) in self.nft_queries.iter() {
                 if query.dynamic && rev_domain.ends_with(qname.as_bytes()) {
                     if let Some(rev_domain) =
-                        rev_domain.strip_suffix((".".to_owned() + qname).as_bytes())
+                        rev_domain.strip_prefix((qname.to_owned() + ".").as_bytes())
                     {
                         let rev_domain = rev_domain
                             .split(|x| *x == b'.')
@@ -748,4 +737,34 @@ impl UnboundMod for ExampleMod {
 #[ctor]
 fn setup() {
     crate::set_unbound_mod::<ExampleMod>();
+}
+
+#[cfg(test)]
+mod test {
+    use std::net::Ipv4Addr;
+
+    use ipnet::Ipv4Net;
+    use iptrie::RTrieSet;
+
+    use crate::example::{iter_ip_trie, should_add};
+
+    #[test]
+    fn test() {
+        let mut trie = RTrieSet::new();
+        assert!(should_add(
+            &trie,
+            &Ipv4Net::new(Ipv4Addr::new(127, 0, 0, 1), 32).unwrap()
+        ));
+        trie.insert(Ipv4Net::new(Ipv4Addr::new(127, 0, 0, 1), 32).unwrap());
+        assert!(!should_add(
+            &trie,
+            &Ipv4Net::new(Ipv4Addr::new(127, 0, 0, 1), 32).unwrap()
+        ));
+        trie.insert(Ipv4Net::new(Ipv4Addr::new(127, 0, 0, 1), 31).unwrap());
+        assert!(dbg!(iter_ip_trie(&trie).collect::<Vec<_>>()).len() == 1);
+        // contains 0.0.0.0, etc
+        assert!(dbg!(trie.iter().collect::<Vec<_>>()).len() == 3);
+        trie.insert(Ipv4Net::new(Ipv4Addr::new(127, 0, 1, 1), 32).unwrap());
+        assert!(dbg!(iter_ip_trie(&trie).collect::<Vec<_>>()).len() == 2);
+    }
 }
