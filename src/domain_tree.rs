@@ -2,6 +2,7 @@ use std::{collections::HashMap, hash::Hash};
 
 use smallvec::{smallvec, SmallVec};
 
+#[derive(Debug)]
 pub enum PrefixSet<T> {
     Map(HashMap<T, PrefixSet<T>>),
     Leaf,

@@ -1,3 +1,4 @@
+#![allow(clippy::type_complexity)]
 use std::panic::{RefUnwindSafe, UnwindSafe};
 
 use unbound::ModuleExtState;
