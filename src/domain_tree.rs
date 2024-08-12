@@ -63,7 +63,7 @@ impl<T: Hash + Eq> PrefixSet<T> {
 }
 
 struct Iter<'a, T>(
-    SmallVec<[std::collections::hash_map::Iter<'a, T, PrefixSet<T>>; 8]>,
+    SmallVec<[std::collections::hash_map::Iter<'a, T, PrefixSet<T>>; 9]>,
     SmallVec<[&'a T; 8]>,
 );
 
@@ -73,9 +73,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
         while let Some(it) = self.0.last_mut() {
             let Some((k, v)) = it.next() else {
                 self.0.pop();
-                if self.1.pop().is_none() {
-                    return None;
-                }
+                self.1.pop()?;
                 continue;
             };
             self.1.push(k);

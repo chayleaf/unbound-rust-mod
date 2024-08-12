@@ -1,5 +1,6 @@
 use std::panic::{RefUnwindSafe, UnwindSafe};
 
+use crate::unbound::ModuleExtState;
 use crate::UnboundMod;
 
 macro_rules! impl_tuple {
@@ -29,9 +30,15 @@ macro_rules! impl_tuple {
                 qstate: &mut crate::unbound::ModuleQstate<Self::QstateData>,
                 event: crate::unbound::ModuleEvent,
                 entry: &mut crate::unbound::OutboundEntryMut,
-            ) {
-                self.0.operate(qstate, event, entry);
-                $(self.$i.operate(qstate, event, entry);)*
+            ) -> Option<ModuleExtState> {
+                #[allow(unused_mut)]
+                let mut ret = self.0.operate(qstate, event, entry);
+                $(if let Some(state) = self.$i.operate(qstate, event, entry) {
+                    if !matches!(ret, Some(ret) if ret.importance() >= state.importance()) {
+                        ret = Some(state);
+                    }
+                })*
+                ret
             }
             fn get_mem(&self, env: &mut crate::unbound::ModuleEnv<Self::EnvData>) -> usize {
                 self.0.get_mem(env) $(* self.$i.get_mem(env))*

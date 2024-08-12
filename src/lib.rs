@@ -1,11 +1,17 @@
 use std::panic::{RefUnwindSafe, UnwindSafe};
+
+use unbound::ModuleExtState;
 #[allow(
     dead_code,
     improper_ctypes,
     non_camel_case_types,
     non_snake_case,
     non_upper_case_globals,
-    unused_imports
+    unused_imports,
+    clippy::useless_transmute,
+    clippy::type_complexity,
+    clippy::too_many_arguments,
+    clippy::upper_case_acronyms
 )]
 mod bindings;
 mod combine;
@@ -33,7 +39,8 @@ pub trait UnboundMod: Send + Sync + Sized + RefUnwindSafe + UnwindSafe {
         _qstate: &mut unbound::ModuleQstate<Self::QstateData>,
         _event: unbound::ModuleEvent,
         _entry: &mut unbound::OutboundEntryMut,
-    ) {
+    ) -> Option<ModuleExtState> {
+        Some(ModuleExtState::Finished)
     }
     fn inform_super(
         &self,
@@ -101,11 +108,14 @@ unsafe impl<T: UnboundMod> SealedUnboundMod for T {
         entry: *mut bindings::outbound_entry,
     ) {
         std::panic::catch_unwind(|| {
-            self.operate(
-                &mut unbound::ModuleQstate(qstate, id, Default::default()),
+            let mut qstate = unbound::ModuleQstate(qstate, id, Default::default());
+            if let Some(ext_state) = self.operate(
+                &mut qstate,
                 event.into(),
                 &mut unbound::OutboundEntryMut(entry, Default::default()),
-            )
+            ) {
+                qstate.set_ext_state(ext_state);
+            }
         })
         .unwrap_or(());
     }

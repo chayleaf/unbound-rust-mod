@@ -609,6 +609,21 @@ pub enum ModuleExtState {
     Unknown = 99,
 }
 
+impl ModuleExtState {
+    pub(crate) fn importance(&self) -> usize {
+        match *self {
+            Self::Unknown => 0,
+            Self::InitialState => 1,
+            Self::Finished => 2,
+            Self::WaitModule => 3,
+            Self::RestartNext => 4,
+            Self::WaitSubquery => 5,
+            Self::WaitReply => 6,
+            Self::Error => 7,
+        }
+    }
+}
+
 impl From<module_ext_state> for ModuleExtState {
     fn from(value: module_ext_state) -> Self {
         match value {
