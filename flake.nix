@@ -47,7 +47,10 @@
     devShells = gen (pkgs: {
       default = pkgs.mkShell rec {
         name = "unbound-rust-mod-shell";
-        nativeBuildInputs = [ pkgs.rustc pkgs.cargo pkgs.nftables ];
+        nativeBuildInputs = [
+          # pkgs.rustc pkgs.cargo
+          pkgs.nftables
+        ];
         LIBMNL_LIB_DIR = "${nixpkgs.lib.getLib pkgs.libmnl}/lib";
         LIBNFTNL_LIB_DIR = "${nixpkgs.lib.getLib (pkgs.libnftnl.overrideAttrs (old: {
           patches = (old.patches or []) ++ [ ./libnftnl-fix.patch ];

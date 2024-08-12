@@ -9,6 +9,7 @@ use std::panic::{RefUnwindSafe, UnwindSafe};
 )]
 mod bindings;
 mod combine;
+mod domain_tree;
 #[cfg(feature = "example")]
 mod example;
 mod exports;

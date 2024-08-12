@@ -1,10 +1,10 @@
 #![allow(dead_code)]
 use crate::bindings::{
-    config_file, dns_msg, in6_addr, in6_addr__bindgen_ty_1, in_addr, infra_cache, key_cache,
-    lruhash_entry, module_env, module_ev, module_qstate, outbound_entry, packed_rrset_data,
-    packed_rrset_key, query_info, reply_info, rrset_cache, rrset_id_type, rrset_trust, sec_status,
-    slabhash, sldns_enum_ede_code, sockaddr_in, sockaddr_in6, sockaddr_storage,
-    ub_packed_rrset_key, AF_INET, AF_INET6,
+    self, config_file, dns_msg, in6_addr, in6_addr__bindgen_ty_1, in_addr, infra_cache, key_cache,
+    lruhash_entry, module_env, module_ev, module_ext_state, module_qstate, outbound_entry,
+    packed_rrset_data, packed_rrset_key, query_info, reply_info, rrset_cache, rrset_id_type,
+    rrset_trust, sec_status, slabhash, sldns_enum_ede_code, sockaddr_in, sockaddr_in6,
+    sockaddr_storage, ub_packed_rrset_key, AF_INET, AF_INET6,
 };
 use std::{ffi::CStr, marker::PhantomData, net::SocketAddr, os::raw::c_char, ptr, time::Duration};
 
@@ -235,6 +235,11 @@ impl<T> ModuleQstate<'_, T> {
             ))
         }
     }
+    pub fn set_ext_state(&mut self, state: ModuleExtState) {
+        unsafe {
+            (*self.0).ext_state[self.1 as usize] = state as module_ext_state;
+        }
+    }
 }
 
 impl DnsMsgMut<'_> {
@@ -441,29 +446,29 @@ impl From<module_ev> for ModuleEvent {
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 pub enum SecStatus {
     /// UNCHECKED means that object has yet to be validated.
-    Unchecked = 0,
+    Unchecked = bindings::sec_status_sec_status_unchecked,
     /// BOGUS means that the object (RRset or message) failed to validate\n  (according to local policy), but should have validated.
-    Bogus = 1,
+    Bogus = bindings::sec_status_sec_status_bogus,
     /// INDETERMINATE means that the object is insecure, but not\n authoritatively so. Generally this means that the RRset is not\n below a configured trust anchor.
-    Indeterminate = 2,
+    Indeterminate = bindings::sec_status_sec_status_indeterminate,
     /// INSECURE means that the object is authoritatively known to be\n insecure. Generally this means that this RRset is below a trust\n anchor, but also below a verified, insecure delegation.
-    Insecure = 3,
+    Insecure = bindings::sec_status_sec_status_insecure,
     /// SECURE_SENTINEL_FAIL means that the object (RRset or message)\n validated according to local policy but did not succeed in the root\n KSK sentinel test (draft-ietf-dnsop-kskroll-sentinel).
-    SecureSentinelFail = 4,
+    SecureSentinelFail = bindings::sec_status_sec_status_secure_sentinel_fail,
     /// SECURE means that the object (RRset or message) validated\n according to local policy.
-    Secure = 5,
-    Unknown = 6,
+    Secure = bindings::sec_status_sec_status_secure,
+    Unknown = 99,
 }
 
 impl From<sec_status> for SecStatus {
     fn from(value: module_ev) -> Self {
         match value {
-            0 => Self::Unchecked,
-            1 => Self::Bogus,
-            2 => Self::Indeterminate,
-            3 => Self::Insecure,
-            4 => Self::SecureSentinelFail,
-            5 => Self::Secure,
+            bindings::sec_status_sec_status_unchecked => Self::Unchecked,
+            bindings::sec_status_sec_status_bogus => Self::Bogus,
+            bindings::sec_status_sec_status_indeterminate => Self::Indeterminate,
+            bindings::sec_status_sec_status_insecure => Self::Insecure,
+            bindings::sec_status_sec_status_secure_sentinel_fail => Self::SecureSentinelFail,
+            bindings::sec_status_sec_status_secure => Self::Secure,
             _ => Self::Unknown,
         }
     }
@@ -540,67 +545,97 @@ impl From<sldns_enum_ede_code> for SldnsEdeCode {
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 pub enum RrsetTrust {
     /// Initial value for trust
-    None = 0,
+    None = bindings::rrset_trust_rrset_trust_none,
     /// Additional information from non-authoritative answers
-    AddNoAa = 1,
+    AddNoAa = bindings::rrset_trust_rrset_trust_add_noAA,
     /// Data from the authority section of a non-authoritative answer
-    AuthNoAa = 2,
+    AuthNoAa = bindings::rrset_trust_rrset_trust_auth_noAA,
     /// Additional information from an authoritative answer
-    AddAa = 3,
+    AddAa = bindings::rrset_trust_rrset_trust_add_AA,
     /// non-authoritative data from the answer section of authoritative answers
-    NonauthAnsAa = 4,
+    NonauthAnsAa = bindings::rrset_trust_rrset_trust_nonauth_ans_AA,
     /// Data from the answer section of a non-authoritative answer
-    AnsNoAa = 5,
+    AnsNoAa = bindings::rrset_trust_rrset_trust_ans_noAA,
     /// Glue from a primary zone, or glue from a zone transfer
-    Glue = 6,
+    Glue = bindings::rrset_trust_rrset_trust_glue,
     /// Data from the authority section of an authoritative answer
-    AuthAa = 7,
+    AuthAa = bindings::rrset_trust_rrset_trust_auth_AA,
     /// The authoritative data included in the answer section of an\n  authoritative reply
-    AnsAa = 8,
+    AnsAa = bindings::rrset_trust_rrset_trust_ans_AA,
     /// Data from a zone transfer, other than glue
-    SecNoglue = 9,
+    SecNoglue = bindings::rrset_trust_rrset_trust_sec_noglue,
     /// Data from a primary zone file, other than glue data
-    PrimNoglue = 10,
+    PrimNoglue = bindings::rrset_trust_rrset_trust_prim_noglue,
     /// DNSSEC(rfc4034) validated with trusted keys
-    Validated = 11,
+    Validated = bindings::rrset_trust_rrset_trust_validated,
     /// Ultimately trusted, no more trust is possible,
     /// trusted keys from the unbound configuration setup.
-    Ultimate = 12,
-    Unknown = 13,
+    Ultimate = bindings::rrset_trust_rrset_trust_ultimate,
+    Unknown = 99,
 }
 
 impl From<rrset_trust> for RrsetTrust {
     fn from(value: rrset_trust) -> Self {
         match value {
-            0 => Self::None,
-            1 => Self::AddNoAa,
-            2 => Self::AuthNoAa,
-            3 => Self::AddAa,
-            4 => Self::NonauthAnsAa,
-            5 => Self::AnsNoAa,
-            6 => Self::Glue,
-            7 => Self::AuthAa,
-            8 => Self::AnsAa,
-            9 => Self::SecNoglue,
-            10 => Self::PrimNoglue,
-            11 => Self::Validated,
-            12 => Self::Ultimate,
+            bindings::rrset_trust_rrset_trust_none => Self::None,
+            bindings::rrset_trust_rrset_trust_add_noAA => Self::AddNoAa,
+            bindings::rrset_trust_rrset_trust_auth_noAA => Self::AuthNoAa,
+            bindings::rrset_trust_rrset_trust_add_AA => Self::AddAa,
+            bindings::rrset_trust_rrset_trust_nonauth_ans_AA => Self::NonauthAnsAa,
+            bindings::rrset_trust_rrset_trust_ans_noAA => Self::AnsNoAa,
+            bindings::rrset_trust_rrset_trust_glue => Self::Glue,
+            bindings::rrset_trust_rrset_trust_auth_AA => Self::AuthAa,
+            bindings::rrset_trust_rrset_trust_ans_AA => Self::AnsAa,
+            bindings::rrset_trust_rrset_trust_sec_noglue => Self::SecNoglue,
+            bindings::rrset_trust_rrset_trust_prim_noglue => Self::PrimNoglue,
+            bindings::rrset_trust_rrset_trust_validated => Self::Validated,
+            bindings::rrset_trust_rrset_trust_ultimate => Self::Ultimate,
+            _ => Self::Unknown,
+        }
+    }
+}
+
+#[non_exhaustive]
+#[repr(u32)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
+pub enum ModuleExtState {
+    InitialState = bindings::module_ext_state_module_state_initial,
+    WaitReply = bindings::module_ext_state_module_wait_reply,
+    WaitModule = bindings::module_ext_state_module_wait_module,
+    RestartNext = bindings::module_ext_state_module_restart_next,
+    WaitSubquery = bindings::module_ext_state_module_wait_subquery,
+    Error = bindings::module_ext_state_module_error,
+    Finished = bindings::module_ext_state_module_finished,
+    Unknown = 99,
+}
+
+impl From<module_ext_state> for ModuleExtState {
+    fn from(value: module_ext_state) -> Self {
+        match value {
+            bindings::module_ext_state_module_state_initial => Self::InitialState,
+            bindings::module_ext_state_module_wait_reply => Self::WaitReply,
+            bindings::module_ext_state_module_wait_module => Self::WaitModule,
+            bindings::module_ext_state_module_restart_next => Self::RestartNext,
+            bindings::module_ext_state_module_wait_subquery => Self::WaitSubquery,
+            bindings::module_ext_state_module_error => Self::Error,
+            bindings::module_ext_state_module_finished => Self::Finished,
             _ => Self::Unknown,
         }
     }
 }
 
 pub mod rr_class {
+    use crate::bindings;
     /// the Internet
-    pub const IN: u16 = 1;
+    pub const IN: u16 = bindings::sldns_enum_rr_class_LDNS_RR_CLASS_IN as u16;
     /// Chaos class
-    pub const CH: u16 = 3;
+    pub const CH: u16 = bindings::sldns_enum_rr_class_LDNS_RR_CLASS_CH as u16;
     /// Hesiod (Dyer 87)
-    pub const HS: u16 = 4;
+    pub const HS: u16 = bindings::sldns_enum_rr_class_LDNS_RR_CLASS_HS as u16;
     /// None class, dynamic update
-    pub const NONE: u16 = 254;
+    pub const NONE: u16 = bindings::sldns_enum_rr_class_LDNS_RR_CLASS_NONE as u16;
     /// Any class
-    pub const ANY: u16 = 255;
+    pub const ANY: u16 = bindings::sldns_enum_rr_class_LDNS_RR_CLASS_ANY as u16;
 }
 
 pub mod rr_type {
