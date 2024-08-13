@@ -90,7 +90,7 @@ unsafe impl<T: UnboundMod> SealedUnboundMod for T {
         id: ::std::os::raw::c_int,
     ) {
         std::panic::catch_unwind(|| {
-            self.deinit(&mut unbound::ModuleEnvMut(env, id, Default::default()));
+            self.deinit(&mut unbound::ModuleEnvMut::from_raw(env, id).unwrap());
         })
         .unwrap_or(());
     }
@@ -103,15 +103,13 @@ unsafe impl<T: UnboundMod> SealedUnboundMod for T {
     ) {
         std::panic::catch_unwind(|| {
             if let Some(ext_state) = self.operate(
-                &mut unbound::ModuleQstateMut(unbound::ModuleQstate(
-                    qstate,
-                    id,
-                    Default::default(),
-                )),
+                &mut unbound::ModuleQstateMut::from_raw(qstate, id).unwrap(),
                 event.into(),
-                &mut unbound::OutboundEntryMut(entry, Default::default()),
+                &mut unbound::OutboundEntryMut::from_raw(entry).unwrap(),
             ) {
-                (*qstate).ext_state[id as usize] = ext_state as bindings::module_ext_state;
+                if let Some(id) = unbound::check_id(id) {
+                    (*qstate).ext_state[id] = ext_state as bindings::module_ext_state;
+                }
             }
         })
         .unwrap_or(());
@@ -124,16 +122,8 @@ unsafe impl<T: UnboundMod> SealedUnboundMod for T {
     ) {
         std::panic::catch_unwind(|| {
             self.inform_super(
-                &mut unbound::ModuleQstateMut(unbound::ModuleQstate(
-                    qstate,
-                    id,
-                    Default::default(),
-                )),
-                &mut unbound::ModuleQstateMut(unbound::ModuleQstate(
-                    super_qstate,
-                    -1,
-                    Default::default(),
-                )),
+                &mut unbound::ModuleQstateMut::from_raw(qstate, id).unwrap(),
+                &mut unbound::ModuleQstateMut::from_raw(super_qstate, -1).unwrap(),
             );
         })
         .unwrap_or(());
@@ -144,11 +134,7 @@ unsafe impl<T: UnboundMod> SealedUnboundMod for T {
         id: ::std::os::raw::c_int,
     ) {
         std::panic::catch_unwind(|| {
-            self.clear(&mut unbound::ModuleQstateMut(unbound::ModuleQstate(
-                qstate,
-                id,
-                Default::default(),
-            )));
+            self.clear(&mut unbound::ModuleQstateMut::from_raw(qstate, id).unwrap());
         })
         .unwrap_or(());
     }
@@ -158,7 +144,7 @@ unsafe impl<T: UnboundMod> SealedUnboundMod for T {
         id: ::std::os::raw::c_int,
     ) -> usize {
         std::panic::catch_unwind(|| {
-            self.get_mem(&mut unbound::ModuleEnvMut(env, id, Default::default()))
+            self.get_mem(&mut unbound::ModuleEnvMut::from_raw(env, id).unwrap())
         })
         .unwrap_or(0)
     }
@@ -181,13 +167,12 @@ pub fn set_unbound_mod<T: 'static + UnboundMod>() {
         MODULE_FACTORY
             .set(Box::new(|env, id| {
                 std::panic::catch_unwind(|| {
-                    T::init(&mut unbound::ModuleEnvMut(env, id, Default::default())).map_or(
-                        0,
-                        |module| {
+                    unbound::ModuleEnvMut::from_raw(env, id)
+                        .and_then(|mut env| T::init(&mut env).ok())
+                        .map_or(0, |module| {
                             MODULE.set(Box::new(module)).map_err(|_| ()).unwrap();
                             1
-                        },
-                    )
+                        })
                 })
                 .unwrap_or(0)
             }))

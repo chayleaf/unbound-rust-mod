@@ -470,7 +470,9 @@ impl ExampleMod {
         let mut ip6: SmallVec<[Ipv6Addr; 4]> = SmallVec::new();
         for rrset in rep.rrsets() {
             let entry = rrset.entry();
-            let d = entry.data();
+            let Some(d) = entry.data() else {
+                continue;
+            };
             let rk = rrset.rk();
             if rk.rrset_class() != rr_class::IN {
                 continue;

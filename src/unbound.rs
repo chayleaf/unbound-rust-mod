@@ -1,38 +1,68 @@
 #![allow(dead_code)]
 use crate::bindings::{
-    self, config_file, dns_msg, in6_addr, in6_addr__bindgen_ty_1, in_addr, infra_cache, key_cache,
-    lruhash_entry, module_env, module_ev, module_ext_state, module_qstate, outbound_entry,
-    packed_rrset_data, packed_rrset_key, query_info, reply_info, rrset_cache, rrset_id_type,
-    rrset_trust, sec_status, slabhash, sldns_enum_ede_code, sockaddr_in, sockaddr_in6,
-    sockaddr_storage, ub_packed_rrset_key, AF_INET, AF_INET6,
+    self, config_file, dns_msg, infra_cache, key_cache, lruhash_entry, module_env, module_ev,
+    module_ext_state, module_qstate, outbound_entry, packed_rrset_data, packed_rrset_key,
+    query_info, reply_info, rrset_cache, rrset_id_type, rrset_trust, sec_status, slabhash,
+    sldns_enum_ede_code, ub_packed_rrset_key,
 };
 use std::{
-    ffi::CStr, marker::PhantomData, net::SocketAddr, ops::Deref, os::raw::c_char, ptr,
+    ffi::CStr,
+    marker::PhantomData,
+    ops::Deref,
+    os::raw::{c_char, c_int},
+    ptr,
     time::Duration,
 };
 
-pub struct ConfigFileMut<'a>(
-    pub(crate) *mut config_file,
-    PhantomData<&'a mut config_file>,
-);
-pub struct SlabHashMut<'a>(pub(crate) *mut slabhash, PhantomData<&'a mut slabhash>);
-pub struct RrsetCacheMut<'a>(
-    pub(crate) *mut rrset_cache,
-    PhantomData<&'a mut rrset_cache>,
-);
-pub struct InfraCacheMut<'a>(
-    pub(crate) *mut infra_cache,
-    PhantomData<&'a mut infra_cache>,
-);
-pub struct KeyCacheMut<'a>(pub(crate) *mut key_cache, PhantomData<&'a mut key_cache>);
-pub struct ModuleEnvMut<T>(
+macro_rules! create_struct {
+    ($ptr:tt, $name:tt, $mut:tt) => {
+        pub struct $name<'a>(pub(crate) *mut $ptr, pub(crate) PhantomData<&'a $ptr>);
+        pub struct $mut<'a>(pub(crate) $name<'a>);
+        impl<'a> Deref for $mut<'a> {
+            type Target = $name<'a>;
+            fn deref(&self) -> &Self::Target {
+                &self.0
+            }
+        }
+        impl<'a> $name<'a> {
+            pub const fn as_ptr(&self) -> *const $ptr {
+                self.0.cast_const()
+            }
+            pub unsafe fn from_raw(raw: *const $ptr) -> Option<Self> {
+                (!raw.is_null()).then_some(Self(raw.cast_mut(), PhantomData))
+            }
+        }
+        impl<'a> $mut<'a> {
+            pub fn as_mut_ptr(&mut self) -> *mut $ptr {
+                self.0 .0
+            }
+            pub unsafe fn from_raw(raw: *mut $ptr) -> Option<Self> {
+                (!raw.is_null()).then_some(Self($name(raw, PhantomData)))
+            }
+        }
+    };
+}
+
+create_struct!(config_file, ConfigFile, ConfigFileMut);
+create_struct!(slabhash, SlabHash, SlabHashMut);
+create_struct!(rrset_cache, RrsetCache, RrsetCacheMut);
+create_struct!(infra_cache, InfraCache, InfraCacheMut);
+create_struct!(key_cache, KeyCache, KeyCacheMut);
+pub struct ModuleEnv<'a, T>(
     pub(crate) *mut module_env,
-    pub(crate) std::ffi::c_int,
-    pub(crate) PhantomData<T>,
+    pub(crate) c_int,
+    pub(crate) PhantomData<&'a T>,
 );
+pub struct ModuleEnvMut<'a, T>(pub(crate) ModuleEnv<'a, T>);
+impl<'a, T> Deref for ModuleEnvMut<'a, T> {
+    type Target = ModuleEnv<'a, T>;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
 pub struct ModuleQstate<'a, T>(
     pub(crate) *mut module_qstate,
-    pub(crate) std::ffi::c_int,
+    pub(crate) c_int,
     pub(crate) PhantomData<&'a mut T>,
 );
 pub struct ModuleQstateMut<'a, T>(pub(crate) ModuleQstate<'a, T>);
@@ -42,198 +72,176 @@ impl<'a, T> Deref for ModuleQstateMut<'a, T> {
         &self.0
     }
 }
-pub struct OutboundEntryMut<'a>(
-    pub(crate) *mut outbound_entry,
-    pub(crate) PhantomData<&'a mut outbound_entry>,
-);
-pub struct QueryInfo<'a>(
-    pub(crate) *mut query_info,
-    pub(crate) PhantomData<&'a mut query_info>,
-);
-pub struct QueryInfoMut<'a>(QueryInfo<'a>);
-impl<'a> Deref for QueryInfoMut<'a> {
-    type Target = QueryInfo<'a>;
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-pub struct DnsMsg<'a>(
-    pub(crate) *mut dns_msg,
-    pub(crate) PhantomData<&'a mut dns_msg>,
-);
-pub struct DnsMsgMut<'a>(DnsMsg<'a>);
-impl<'a> Deref for DnsMsgMut<'a> {
-    type Target = DnsMsg<'a>;
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-pub struct ReplyInfo<'a>(
-    pub(crate) *mut reply_info,
-    pub(crate) PhantomData<&'a mut reply_info>,
-);
-pub struct UbPackedRrsetKey<'a>(
-    pub(crate) *mut ub_packed_rrset_key,
-    pub(crate) PhantomData<&'a mut ub_packed_rrset_key>,
-);
-pub struct LruHashEntry<'a>(
-    pub(crate) *mut lruhash_entry,
-    pub(crate) PhantomData<&'a mut lruhash_entry>,
-);
-pub struct PackedRrsetKey<'a>(
-    pub(crate) *mut packed_rrset_key,
-    pub(crate) PhantomData<&'a mut packed_rrset_key>,
-);
-pub struct PackedRrsetData<'a>(
-    pub(crate) *mut packed_rrset_data,
-    pub(crate) PhantomData<&'a mut packed_rrset_data>,
-);
+create_struct!(outbound_entry, OutboundEntry, OutboundEntryMut);
+create_struct!(query_info, QueryInfo, QueryInfoMut);
+create_struct!(dns_msg, DnsMsg, DnsMsgMut);
+create_struct!(reply_info, ReplyInfo, ReplyInfoMut);
+create_struct!(ub_packed_rrset_key, UbPackedRrsetKey, UbPackedRrsetKeyMut);
+create_struct!(lruhash_entry, LruHashEntry, LruHashEntryMut);
+create_struct!(packed_rrset_key, PackedRrsetKey, PackedRrsetKeyMut);
+create_struct!(packed_rrset_data, PackedRrsetData, PackedRrsetDataMut);
 
 impl<'a> QueryInfo<'a> {
     pub fn qname(&self) -> &CStr {
-        unsafe { CStr::from_ptr((*self.0).qname as *const c_char) }
+        unsafe { CStr::from_ptr((*self.as_ptr()).qname as *const c_char) }
     }
     pub fn qtype(&self) -> u16 {
-        unsafe { (*self.0).qtype }
+        unsafe { (*self.as_ptr()).qtype }
     }
     pub fn qclass(&self) -> u16 {
-        unsafe { (*self.0).qclass }
+        unsafe { (*self.as_ptr()).qclass }
     }
 }
 
-impl<T> ModuleEnvMut<T> {
-    pub fn config_file_mut(&mut self) -> ConfigFileMut<'_> {
-        ConfigFileMut(unsafe { (*self.0).cfg }, Default::default())
+impl<'a, T> ModuleEnv<'a, T> {
+    pub unsafe fn from_raw(raw: *mut bindings::module_env, id: c_int) -> Option<Self> {
+        (!raw.is_null()).then_some(Self(raw, id, PhantomData))
     }
-    pub fn msg_cache_mut(&mut self) -> SlabHashMut<'_> {
-        SlabHashMut(unsafe { (*self.0).msg_cache }, Default::default())
+    pub const fn as_ptr(&self) -> *const module_env {
+        self.0.cast_const()
     }
-    pub fn rrset_cache_mut(&mut self) -> RrsetCacheMut<'_> {
-        RrsetCacheMut(unsafe { (*self.0).rrset_cache }, Default::default())
+    pub fn config_file(&self) -> ConfigFile<'_> {
+        unsafe { ConfigFile::from_raw((*self.as_ptr()).cfg).unwrap() }
     }
-    pub fn infra_cache_mut(&mut self) -> InfraCacheMut<'_> {
-        InfraCacheMut(unsafe { (*self.0).infra_cache }, Default::default())
+    pub fn msg_cache(&self) -> SlabHash<'_> {
+        unsafe { SlabHash::from_raw((*self.as_ptr()).msg_cache) }.unwrap()
     }
-    pub fn key_cache_mut(&mut self) -> KeyCacheMut<'_> {
-        KeyCacheMut(unsafe { (*self.0).key_cache }, Default::default())
+    pub fn rrset_cache(&self) -> RrsetCache<'_> {
+        unsafe { RrsetCache::from_raw((*self.as_ptr()).rrset_cache) }.unwrap()
     }
-    #[allow(clippy::too_many_arguments)]
-    pub fn send_query<Y>(
-        &mut self,
-        qinfo: &QueryInfoMut,
-        flags: u16,
-        dnssec: u32,
-        want_dnssec: bool,
-        nocaps: bool,
-        check_ratelimit: bool,
-        addr: SocketAddr,
-        zone: &[u8],
-        tcp_upstream: bool,
-        ssl_upstream: bool,
-        tls_auth_name: Option<&CStr>,
-        q: &mut ModuleQstate<Y>,
-    ) -> (Option<OutboundEntryMut<'_>>, bool) {
-        let mut was_ratelimited = 0;
-        let ret = unsafe {
-            let mut addr4 = sockaddr_in {
-                sin_port: 0,
-                sin_addr: in_addr { s_addr: 0 },
-                sin_zero: [0u8; 8],
-                sin_family: AF_INET as u16,
-            };
-            let mut addr6 = sockaddr_in6 {
-                sin6_port: 0,
-                sin6_addr: in6_addr {
-                    __in6_u: in6_addr__bindgen_ty_1 {
-                        __u6_addr8: [0u8; 16],
-                    },
-                },
-                sin6_family: AF_INET6 as u16,
-                sin6_flowinfo: 0,
-                sin6_scope_id: 0,
-            };
-            let (addr, addr_len) = match addr {
-                SocketAddr::V4(x) => {
-                    addr4.sin_port = x.port();
-                    addr4.sin_addr.s_addr = (*x.ip()).into();
-                    (
-                        std::ptr::addr_of!(addr4).cast::<sockaddr_storage>(),
-                        std::mem::size_of_val(&addr4),
-                    )
-                }
-                SocketAddr::V6(x) => {
-                    addr6.sin6_addr.__in6_u.__u6_addr8 = x.ip().octets();
-                    addr6.sin6_flowinfo = x.flowinfo();
-                    addr6.sin6_scope_id = x.scope_id();
-                    (
-                        std::ptr::addr_of!(addr6).cast(),
-                        std::mem::size_of_val(&addr6),
-                    )
-                }
-            };
-            ((*self.0).send_query.unwrap_unchecked())(
-                qinfo.0 .0,
-                flags,
-                dnssec as i32,
-                want_dnssec.into(),
-                nocaps.into(),
-                check_ratelimit.into(),
-                addr.cast_mut(),
-                addr_len as u32,
-                zone.as_ptr().cast_mut(),
-                zone.len(),
-                tcp_upstream.into(),
-                ssl_upstream.into(),
-                tls_auth_name.map_or_else(ptr::null_mut, |x| x.as_ptr().cast_mut()),
-                q.0,
-                std::ptr::addr_of_mut!(was_ratelimited),
-            )
-        };
-        if ret.is_null() {
-            (None, was_ratelimited != 0)
-        } else {
-            (
-                Some(OutboundEntryMut(ret, Default::default())),
-                was_ratelimited != 0,
-            )
-        }
+    pub fn infra_cache(&self) -> InfraCache<'_> {
+        unsafe { InfraCache::from_raw((*self.as_ptr()).infra_cache) }.unwrap()
     }
-    pub fn detach_subs<Y>(&mut self, qstate: &mut ModuleQstate<Y>) {
-        unsafe { (*self.0).detach_subs.unwrap_unchecked()(qstate.0) }
+    pub fn key_cache(&self) -> KeyCache<'_> {
+        unsafe { KeyCache::from_raw((*self.as_ptr()).key_cache) }.unwrap()
     }
-    unsafe fn attach_sub<Y>(
-        &mut self,
-        qstate: &mut ModuleQstate<Y>,
-        qinfo: &QueryInfoMut,
-        qflags: u16,
-        prime: bool,
-        valrec: bool,
-        init_sub: impl FnOnce(*mut module_qstate) -> Result<(), ()>,
-    ) -> Result<Option<ModuleQstate<'_, ()>>, ()> {
-        let mut newq: *mut module_qstate = ptr::null_mut();
-        let res = unsafe {
-            ((*self.0).attach_sub.unwrap_unchecked())(
-                qstate.0,
-                qinfo.0 .0,
-                qflags,
-                prime.into(),
-                valrec.into(),
-                &mut newq as _,
-            )
-        };
-        if res != 0 {
-            Ok(if newq.is_null() {
-                None
-            } else if init_sub(newq).is_ok() {
-                Some(ModuleQstate(newq, qstate.1, Default::default()))
-            } else {
-                unsafe { ((*self.0).kill_sub.unwrap_unchecked())(newq) }
-                return Err(());
-            })
-        } else {
-            Err(())
-        }
+}
+impl<'a, T> ModuleEnvMut<'a, T> {
+    pub unsafe fn from_raw(raw: *mut bindings::module_env, id: c_int) -> Option<Self> {
+        ModuleEnv::from_raw(raw, id).map(Self)
     }
+    pub fn as_mut_ptr(&mut self) -> *mut module_env {
+        self.0 .0
+    }
+    // FIXME: what lifetime to use?
+    // #[allow(clippy::too_many_arguments)]
+    // pub fn send_query<Y>(
+    //     &mut self,
+    //     qinfo: &QueryInfoMut,
+    //     flags: u16,
+    //     dnssec: u32,
+    //     want_dnssec: bool,
+    //     nocaps: bool,
+    //     check_ratelimit: bool,
+    //     addr: SocketAddr,
+    //     zone: &[u8],
+    //     tcp_upstream: bool,
+    //     ssl_upstream: bool,
+    //     tls_auth_name: Option<&CStr>,
+    //     q: &mut ModuleQstate<Y>,
+    // ) -> (Option<OutboundEntryMut<'_>>, bool) {
+    //     let mut was_ratelimited = 0;
+    //     let ret = unsafe {
+    //         let mut addr4 = sockaddr_in {
+    //             sin_port: 0,
+    //             sin_addr: in_addr { s_addr: 0 },
+    //             sin_zero: [0u8; 8],
+    //             sin_family: AF_INET as u16,
+    //         };
+    //         let mut addr6 = sockaddr_in6 {
+    //             sin6_port: 0,
+    //             sin6_addr: in6_addr {
+    //                 __in6_u: in6_addr__bindgen_ty_1 {
+    //                     __u6_addr8: [0u8; 16],
+    //                 },
+    //             },
+    //             sin6_family: AF_INET6 as u16,
+    //             sin6_flowinfo: 0,
+    //             sin6_scope_id: 0,
+    //         };
+    //         let (addr, addr_len) = match addr {
+    //             SocketAddr::V4(x) => {
+    //                 addr4.sin_port = x.port();
+    //                 addr4.sin_addr.s_addr = (*x.ip()).into();
+    //                 (
+    //                     ptr::addr_of!(addr4).cast::<sockaddr_storage>(),
+    //                     mem::size_of_val(&addr4),
+    //                 )
+    //             }
+    //             SocketAddr::V6(x) => {
+    //                 addr6.sin6_addr.__in6_u.__u6_addr8 = x.ip().octets();
+    //                 addr6.sin6_flowinfo = x.flowinfo();
+    //                 addr6.sin6_scope_id = x.scope_id();
+    //                 (
+    //                     ptr::addr_of!(addr6).cast(),
+    //                     mem::size_of_val(&addr6),
+    //                 )
+    //             }
+    //         };
+    //         ((*self.as_ptr()).send_query.unwrap_unchecked())(
+    //             qinfo.as_ptr(),
+    //             flags,
+    //             dnssec as i32,
+    //             want_dnssec.into(),
+    //             nocaps.into(),
+    //             check_ratelimit.into(),
+    //             addr.cast_mut(),
+    //             addr_len as u32,
+    //             zone.as_ptr().cast_mut(),
+    //             zone.len(),
+    //             tcp_upstream.into(),
+    //             ssl_upstream.into(),
+    //             tls_auth_name.map_or_else(ptr::null_mut, |x| x.as_ptr().cast_mut()),
+    //             q.as_ptr(),
+    //             ptr::addr_of_mut!(was_ratelimited),
+    //         )
+    //     };
+    //     if ret.is_null() {
+    //         (None, was_ratelimited != 0)
+    //     } else {
+    //         (
+    //             Some(OutboundEntryMut(OutboundEntry(ret, PhantomData))),
+    //             was_ratelimited != 0,
+    //         )
+    //     }
+    // }
+    pub fn detach_subs<Y>(&mut self, qstate: &mut ModuleQstateMut<Y>) {
+        unsafe { (*self.as_ptr()).detach_subs.unwrap()(qstate.as_mut_ptr()) }
+    }
+    // FIXME: what lifetime to use?
+    // unsafe fn attach_sub<Y>(
+    //     &mut self,
+    //     qstate: &mut ModuleQstate<Y>,
+    //     qinfo: &QueryInfoMut,
+    //     qflags: u16,
+    //     prime: bool,
+    //     valrec: bool,
+    //     init_sub: impl FnOnce(*mut module_qstate) -> Result<(), ()>,
+    // ) -> Result<Option<ModuleQstate<'_, ()>>, ()> {
+    //     let mut newq: *mut module_qstate = ptr::null_mut();
+    //     let res = unsafe {
+    //         ((*self.as_ptr()).attach_sub.unwrap_unchecked())(
+    //             qstate.as_ptr(),
+    //             qinfo.as_ptr(),
+    //             qflags,
+    //             prime.into(),
+    //             valrec.into(),
+    //             &mut newq as _,
+    //         )
+    //     };
+    //     if res != 0 {
+    //         Ok(if newq.is_null() {
+    //             None
+    //         } else if init_sub(newq).is_ok() {
+    //             Some(ModuleQstate(newq, qstate.1, PhantomData))
+    //         } else {
+    //             unsafe { ((*self.as_ptr()).kill_sub.unwrap_unchecked())(newq) }
+    //             return Err(());
+    //         })
+    //     } else {
+    //         Err(())
+    //     }
+    // }
     // add_sub: TODO similar to above
     // detect_cycle: TODO
     // (note that &mut T is wrapped in dynmod stuff)
@@ -241,21 +249,29 @@ impl<T> ModuleEnvMut<T> {
 }
 
 impl<T> ModuleQstate<'_, T> {
+    pub unsafe fn from_raw(raw: *mut bindings::module_qstate, id: c_int) -> Option<Self> {
+        (!raw.is_null()).then_some(Self(raw, id, PhantomData))
+    }
+    pub const fn as_ptr(&self) -> *const module_qstate {
+        self.0.cast_const()
+    }
     pub fn qinfo(&self) -> QueryInfo<'_> {
-        QueryInfo(
-            unsafe { std::ptr::addr_of_mut!((*self.0).qinfo) },
-            Default::default(),
-        )
+        unsafe { QueryInfo::from_raw(ptr::addr_of!((*self.as_ptr()).qinfo).cast_mut()).unwrap() }
     }
     pub fn return_msg(&self) -> Option<DnsMsg<'_>> {
-        if unsafe { (*self.0).return_msg.is_null() } {
-            None
-        } else {
-            Some(DnsMsg(unsafe { (*self.0).return_msg }, Default::default()))
-        }
+        unsafe { DnsMsg::from_raw((*self.as_ptr()).return_msg) }
     }
 }
+pub(crate) fn check_id(id: i32) -> Option<usize> {
+    (id >= 0 && id < bindings::MAX_MODULE as i32).then_some(id as usize)
+}
 impl<T> ModuleQstateMut<'_, T> {
+    pub unsafe fn from_raw(raw: *mut bindings::module_qstate, id: c_int) -> Option<Self> {
+        ModuleQstate::from_raw(raw, id).map(Self)
+    }
+    pub fn as_mut_ptr(&mut self) -> *mut module_qstate {
+        self.0 .0
+    }
     pub fn qinfo_mut(&mut self) -> QueryInfoMut<'_> {
         QueryInfoMut(self.qinfo())
     }
@@ -264,158 +280,150 @@ impl<T> ModuleQstateMut<'_, T> {
     }
     pub fn set_ext_state(&mut self, state: ModuleExtState) {
         unsafe {
-            (*self.0 .0).ext_state[self.1 as usize] = state as module_ext_state;
+            if let Some(id) = check_id(self.1) {
+                (*self.as_mut_ptr()).ext_state[id] = state as module_ext_state;
+            }
         }
     }
 }
 
 impl DnsMsg<'_> {
     pub fn rep(&self) -> Option<ReplyInfo<'_>> {
-        if unsafe { (*self.0).rep.is_null() } {
-            None
-        } else {
-            Some(ReplyInfo(unsafe { (*self.0).rep }, Default::default()))
-        }
+        unsafe { ReplyInfo::from_raw((*self.as_ptr()).rep) }
     }
 }
 
 impl ReplyInfo<'_> {
     pub fn flags(&self) -> u16 {
-        unsafe { (*self.0).flags }
+        unsafe { (*self.as_ptr()).flags }
     }
     pub fn authoritative(&self) -> bool {
-        unsafe { (*self.0).authoritative != 0 }
+        unsafe { (*self.as_ptr()).authoritative != 0 }
     }
     pub fn qdcount(&self) -> u8 {
-        unsafe { (*self.0).qdcount }
+        unsafe { (*self.as_ptr()).qdcount }
     }
     pub fn padding(&self) -> u32 {
-        unsafe { (*self.0).padding }
+        unsafe { (*self.as_ptr()).padding }
     }
     pub fn ttl(&self) -> Option<Duration> {
-        (unsafe { (*self.0).ttl })
+        (unsafe { (*self.as_ptr()).ttl })
             .try_into()
             .map(Duration::from_secs)
             .ok()
     }
     pub fn prefetch_ttl(&self) -> Option<Duration> {
-        (unsafe { (*self.0).prefetch_ttl })
+        (unsafe { (*self.as_ptr()).prefetch_ttl })
             .try_into()
             .map(Duration::from_secs)
             .ok()
     }
     pub fn serve_expired_ttl(&self) -> Option<Duration> {
-        (unsafe { (*self.0).serve_expired_ttl })
+        (unsafe { (*self.as_ptr()).serve_expired_ttl })
             .try_into()
             .map(Duration::from_secs)
             .ok()
     }
     pub fn security(&self) -> SecStatus {
-        SecStatus::from(unsafe { (*self.0).security })
+        SecStatus::from(unsafe { (*self.as_ptr()).security })
     }
     pub fn reason_bogus(&self) -> SldnsEdeCode {
-        SldnsEdeCode::from(unsafe { (*self.0).reason_bogus })
+        SldnsEdeCode::from(unsafe { (*self.as_ptr()).reason_bogus })
     }
     pub fn reason_bogus_str(&self) -> Option<&CStr> {
-        if unsafe { (*self.0).reason_bogus_str.is_null() } {
+        if unsafe { (*self.as_ptr()).reason_bogus_str.is_null() } {
             None
         } else {
-            Some(unsafe { CStr::from_ptr((*self.0).reason_bogus_str) })
+            Some(unsafe { CStr::from_ptr((*self.as_ptr()).reason_bogus_str) })
         }
     }
     pub fn an_numrrsets(&self) -> usize {
-        unsafe { (*self.0).an_numrrsets }
+        unsafe { (*self.as_ptr()).an_numrrsets }
     }
     pub fn ns_numrrsets(&self) -> usize {
-        unsafe { (*self.0).ns_numrrsets }
+        unsafe { (*self.as_ptr()).ns_numrrsets }
     }
     pub fn ar_numrrsets(&self) -> usize {
-        unsafe { (*self.0).ar_numrrsets }
+        unsafe { (*self.as_ptr()).ar_numrrsets }
     }
     pub fn rrset_count(&self) -> usize {
-        unsafe { (*self.0).rrset_count }
+        unsafe { (*self.as_ptr()).rrset_count }
     }
     pub fn rrsets(&self) -> impl '_ + Iterator<Item = UbPackedRrsetKey<'_>> {
         let total = self.rrset_count();
-        let rrsets = unsafe { (*self.0).rrsets };
-        (0..total).map(move |i| UbPackedRrsetKey(unsafe { *rrsets.add(i) }, Default::default()))
+        let rrsets = unsafe { (*self.as_ptr()).rrsets };
+        (0..total).filter_map(move |i| unsafe { UbPackedRrsetKey::from_raw(*rrsets.add(i)) })
     }
 }
 
 impl UbPackedRrsetKey<'_> {
     pub fn entry(&self) -> LruHashEntry<'_> {
-        LruHashEntry(
-            unsafe { std::ptr::addr_of_mut!((*self.0).entry) },
-            Default::default(),
-        )
+        unsafe { LruHashEntry::from_raw(ptr::addr_of!((*self.as_ptr()).entry).cast_mut()).unwrap() }
     }
     pub fn id(&self) -> RrsetIdType {
-        unsafe { (*self.0).id }
+        unsafe { (*self.as_ptr()).id }
     }
     pub fn rk(&self) -> PackedRrsetKey<'_> {
-        PackedRrsetKey(
-            unsafe { std::ptr::addr_of_mut!((*self.0).rk) },
-            Default::default(),
-        )
+        unsafe { PackedRrsetKey::from_raw(ptr::addr_of!((*self.as_ptr()).rk).cast_mut()).unwrap() }
     }
 }
 
 impl PackedRrsetKey<'_> {
     pub fn dname(&self) -> Option<&'_ CStr> {
-        if unsafe { (*self.0).dname.is_null() } {
+        if unsafe { (*self.as_ptr()).dname.is_null() } {
             None
         } else {
-            Some(unsafe { CStr::from_ptr((*self.0).dname as *const c_char) })
+            Some(unsafe { CStr::from_ptr((*self.as_ptr()).dname as *const c_char) })
         }
     }
     pub fn flags(&self) -> u32 {
-        unsafe { (*self.0).flags }
+        unsafe { (*self.as_ptr()).flags }
     }
     pub fn type_(&self) -> u16 {
-        u16::from_be(unsafe { (*self.0).type_ })
+        u16::from_be(unsafe { (*self.as_ptr()).type_ })
     }
     pub fn rrset_class(&self) -> u16 {
-        u16::from_be(unsafe { (*self.0).rrset_class })
+        u16::from_be(unsafe { (*self.as_ptr()).rrset_class })
     }
 }
 
 impl LruHashEntry<'_> {
-    pub fn data(&self) -> PackedRrsetData<'_> {
+    pub fn data(&self) -> Option<PackedRrsetData<'_>> {
         // FIXME: shouldnt pthread lock be used here?
-        unsafe { PackedRrsetData((*self.0).data.cast(), Default::default()) }
+        unsafe { PackedRrsetData::from_raw((*self.as_ptr()).data.cast()) }
     }
 }
 
 impl PackedRrsetData<'_> {
     pub fn ttl_add(&self) -> Option<Duration> {
-        (unsafe { (*self.0).ttl_add })
+        (unsafe { (*self.as_ptr()).ttl_add })
             .try_into()
             .map(Duration::from_secs)
             .ok()
     }
     pub fn ttl(&self) -> Option<Duration> {
-        (unsafe { (*self.0).ttl })
+        (unsafe { (*self.as_ptr()).ttl })
             .try_into()
             .map(Duration::from_secs)
             .ok()
     }
     pub fn count(&self) -> usize {
-        unsafe { (*self.0).count }
+        unsafe { (*self.as_ptr()).count }
     }
     pub fn rrsig_count(&self) -> usize {
-        unsafe { (*self.0).rrsig_count }
+        unsafe { (*self.as_ptr()).rrsig_count }
     }
     pub fn trust(&self) -> RrsetTrust {
-        RrsetTrust::from(unsafe { (*self.0).trust })
+        RrsetTrust::from(unsafe { (*self.as_ptr()).trust })
     }
     pub fn security(&self) -> SecStatus {
-        SecStatus::from(unsafe { (*self.0).security })
+        SecStatus::from(unsafe { (*self.as_ptr()).security })
     }
     pub fn rr_data(&self) -> impl '_ + Iterator<Item = (&[u8], Option<Duration>)> {
         let total = self.count();
-        let ttl = unsafe { (*self.0).rr_ttl };
-        let len = unsafe { (*self.0).rr_len };
-        let data = unsafe { (*self.0).rr_data };
+        let ttl = unsafe { (*self.as_ptr()).rr_ttl };
+        let len = unsafe { (*self.as_ptr()).rr_len };
+        let data = unsafe { (*self.as_ptr()).rr_data };
         (0..total).map(move |i| unsafe {
             (
                 std::slice::from_raw_parts(*data.add(i), *len.add(i)),
@@ -426,8 +434,8 @@ impl PackedRrsetData<'_> {
     pub fn rrsig_data(&self) -> impl '_ + Iterator<Item = &[u8]> {
         let total = self.count();
         let total2 = self.rrsig_count();
-        let len = unsafe { (*self.0).rr_len };
-        let data = unsafe { (*self.0).rr_data };
+        let len = unsafe { (*self.as_ptr()).rr_len };
+        let data = unsafe { (*self.as_ptr()).rr_data };
         (total..total + total2)
             .map(move |i| unsafe { std::slice::from_raw_parts(*data.add(i), *len.add(i)) })
     }
