@@ -1,4 +1,4 @@
-use std::{collections::HashMap, hash::Hash};
+use std::{borrow::Borrow, collections::HashMap, hash::Hash};
 
 use smallvec::{smallvec, SmallVec};
 
@@ -36,9 +36,10 @@ impl<T: Hash + Eq> PrefixSet<T> {
             }
         }
     }
-    pub fn contains<'a>(&self, val: impl IntoIterator<Item = &'a T>) -> bool
+    pub fn contains<'a, Y>(&self, val: impl IntoIterator<Item = &'a Y>) -> bool
     where
-        T: 'a,
+        T: 'a + Borrow<Y>,
+        Y: 'a + ?Sized + Eq + Hash,
     {
         match self {
             Self::Leaf => true,

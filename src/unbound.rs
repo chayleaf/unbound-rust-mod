@@ -6,7 +6,10 @@ use crate::bindings::{
     rrset_trust, sec_status, slabhash, sldns_enum_ede_code, sockaddr_in, sockaddr_in6,
     sockaddr_storage, ub_packed_rrset_key, AF_INET, AF_INET6,
 };
-use std::{ffi::CStr, marker::PhantomData, net::SocketAddr, os::raw::c_char, ptr, time::Duration};
+use std::{
+    ffi::CStr, marker::PhantomData, net::SocketAddr, ops::Deref, os::raw::c_char, ptr,
+    time::Duration,
+};
 
 pub struct ConfigFileMut<'a>(
     pub(crate) *mut config_file,
@@ -22,7 +25,7 @@ pub struct InfraCacheMut<'a>(
     PhantomData<&'a mut infra_cache>,
 );
 pub struct KeyCacheMut<'a>(pub(crate) *mut key_cache, PhantomData<&'a mut key_cache>);
-pub struct ModuleEnv<T>(
+pub struct ModuleEnvMut<T>(
     pub(crate) *mut module_env,
     pub(crate) std::ffi::c_int,
     pub(crate) PhantomData<T>,
@@ -32,18 +35,39 @@ pub struct ModuleQstate<'a, T>(
     pub(crate) std::ffi::c_int,
     pub(crate) PhantomData<&'a mut T>,
 );
+pub struct ModuleQstateMut<'a, T>(pub(crate) ModuleQstate<'a, T>);
+impl<'a, T> Deref for ModuleQstateMut<'a, T> {
+    type Target = ModuleQstate<'a, T>;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
 pub struct OutboundEntryMut<'a>(
     pub(crate) *mut outbound_entry,
     pub(crate) PhantomData<&'a mut outbound_entry>,
 );
-pub struct QueryInfoMut<'a>(
+pub struct QueryInfo<'a>(
     pub(crate) *mut query_info,
     pub(crate) PhantomData<&'a mut query_info>,
 );
-pub struct DnsMsgMut<'a>(
+pub struct QueryInfoMut<'a>(QueryInfo<'a>);
+impl<'a> Deref for QueryInfoMut<'a> {
+    type Target = QueryInfo<'a>;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+pub struct DnsMsg<'a>(
     pub(crate) *mut dns_msg,
     pub(crate) PhantomData<&'a mut dns_msg>,
 );
+pub struct DnsMsgMut<'a>(DnsMsg<'a>);
+impl<'a> Deref for DnsMsgMut<'a> {
+    type Target = DnsMsg<'a>;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
 pub struct ReplyInfo<'a>(
     pub(crate) *mut reply_info,
     pub(crate) PhantomData<&'a mut reply_info>,
@@ -65,7 +89,7 @@ pub struct PackedRrsetData<'a>(
     pub(crate) PhantomData<&'a mut packed_rrset_data>,
 );
 
-impl<'a> QueryInfoMut<'a> {
+impl<'a> QueryInfo<'a> {
     pub fn qname(&self) -> &CStr {
         unsafe { CStr::from_ptr((*self.0).qname as *const c_char) }
     }
@@ -77,7 +101,7 @@ impl<'a> QueryInfoMut<'a> {
     }
 }
 
-impl<T> ModuleEnv<T> {
+impl<T> ModuleEnvMut<T> {
     pub fn config_file_mut(&mut self) -> ConfigFileMut<'_> {
         ConfigFileMut(unsafe { (*self.0).cfg }, Default::default())
     }
@@ -219,30 +243,35 @@ impl<T> ModuleEnv<T> {
 }
 
 impl<T> ModuleQstate<'_, T> {
-    pub fn qinfo_mut(&mut self) -> QueryInfoMut<'_> {
-        QueryInfoMut(
+    pub fn qinfo(&self) -> QueryInfo<'_> {
+        QueryInfo(
             unsafe { &mut (*self.0).qinfo as *mut query_info },
             Default::default(),
         )
     }
-    pub fn return_msg_mut(&mut self) -> Option<DnsMsgMut<'_>> {
+    pub fn return_msg(&self) -> Option<DnsMsg<'_>> {
         if unsafe { (*self.0).return_msg.is_null() } {
             None
         } else {
-            Some(DnsMsgMut(
-                unsafe { (*self.0).return_msg },
-                Default::default(),
-            ))
+            Some(DnsMsg(unsafe { (*self.0).return_msg }, Default::default()))
         }
+    }
+}
+impl<T> ModuleQstateMut<'_, T> {
+    pub fn qinfo_mut(&mut self) -> QueryInfoMut<'_> {
+        QueryInfoMut(self.qinfo())
+    }
+    pub fn return_msg_mut(&mut self) -> Option<DnsMsgMut<'_>> {
+        self.return_msg().map(DnsMsgMut)
     }
     pub fn set_ext_state(&mut self, state: ModuleExtState) {
         unsafe {
-            (*self.0).ext_state[self.1 as usize] = state as module_ext_state;
+            (*self.0 .0).ext_state[self.1 as usize] = state as module_ext_state;
         }
     }
 }
 
-impl DnsMsgMut<'_> {
+impl DnsMsg<'_> {
     pub fn rep(&self) -> Option<ReplyInfo<'_>> {
         if unsafe { (*self.0).rep.is_null() } {
             None

@@ -14,20 +14,20 @@ macro_rules! impl_tuple {
         {
             type EnvData = A::EnvData;
             type QstateData = A::QstateData;
-            fn init(env: &mut crate::unbound::ModuleEnv<Self::EnvData>) -> Result<Self, ()> {
+            fn init(env: &mut crate::unbound::ModuleEnvMut<Self::EnvData>) -> Result<Self, ()> {
                 Ok((A::init(env)?, $($t::init(env)?, )*))
             }
-            fn clear(&self, qstate: &mut crate::unbound::ModuleQstate<Self::QstateData>) {
+            fn clear(&self, qstate: &mut crate::unbound::ModuleQstateMut<Self::QstateData>) {
                 self.0.clear(qstate);
                 $(self.$i.clear(qstate);)*
             }
-            fn deinit(self, env: &mut crate::unbound::ModuleEnv<Self::EnvData>) {
+            fn deinit(self, env: &mut crate::unbound::ModuleEnvMut<Self::EnvData>) {
                 self.0.deinit(env);
                 $(self.$i.deinit(env);)*
             }
             fn operate(
                 &self,
-                qstate: &mut crate::unbound::ModuleQstate<Self::QstateData>,
+                qstate: &mut crate::unbound::ModuleQstateMut<Self::QstateData>,
                 event: crate::unbound::ModuleEvent,
                 entry: &mut crate::unbound::OutboundEntryMut,
             ) -> Option<ModuleExtState> {
@@ -40,13 +40,13 @@ macro_rules! impl_tuple {
                 })*
                 ret
             }
-            fn get_mem(&self, env: &mut crate::unbound::ModuleEnv<Self::EnvData>) -> usize {
+            fn get_mem(&self, env: &mut crate::unbound::ModuleEnvMut<Self::EnvData>) -> usize {
                 self.0.get_mem(env) $(* self.$i.get_mem(env))*
             }
             fn inform_super(
                 &self,
-                qstate: &mut crate::unbound::ModuleQstate<Self::QstateData>,
-                super_qstate: &mut crate::unbound::ModuleQstate<std::ffi::c_void>,
+                qstate: &mut crate::unbound::ModuleQstateMut<Self::QstateData>,
+                super_qstate: &mut crate::unbound::ModuleQstateMut<std::ffi::c_void>,
             ) {
                 self.0.inform_super(qstate, super_qstate);
                 $(self.$i.inform_super(qstate, super_qstate);)*

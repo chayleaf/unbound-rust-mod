@@ -31,13 +31,13 @@ pub trait UnboundMod: Send + Sync + Sized + RefUnwindSafe + UnwindSafe {
     type EnvData;
     type QstateData;
     #[allow(clippy::result_unit_err)]
-    fn init(_env: &mut unbound::ModuleEnv<Self::EnvData>) -> Result<Self, ()> {
+    fn init(_env: &mut unbound::ModuleEnvMut<Self::EnvData>) -> Result<Self, ()> {
         Err(())
     }
-    fn deinit(self, _env: &mut unbound::ModuleEnv<Self::EnvData>) {}
+    fn deinit(self, _env: &mut unbound::ModuleEnvMut<Self::EnvData>) {}
     fn operate(
         &self,
-        _qstate: &mut unbound::ModuleQstate<Self::QstateData>,
+        _qstate: &mut unbound::ModuleQstateMut<Self::QstateData>,
         _event: unbound::ModuleEvent,
         _entry: &mut unbound::OutboundEntryMut,
     ) -> Option<ModuleExtState> {
@@ -45,13 +45,13 @@ pub trait UnboundMod: Send + Sync + Sized + RefUnwindSafe + UnwindSafe {
     }
     fn inform_super(
         &self,
-        _qstate: &mut unbound::ModuleQstate<Self::QstateData>,
-        _super_qstate: &mut unbound::ModuleQstate<::std::ffi::c_void>,
+        _qstate: &mut unbound::ModuleQstateMut<Self::QstateData>,
+        _super_qstate: &mut unbound::ModuleQstateMut<::std::ffi::c_void>,
     ) {
     }
-    fn clear(&self, _qstate: &mut unbound::ModuleQstate<Self::QstateData>) {}
+    fn clear(&self, _qstate: &mut unbound::ModuleQstateMut<Self::QstateData>) {}
 
-    fn get_mem(&self, _env: &mut unbound::ModuleEnv<Self::EnvData>) -> usize {
+    fn get_mem(&self, _env: &mut unbound::ModuleEnvMut<Self::EnvData>) -> usize {
         0
     }
 }
@@ -97,7 +97,7 @@ unsafe impl<T: UnboundMod> SealedUnboundMod for T {
         id: ::std::os::raw::c_int,
     ) {
         std::panic::catch_unwind(|| {
-            self.deinit(&mut unbound::ModuleEnv(env, id, Default::default()))
+            self.deinit(&mut unbound::ModuleEnvMut(env, id, Default::default()))
         })
         .unwrap_or(());
     }
@@ -109,13 +109,16 @@ unsafe impl<T: UnboundMod> SealedUnboundMod for T {
         entry: *mut bindings::outbound_entry,
     ) {
         std::panic::catch_unwind(|| {
-            let mut qstate = unbound::ModuleQstate(qstate, id, Default::default());
             if let Some(ext_state) = self.operate(
-                &mut qstate,
+                &mut unbound::ModuleQstateMut(unbound::ModuleQstate(
+                    qstate,
+                    id,
+                    Default::default(),
+                )),
                 event.into(),
                 &mut unbound::OutboundEntryMut(entry, Default::default()),
             ) {
-                qstate.set_ext_state(ext_state);
+                (*qstate).ext_state[id as usize] = ext_state as bindings::module_ext_state;
             }
         })
         .unwrap_or(());
@@ -128,8 +131,16 @@ unsafe impl<T: UnboundMod> SealedUnboundMod for T {
     ) {
         std::panic::catch_unwind(|| {
             self.inform_super(
-                &mut unbound::ModuleQstate(qstate, id, Default::default()),
-                &mut unbound::ModuleQstate(super_qstate, -1, Default::default()),
+                &mut unbound::ModuleQstateMut(unbound::ModuleQstate(
+                    qstate,
+                    id,
+                    Default::default(),
+                )),
+                &mut unbound::ModuleQstateMut(unbound::ModuleQstate(
+                    super_qstate,
+                    -1,
+                    Default::default(),
+                )),
             )
         })
         .unwrap_or(());
@@ -140,7 +151,11 @@ unsafe impl<T: UnboundMod> SealedUnboundMod for T {
         id: ::std::os::raw::c_int,
     ) {
         std::panic::catch_unwind(|| {
-            self.clear(&mut unbound::ModuleQstate(qstate, id, Default::default()))
+            self.clear(&mut unbound::ModuleQstateMut(unbound::ModuleQstate(
+                qstate,
+                id,
+                Default::default(),
+            )))
         })
         .unwrap_or(());
     }
@@ -150,7 +165,7 @@ unsafe impl<T: UnboundMod> SealedUnboundMod for T {
         id: ::std::os::raw::c_int,
     ) -> usize {
         std::panic::catch_unwind(|| {
-            self.get_mem(&mut unbound::ModuleEnv(env, id, Default::default()))
+            self.get_mem(&mut unbound::ModuleEnvMut(env, id, Default::default()))
         })
         .unwrap_or(0)
     }
@@ -174,7 +189,7 @@ pub fn set_unbound_mod<T: 'static + UnboundMod>() {
             .set(Box::new(|env, id| {
                 std::panic::catch_unwind(|| {
                     if let Ok(module) =
-                        T::init(&mut unbound::ModuleEnv(env, id, Default::default()))
+                        T::init(&mut unbound::ModuleEnvMut(env, id, Default::default()))
                     {
                         MODULE.set(Box::new(module)).map_err(|_| ()).unwrap();
                         1

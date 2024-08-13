@@ -99,8 +99,26 @@ struct IpCache<T>(
 );
 
 #[repr(transparent)]
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 struct IpCacheKey(Domain);
+impl IpCacheKey {
+    fn from_split_domain<T: AsRef<[u8]>>(
+        split_domain: impl DoubleEndedIterator + Iterator<Item = T>,
+    ) -> Self {
+        Self::from_split_rev_domain(split_domain.rev())
+    }
+    fn from_split_rev_domain<T: AsRef<[u8]>>(split_rev_domain: impl Iterator<Item = T>) -> Self {
+        let mut first = true;
+        Self(split_rev_domain.fold(Domain::new(), |mut ret, seg| {
+            if first {
+                first = false;
+                ret.push(b'.');
+            }
+            ret.extend_from_slice(seg.as_ref());
+            ret
+        }))
+    }
+}
 impl radix_trie::TrieKey for IpCacheKey {
     fn encode_bytes(&self) -> Vec<u8> {
         self.0.to_vec()
@@ -118,8 +136,11 @@ impl<T> Default for IpCache<T> {
 fn ignore<T>(_: &mut smallvec::SmallVec<[T; 4]>) {}
 
 impl<T> IpCache<T> {
-    fn extend_set_with_domain<J: IpPrefix + From<T>>(&self, ips: &mut RTrieSet<J>, domain_r: Domain)
-    where
+    fn extend_set_with_domain<J: IpPrefix + From<T>>(
+        &self,
+        ips: &mut RTrieSet<J>,
+        domain_r: IpCacheKey,
+    ) where
         T: Copy,
     {
         self.get_maybe_update_rev(domain_r, |val| {
@@ -134,11 +155,10 @@ impl<T> IpCache<T> {
     }
     fn get_maybe_update_rev<F: for<'a> FnOnce(&'a mut smallvec::SmallVec<[T; 4]>)>(
         &self,
-        domain_r: Domain,
+        domain_r: IpCacheKey,
         upd: impl FnOnce(Option<(&smallvec::SmallVec<[T; 4]>, &Mutex<()>, &AtomicBool)>) -> Option<F>,
     ) {
         let lock = self.0.read().unwrap();
-        let domain_r = IpCacheKey(domain_r);
         let key = lock.0.get(&domain_r).copied();
         if let Some(val) = if let Some(x) = key.and_then(|key| lock.1.get(key)) {
             upd(Some((&x.0.read().unwrap(), &x.1, &x.2)))
@@ -171,7 +191,7 @@ impl<T: ToString + PartialEq> IpCache<T> {
         let ret1 = &mut ret;
         let mut path = self.1.clone();
         path.push(domain);
-        self.get_maybe_update_rev(domain_r.0, |ips| {
+        self.get_maybe_update_rev(domain_r, |ips| {
             if let Some(ips) = ips.as_ref().filter(|x| x.0 == &val) {
                 *ret1 = false;
                 if ips
@@ -234,15 +254,7 @@ impl<T: FromStr> IpCache<T> {
             let Ok(reader) = std::fs::File::open(entry.path()) else {
                 continue;
             };
-            let domain_r = IpCacheKey(
-                domain
-                    .split('.')
-                    .rev()
-                    .map(|x| x.as_bytes())
-                    .collect::<Vec<_>>()
-                    .join(&b"."[..])
-                    .into(),
-            );
+            let domain_r = IpCacheKey::from_split_domain(domain.split('.'));
             let mut reader = BufReader::new(reader);
             let mut line = String::new();
             let mut ips = SmallVec::new();
@@ -280,7 +292,7 @@ pub(crate) const DATA_PREFIX: &str = "unbound-mod-test-data";
 pub(crate) const CONFIG_PREFIX: &str = "unbound-mod-test-config";
 
 #[cfg(not(debug_assertions))]
-pub(crate) const PATH_PREFIX: &str = "/var/lib/unbound";
+pub(crate) const DATA_PREFIX: &str = "/var/lib/unbound";
 #[cfg(not(debug_assertions))]
 pub(crate) const CONFIG_PREFIX: &str = "/etc/unbound";
 
@@ -375,11 +387,7 @@ impl ExampleMod {
             }
             println!("loading cached domain ips for {k}");
             for rev_domain in v_domains.iter() {
-                let rev_domain: SmallVec<_> = rev_domain
-                    .map(|x| x.as_slice())
-                    .collect::<Vec<_>>()
-                    .join(&b"."[..])
-                    .into();
+                let rev_domain = IpCacheKey::from_split_rev_domain(rev_domain.into_iter());
                 self.caches
                     .0
                     .extend_set_with_domain(r.0.ips_mut(), rev_domain.clone());
@@ -456,7 +464,7 @@ impl ExampleMod {
     }
     fn handle_reply_info(
         &self,
-        split_rev_domain: SmallVec<[DomainSeg; 5]>,
+        split_domain: &[&[u8]],
         qnames: SmallVec<[usize; 5]>,
         rep: &ReplyInfo<'_>,
     ) -> Result<(), ()> {
@@ -485,91 +493,80 @@ impl ExampleMod {
                 }
             }
         }
-        self.add_ips(ip4, ip6, split_rev_domain, qnames)
+        self.add_ips(ip4, ip6, split_domain, qnames)
     }
     fn add_ips(
         &self,
         ip4: SmallVec<[Ipv4Addr; 4]>,
         ip6: SmallVec<[Ipv6Addr; 4]>,
-        split_rev_domain: SmallVec<[DomainSeg; 5]>,
+        split_domain: &[&[u8]],
         qnames: SmallVec<[usize; 5]>,
     ) -> Result<(), ()> {
+        println!("adding {ip4:?}/{ip6:?} for {split_domain:?} to {qnames:?}");
         if !ip4.is_empty() || !ip6.is_empty() {
-            let domain = match split_rev_domain
+            let domain = match split_domain
                 .iter()
-                .rev()
-                .map(|x| String::from_utf8(x.to_vec()).map(|x| x + "."))
-                .collect::<Result<String, _>>()
-            {
-                Ok(mut x) => {
-                    x.pop();
-                    x
-                }
+                .copied()
+                .map(std::str::from_utf8)
+                .try_fold(String::new(), |mut s, comp| {
+                    if !s.is_empty() {
+                        s.push('.');
+                    }
+                    s.push_str(comp?);
+                    Ok::<_, std::str::Utf8Error>(s)
+                }) {
+                Ok(x) => x,
                 Err(err) => {
                     self.report("domain utf-8", err);
                     return Err(());
                 }
             };
-            let mut split_rev_domain = split_rev_domain.into_iter();
-            if let Some(first) = split_rev_domain.next() {
-                let first: Domain = first.to_vec().into();
-                let joined_rev_domain = split_rev_domain.fold(first, |mut res, mut next| {
-                    res.push(b'.');
-                    res.append(&mut next);
-                    res
-                });
-                let mut to_send: SmallVec<[IpNet; 8]> = SmallVec::new();
-                to_send.extend(ip4.iter().copied().map(Ipv4Net::from).map(IpNet::from));
-                to_send.extend(ip6.iter().copied().map(Ipv6Net::from).map(IpNet::from));
-                let keep4 = !ip4.is_empty()
-                    && self
-                        .caches
-                        .0
-                        .set(&domain, IpCacheKey(joined_rev_domain.clone()), ip4);
-                let keep6 = !ip6.is_empty()
-                    && self
-                        .caches
-                        .1
-                        .set(&domain, IpCacheKey(joined_rev_domain.clone()), ip6);
-                to_send.retain(|x| x.addr().is_ipv4() && keep4 || x.addr().is_ipv6() && keep6);
-                if !to_send.is_empty() {
-                    self.ruleset_queue
-                        .as_ref()
-                        .unwrap()
-                        .send((qnames, to_send))
-                        .unwrap();
-                }
+            let key = IpCacheKey::from_split_domain(split_domain.iter());
+            let mut to_send: SmallVec<[IpNet; 8]> = SmallVec::new();
+            to_send.extend(ip4.iter().copied().map(Ipv4Net::from).map(IpNet::from));
+            to_send.extend(ip6.iter().copied().map(Ipv6Net::from).map(IpNet::from));
+            let keep4 = !ip4.is_empty() && self.caches.0.set(&domain, key.clone(), ip4);
+            let keep6 = !ip6.is_empty() && self.caches.1.set(&domain, key, ip6);
+            to_send.retain(|x| x.addr().is_ipv4() && keep4 || x.addr().is_ipv6() && keep6);
+            if !to_send.is_empty() {
+                self.ruleset_queue
+                    .as_ref()
+                    .unwrap()
+                    .send((qnames, to_send))
+                    .unwrap();
             }
         }
         Ok(())
     }
-    fn run_commands(&self, rev_domain: &[u8]) -> Option<ModuleExtState> {
-        if let Some(rev_domain) = self
-            .nft_token
-            .as_ref()
-            .and_then(|token| rev_domain.strip_prefix(token.as_bytes()))
-        {
+    fn run_commands(&self, split_domain: &[&[u8]]) -> Option<ModuleExtState> {
+        if let Some(split_domain) = self.nft_token.as_ref().and_then(|token| {
+            split_domain
+                .split_last()
+                .filter(|(a, _)| **a == token.as_bytes())
+                .map(|(_, b)| b)
+        }) {
             for (qname, query) in self.nft_queries.iter() {
-                if query.dynamic && rev_domain.starts_with(qname.as_bytes()) {
-                    if let Some(rev_domain) =
-                        rev_domain.strip_prefix((qname.to_owned() + ".").as_bytes())
+                if query.dynamic {
+                    if let Some(split_domain) = split_domain
+                        .split_last()
+                        .filter(|(a, _)| **a == qname.as_bytes())
+                        .map(|(_, b)| b)
                     {
-                        let rev_domain = rev_domain
-                            .split(|x| *x == b'.')
-                            .map(|x| x.into())
-                            .collect::<SmallVec<[_; 5]>>();
                         let mut domains = query.domains.write().unwrap();
-                        if domains.insert(rev_domain.clone()) {
+                        if domains.insert(split_domain.iter().copied().rev().map(From::from)) {
                             drop(domains);
                             let file_name = format!("{DATA_PREFIX}/{qname}_domains.json");
-                            let domain = match String::from_utf8(
-                                rev_domain
-                                    .iter()
-                                    .rev()
-                                    .map(|x| x.as_slice())
-                                    .collect::<Vec<_>>()
-                                    .join(&b"."[..]),
-                            ) {
+                            let domain = match split_domain
+                                .iter()
+                                .copied()
+                                .map(std::str::from_utf8)
+                                .try_fold(String::new(), |mut s, comp| {
+                                    if !s.is_empty() {
+                                        s.push('.');
+                                    }
+                                    s.push_str(comp?);
+                                    Ok::<_, std::str::Utf8Error>(s)
+                                }) {
                                 Ok(x) => x,
                                 Err(err) => {
                                     self.report("domain utf-8", err);
@@ -577,6 +574,7 @@ impl ExampleMod {
                                 }
                             };
                             let _lock = self.domains_write_lock.lock().unwrap();
+                            println!("adding {domain} to {qname}");
                             let mut old: Vec<String> = if let Ok(file) = File::open(&file_name) {
                                 match read_json(file) {
                                     Ok(x) => x,
@@ -602,22 +600,21 @@ impl ExampleMod {
                 }
             }
             return Some(ModuleExtState::Finished);
-        } else if let Some(rev_domain) = self
-            .tmp_nft_token
-            .as_ref()
-            .and_then(|token| rev_domain.strip_prefix(token.as_bytes()))
-        {
+        } else if let Some(split_domain) = self.tmp_nft_token.as_ref().and_then(|token| {
+            split_domain
+                .split_last()
+                .filter(|(a, _)| **a == token.as_bytes())
+                .map(|(_, b)| b)
+        }) {
             for (qname, query) in self.nft_queries.iter() {
-                if query.dynamic && rev_domain.starts_with(qname.as_bytes()) {
-                    if let Some(rev_domain) =
-                        rev_domain.strip_prefix((qname.to_owned() + ".").as_bytes())
+                if query.dynamic {
+                    if let Some(split_domain) = split_domain
+                        .split_last()
+                        .filter(|(a, _)| **a == qname.as_bytes())
+                        .map(|(_, b)| b)
                     {
-                        let rev_domain = rev_domain
-                            .split(|x| *x == b'.')
-                            .map(|x| x.into())
-                            .collect::<SmallVec<[_; 5]>>();
                         let mut domains = query.domains.write().unwrap();
-                        domains.insert(rev_domain.clone());
+                        domains.insert(split_domain.iter().copied().rev().map(From::from));
                     }
                 }
             }
@@ -625,10 +622,15 @@ impl ExampleMod {
         }
         None
     }
-    fn get_qnames(&self, split_rev_domain: &SmallVec<[DomainSeg; 5]>) -> SmallVec<[usize; 5]> {
+    fn get_qnames(&self, split_domain: &[&[u8]]) -> SmallVec<[usize; 5]> {
         let mut qnames: SmallVec<[usize; 5]> = SmallVec::new();
         for query in self.nft_queries.values() {
-            if query.domains.read().unwrap().contains(split_rev_domain) {
+            if query
+                .domains
+                .read()
+                .unwrap()
+                .contains(split_domain.iter().copied().rev().map(From::from))
+            {
                 qnames.push(query.index);
             }
         }
@@ -680,17 +682,31 @@ fn read_json<T: 'static + for<'a> Deserialize<'a>>(mut f: File) -> Result<T, ser
     serde_json::from_slice(&data)
 }
 
+// \x06google\x03com
+fn unwire_domain(domain: &[u8]) -> SmallVec<[&[u8]; 8]> {
+    let mut i = 0;
+    let mut ret = SmallVec::new();
+    while let Some(val) = domain.get(i).map(|x| *x as usize) {
+        i += 1;
+        if let Some(val) = domain.get(i..i + val) {
+            ret.push(val);
+        }
+        i += val;
+    }
+    ret
+}
+
 impl UnboundMod for ExampleMod {
     type EnvData = ();
     type QstateData = ();
 
-    fn init(_env: &mut crate::unbound::ModuleEnv<Self::EnvData>) -> Result<Self, ()> {
+    fn init(_env: &mut crate::unbound::ModuleEnvMut<Self::EnvData>) -> Result<Self, ()> {
         Self::new()
     }
 
     fn operate(
         &self,
-        qstate: &mut crate::unbound::ModuleQstate<Self::QstateData>,
+        qstate: &mut crate::unbound::ModuleQstateMut<Self::QstateData>,
         event: ModuleEvent,
         _entry: &mut crate::unbound::OutboundEntryMut,
     ) -> Option<ModuleExtState> {
@@ -703,26 +719,21 @@ impl UnboundMod for ExampleMod {
                 return Some(ModuleExtState::Error);
             }
         }
-        let info = qstate.qinfo_mut();
+        let info = qstate.qinfo();
         let name = info.qname().to_bytes();
-        let rev_domain = name.strip_suffix(b".").unwrap_or(name);
-        if let Some(val) = self.run_commands(rev_domain) {
+        // let rev_domain = name.strip_suffix(b".").unwrap_or(name);
+        let split_domain = unwire_domain(name);
+        println!("handling {split_domain:?}");
+        if let Some(val) = self.run_commands(&split_domain) {
             return Some(val);
         }
-        let split_rev_domain = rev_domain
-            .split(|x| *x == b'.')
-            .map(|x| x.into())
-            .collect::<SmallVec<[_; 5]>>();
-        let qnames = self.get_qnames(&split_rev_domain);
+        let qnames = self.get_qnames(&split_domain);
         if qnames.is_empty() {
             return Some(ModuleExtState::Finished);
         }
-        if let Some(ret) = qstate.return_msg_mut() {
+        if let Some(ret) = qstate.return_msg() {
             if let Some(rep) = ret.rep() {
-                if self
-                    .handle_reply_info(split_rev_domain, qnames, &rep)
-                    .is_err()
-                {
+                if self.handle_reply_info(&split_domain, qnames, &rep).is_err() {
                     return Some(ModuleExtState::Error);
                 }
             }
@@ -741,9 +752,9 @@ mod test {
     use std::{net::Ipv4Addr, os::unix::fs::MetadataExt, path::PathBuf, str::FromStr, sync::mpsc};
 
     use ipnet::IpNet;
-    use smallvec::{smallvec, SmallVec};
+    use smallvec::smallvec;
 
-    use crate::example::{ignore, ExampleMod, IpNetDeser, DATA_PREFIX};
+    use crate::example::{ignore, ExampleMod, IpCacheKey, IpNetDeser, DATA_PREFIX};
 
     #[test]
     fn test() {
@@ -794,24 +805,26 @@ mod test {
         base_path.push("domains6");
         t.caches.1.load(&base_path).unwrap();
 
-        t.caches
-            .0
-            .get_maybe_update_rev("com.a".as_bytes().into(), |x| {
+        t.caches.0.get_maybe_update_rev(
+            IpCacheKey::from_split_domain(["a", "com"].into_iter()),
+            |x| {
                 assert!(x.unwrap().0.len() == 2);
                 #[allow(unused_assignments)]
                 let mut val = Some(ignore);
                 val = None;
                 val
-            });
-        t.caches
-            .0
-            .get_maybe_update_rev("com.b".as_bytes().into(), |x| {
+            },
+        );
+        t.caches.0.get_maybe_update_rev(
+            IpCacheKey::from_split_domain(["b", "com"].into_iter()),
+            |x| {
                 assert!(x.unwrap().0.len() == 1);
                 #[allow(unused_assignments)]
                 let mut val = Some(ignore);
                 val = None;
                 val
-            });
+            },
+        );
 
         t.load_json(&mut rulesets);
 
@@ -838,48 +851,53 @@ mod test {
             tx2.send(rulesets).unwrap();
         });
 
-        let split_rev_domain = smallvec![SmallVec::from(&b"com"[..]), SmallVec::from(&b"c"[..])];
-        let qnames = t.get_qnames(&split_rev_domain);
+        let split_domain = [&b"c"[..], &b"com"[..]];
+        let qnames = t.get_qnames(&split_domain);
         assert_eq!(qnames.len(), 2);
         t.add_ips(
             smallvec![Ipv4Addr::new(7, 7, 7, 7), Ipv4Addr::new(6, 6, 6, 6)],
             smallvec![],
-            split_rev_domain,
+            &split_domain,
             qnames,
         )
         .unwrap();
 
-        let split_rev_domain = smallvec![SmallVec::from(&b"com"[..]), SmallVec::from(&b"a"[..])];
-        let qnames = t.get_qnames(&split_rev_domain);
+        let split_domain = [&b"a"[..], &b"com"[..]];
+        let qnames = t.get_qnames(&split_domain);
         t.add_ips(
             smallvec![Ipv4Addr::new(1, 2, 3, 4), Ipv4Addr::new(5, 6, 7, 8)],
             smallvec![],
-            split_rev_domain,
+            &split_domain,
             qnames,
         )
         .unwrap();
 
-        t.run_commands(b"token.q.com.w").unwrap();
-        t.run_commands(b"tmptoken.q.com.e").unwrap();
+        t.run_commands(&[&b"w"[..], &b"com"[..], &b"q"[..], &b"token"[..]])
+            .unwrap();
+        t.run_commands(&[&b"e"[..], &b"com"[..], &b"q"[..], &b"tmptoken"[..]])
+            .unwrap();
+        assert!(t
+            .run_commands(&[&b"e"[..], &b"com"[..], &b"w"[..], &b"tmptoken"[..]])
+            .is_none());
 
-        let split_rev_domain = smallvec![SmallVec::from(&b"com"[..]), SmallVec::from(&b"e"[..])];
-        let qnames = t.get_qnames(&split_rev_domain);
+        let split_domain = [&b"e"[..], &b"com"[..]];
+        let qnames = t.get_qnames(&split_domain);
         assert_eq!(qnames.len(), 1);
         t.add_ips(
             smallvec![Ipv4Addr::new(8, 8, 8, 8)],
             smallvec![],
-            split_rev_domain,
+            &split_domain,
             qnames,
         )
         .unwrap();
 
-        let split_rev_domain = smallvec![SmallVec::from(&b"com"[..]), SmallVec::from(&b"w"[..])];
-        let qnames = t.get_qnames(&split_rev_domain);
+        let split_domain = [&b"w"[..], &b"com"[..]];
+        let qnames = t.get_qnames(&split_domain);
         assert_eq!(qnames.len(), 1);
         t.add_ips(
             smallvec![Ipv4Addr::new(9, 8, 8, 8)],
             smallvec![],
-            split_rev_domain,
+            &split_domain,
             qnames,
         )
         .unwrap();
