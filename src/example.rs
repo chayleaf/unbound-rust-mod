@@ -14,7 +14,7 @@ use std::{
 
 use ctor::ctor;
 use ipnet::{IpNet, Ipv4Net, Ipv6Net};
-use iptrie::{IpPrefix, RTrieSet};
+use iptrie::IpPrefix;
 use serde::{
     de::{Error, Visitor},
     Deserialize,
@@ -137,16 +137,17 @@ impl<T> Default for IpCache<T> {
 fn ignore<T>(_: &mut smallvec::SmallVec<[T; 4]>) {}
 
 impl<T> IpCache<T> {
-    fn extend_set_with_domain<J: IpPrefix + From<T>>(
+    fn extend_set_with_domain<J: Helper + From<T>>(
         &self,
-        ips: &mut RTrieSet<J>,
+        ips: &mut NftData<J>,
         domain_r: IpCacheKey,
     ) where
         T: Copy,
+        IpNet: From<J>,
     {
         self.get_maybe_update_rev(domain_r, |val| {
             if let Some(val) = val {
-                ips.extend(val.0.iter().copied().map(|x| J::from(x)));
+                ips.extend(val.0.iter().copied().map(From::from));
             }
             #[allow(unused_assignments)]
             let mut val = Some(ignore);
@@ -381,10 +382,10 @@ impl ExampleMod {
                 let rev_domain = IpCacheKey::from_split_rev_domain(rev_domain.into_iter());
                 self.caches
                     .0
-                    .extend_set_with_domain(r.0.ips_mut(), rev_domain.clone());
+                    .extend_set_with_domain(&mut r.0, rev_domain.clone());
                 self.caches
                     .1
-                    .extend_set_with_domain(r.1.ips_mut(), rev_domain.clone());
+                    .extend_set_with_domain(&mut r.1, rev_domain.clone());
             }
         }
     }
@@ -491,47 +492,46 @@ impl ExampleMod {
         split_domain: &[&[u8]],
         qnames: SmallVec<[usize; 5]>,
     ) -> Result<(), ()> {
-        println!("adding {ip4:?}/{ip6:?} for {split_domain:?} to {qnames:?}");
-        if !ip4.is_empty() || !ip6.is_empty() {
-            let mut first = true;
-            let domain = match split_domain
-                .iter()
-                .copied()
-                .map(std::str::from_utf8)
-                .try_fold(String::new(), |mut s, comp| {
-                    if first {
-                        first = false;
-                    } else {
-                        s.push('.');
-                    }
-                    s.push_str(comp?);
-                    Ok::<_, std::str::Utf8Error>(s)
-                }) {
-                Ok(x) => x,
-                Err(err) => {
-                    self.report("domain utf-8", err);
-                    return Err(());
+        if ip4.is_empty() && ip6.is_empty() {
+            return Ok(());
+        }
+        let mut first = true;
+        let domain = match split_domain
+            .iter()
+            .copied()
+            .map(std::str::from_utf8)
+            .try_fold(String::new(), |mut s, comp| {
+                if first {
+                    first = false;
+                } else {
+                    s.push('.');
                 }
-            };
-            let key = IpCacheKey::from_split_domain(split_domain.iter());
-            let mut to_send: SmallVec<[IpNet; 8]> = SmallVec::new();
-            to_send.extend(ip4.iter().copied().map(Ipv4Net::from).map(IpNet::from));
-            to_send.extend(ip6.iter().copied().map(Ipv6Net::from).map(IpNet::from));
-            let keep4 = !ip4.is_empty() && self.caches.0.set(&domain, key.clone(), ip4);
-            let keep6 = !ip6.is_empty() && self.caches.1.set(&domain, key, ip6);
-            to_send.retain(|x| x.addr().is_ipv4() && keep4 || x.addr().is_ipv6() && keep6);
-            if !to_send.is_empty() {
-                self.ruleset_queue
-                    .as_ref()
-                    .unwrap()
-                    .send((qnames, to_send))
-                    .unwrap();
+                s.push_str(comp?);
+                Ok::<_, std::str::Utf8Error>(s)
+            }) {
+            Ok(x) => x,
+            Err(err) => {
+                self.report("domain utf-8", err);
+                return Err(());
             }
+        };
+        let key = IpCacheKey::from_split_domain(split_domain.iter());
+        let mut to_send: SmallVec<[IpNet; 8]> = SmallVec::new();
+        to_send.extend(ip4.iter().copied().map(Ipv4Net::from).map(IpNet::from));
+        to_send.extend(ip6.iter().copied().map(Ipv6Net::from).map(IpNet::from));
+        let keep4 = !ip4.is_empty() && self.caches.0.set(&domain, key.clone(), ip4);
+        let keep6 = !ip6.is_empty() && self.caches.1.set(&domain, key, ip6);
+        to_send.retain(|x| x.addr().is_ipv4() && keep4 || x.addr().is_ipv6() && keep6);
+        if !to_send.is_empty() {
+            self.ruleset_queue
+                .as_ref()
+                .unwrap()
+                .send((qnames, to_send))
+                .unwrap();
         }
         Ok(())
     }
     fn run_commands(&self, split_domain: &[&[u8]]) -> Option<ModuleExtState> {
-        println!("{split_domain:?} {:?}", self.nft_token);
         if let Some(split_domain) = self.nft_token.as_ref().and_then(|token| {
             split_domain
                 .split_last()

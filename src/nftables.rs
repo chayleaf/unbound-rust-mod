@@ -332,8 +332,8 @@ fn iter_ip_trie<T: Helper>(trie: &RTrieSet<T>) -> impl '_ + Iterator<Item = T> {
 }
 
 pub(crate) struct NftData<T: Helper> {
+    all_ips: RTrieSet<T>,
     ips: RTrieSet<T>,
-    dirty: bool,
     set: Option<Set1>,
     name: String,
 }
@@ -343,7 +343,7 @@ impl<T: Helper> NftData<T> {
         Self {
             set: None,
             ips: RTrieSet::new(),
-            dirty: true,
+            all_ips: RTrieSet::new(),
             name: name.to_owned(),
         }
     }
@@ -361,17 +361,24 @@ where
     pub fn verify(&mut self) -> bool {
         if !self.name.is_empty() && self.set.is_none() {
             self.ips = RTrieSet::new();
+            self.all_ips = RTrieSet::new();
             false
         } else {
             true
         }
+    }
+    fn dirty(&self) -> bool {
+        usize::from(self.ips.len()) > 1
     }
     pub fn flush_changes(
         &mut self,
         socket: &mnl::Socket,
         flush_set: bool,
     ) -> Result<(), io::Error> {
-        if let Some(set) = self.set.as_mut().filter(|_| self.dirty) {
+        if !self.dirty() {
+            return Ok(());
+        }
+        if let Some(set) = self.set.as_mut() {
             if flush_set {
                 println!(
                     "initializing set {} with ~{} ips (e.g. {:?})",
@@ -380,7 +387,9 @@ where
                     iter_ip_trie(&self.ips).next(),
                 );
             }
-            set.add_cidrs(socket, flush_set, iter_ip_trie(&self.ips).map(IpNet::from))
+            let ret = set.add_cidrs(socket, flush_set, iter_ip_trie(&self.ips).map(IpNet::from));
+            self.ips = RTrieSet::new();
+            ret
         } else {
             Ok(())
         }
@@ -395,14 +404,11 @@ where
             !self.name.is_empty()
         } else {
             self.set.is_some()
-        }) && should_add(&self.ips, &ip)
+        }) && should_add(&self.all_ips, &ip)
         {
             self.ips.insert(ip);
-            self.dirty = true;
+            self.all_ips.insert(ip);
         }
-    }
-    pub fn ips_mut(&mut self) -> &mut RTrieSet<T> {
-        &mut self.ips
     }
     #[cfg(test)]
     pub fn ip_count(&self) -> usize {
