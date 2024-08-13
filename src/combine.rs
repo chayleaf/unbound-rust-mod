@@ -29,16 +29,28 @@ macro_rules! impl_tuple {
                 &self,
                 qstate: &mut crate::unbound::ModuleQstateMut<Self::QstateData>,
                 event: crate::unbound::ModuleEvent,
-                entry: &mut crate::unbound::OutboundEntryMut,
+                entry: Option<&mut crate::unbound::OutboundEntryMut>,
             ) -> Option<ModuleExtState> {
-                #[allow(unused_mut)]
-                let mut ret = self.0.operate(qstate, event, entry);
-                $(if let Some(state) = self.$i.operate(qstate, event, entry) {
-                    if !matches!(ret, Some(ret) if ret.importance() >= state.importance()) {
-                        ret = Some(state);
-                    }
-                })*
-                ret
+                // lol idk how to safely "clone" Option<&mut>
+                if let Some(entry) = entry {
+                    #[allow(unused_mut)]
+                    let mut ret = self.0.operate(qstate, event, Some(entry));
+                    $(if let Some(state) = self.$i.operate(qstate, event, Some(entry)) {
+                        if !matches!(ret, Some(ret) if ret.importance() >= state.importance()) {
+                            ret = Some(state);
+                        }
+                    })*
+                    ret
+                } else {
+                    #[allow(unused_mut)]
+                    let mut ret = self.0.operate(qstate, event, None);
+                    $(if let Some(state) = self.$i.operate(qstate, event, None) {
+                        if !matches!(ret, Some(ret) if ret.importance() >= state.importance()) {
+                            ret = Some(state);
+                        }
+                    })*
+                    ret
+                }
             }
             fn get_mem(&self, env: &mut crate::unbound::ModuleEnvMut<Self::EnvData>) -> usize {
                 self.0.get_mem(env) $(* self.$i.get_mem(env))*

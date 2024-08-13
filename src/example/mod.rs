@@ -716,7 +716,7 @@ impl UnboundMod for ExampleMod {
         &self,
         qstate: &mut crate::unbound::ModuleQstateMut<Self::QstateData>,
         event: ModuleEvent,
-        _entry: &mut crate::unbound::OutboundEntryMut,
+        _entry: Option<&mut crate::unbound::OutboundEntryMut>,
     ) -> Option<ModuleExtState> {
         match event {
             ModuleEvent::New | ModuleEvent::Pass => {

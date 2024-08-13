@@ -32,7 +32,7 @@ pub trait UnboundMod: Send + Sync + Sized + RefUnwindSafe + UnwindSafe {
         &self,
         _qstate: &mut unbound::ModuleQstateMut<Self::QstateData>,
         _event: unbound::ModuleEvent,
-        _entry: &mut unbound::OutboundEntryMut,
+        _entry: Option<&mut unbound::OutboundEntryMut>,
     ) -> Option<ModuleExtState> {
         Some(ModuleExtState::Finished)
     }
@@ -105,7 +105,7 @@ unsafe impl<T: UnboundMod> SealedUnboundMod for T {
             if let Some(ext_state) = self.operate(
                 &mut unbound::ModuleQstateMut::from_raw(qstate, id).unwrap(),
                 event.into(),
-                &mut unbound::OutboundEntryMut::from_raw(entry).unwrap(),
+                unbound::OutboundEntryMut::from_raw(entry).as_mut(),
             ) {
                 if let Some(id) = unbound::check_id(id) {
                     (*qstate).ext_state[id] = ext_state as bindings::module_ext_state;
