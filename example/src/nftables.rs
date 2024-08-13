@@ -9,7 +9,7 @@ use std::{
     sync::mpsc,
 };
 
-use crate::example::{Helper, DATA_PREFIX};
+use crate::{Helper, DATA_PREFIX};
 use ipnet::{IpNet, Ipv4Net, Ipv6Net};
 use iptrie::RTrieSet;
 use mnl::mnl_sys;

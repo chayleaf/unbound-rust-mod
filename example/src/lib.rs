@@ -1,3 +1,4 @@
+#![allow(clippy::type_complexity)]
 use std::{
     collections::HashMap,
     fmt::Display,
@@ -12,7 +13,6 @@ use std::{
     },
 };
 
-use ctor::ctor;
 use ipnet::{IpNet, Ipv4Net, Ipv6Net};
 use iptrie::IpPrefix;
 use serde::{
@@ -21,12 +21,15 @@ use serde::{
 };
 use smallvec::SmallVec;
 
-use crate::{
-    unbound::{rr_class, rr_type, ModuleEvent, ModuleExtState, ReplyInfo},
-    UnboundMod,
-};
 use domain_tree::PrefixSet;
 use nftables::{nftables_thread, NftData};
+use unbound_mod::{
+    unbound::{
+        rr_class, rr_type, ModuleEnvMut, ModuleEvent, ModuleExtState, ModuleQstateMut,
+        OutboundEntryMut, ReplyInfo,
+    },
+    UnboundMod,
+};
 
 mod domain_tree;
 mod nftables;
@@ -34,10 +37,7 @@ mod nftables;
 type Domain = SmallVec<[u8; 32]>;
 type DomainSeg = SmallVec<[u8; 16]>;
 
-#[ctor]
-fn setup() {
-    crate::set_unbound_mod::<ExampleMod>();
-}
+unbound_mod::set_module!(ExampleMod);
 
 struct IpNetDeser(IpNet);
 struct IpNetVisitor;
@@ -708,15 +708,15 @@ impl UnboundMod for ExampleMod {
     type EnvData = ();
     type QstateData = ();
 
-    fn init(_env: &mut crate::unbound::ModuleEnvMut<Self::EnvData>) -> Result<Self, ()> {
+    fn init(_env: &mut ModuleEnvMut<Self::EnvData>) -> Result<Self, ()> {
         Self::new()
     }
 
     fn operate(
         &self,
-        qstate: &mut crate::unbound::ModuleQstateMut<Self::QstateData>,
+        qstate: &mut ModuleQstateMut<Self::QstateData>,
         event: ModuleEvent,
-        _entry: Option<&mut crate::unbound::OutboundEntryMut>,
+        _entry: Option<&mut OutboundEntryMut>,
     ) -> Option<ModuleExtState> {
         match event {
             ModuleEvent::New | ModuleEvent::Pass => {
@@ -755,10 +755,8 @@ mod test {
     use ipnet::IpNet;
     use smallvec::smallvec;
 
-    use crate::{
-        example::{ignore, ExampleMod, IpCacheKey, IpNetDeser, DATA_PREFIX},
-        unbound::ModuleExtState,
-    };
+    use super::{ignore, ExampleMod, IpCacheKey, IpNetDeser, DATA_PREFIX};
+    use unbound_mod::unbound::ModuleExtState;
 
     #[test]
     fn test() {

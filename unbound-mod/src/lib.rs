@@ -1,4 +1,4 @@
-#![allow(clippy::type_complexity)]
+#![allow(clippy::type_complexity, clippy::missing_safety_doc)]
 use std::panic::{RefUnwindSafe, UnwindSafe};
 
 use unbound::ModuleExtState;
@@ -13,12 +13,27 @@ use unbound::ModuleExtState;
     clippy::nursery,
     clippy::pedantic
 )]
-mod bindings;
+#[doc(hidden)]
+pub mod bindings;
 mod combine;
-#[cfg(feature = "example")]
-mod example;
 mod exports;
-mod unbound;
+pub mod unbound;
+
+pub use bindings as sys;
+
+#[doc(hidden)]
+pub use ctor;
+
+#[macro_export]
+macro_rules! set_module {
+    ($mod:ty) => {
+        use unbound_mod::ctor::ctor;
+        #[ctor]
+        fn _internal_module_setup() {
+            unbound_mod::set_unbound_mod::<$mod>();
+        }
+    };
+}
 
 pub trait UnboundMod: Send + Sync + Sized + RefUnwindSafe + UnwindSafe {
     type EnvData;

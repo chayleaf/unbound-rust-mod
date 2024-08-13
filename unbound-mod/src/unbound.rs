@@ -448,32 +448,32 @@ type RrsetIdType = rrset_id_type;
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 pub enum ModuleEvent {
     /// new query
-    New = 0,
+    New = bindings::module_ev_module_event_new,
     /// query passed by other module
-    Pass = 1,
+    Pass = bindings::module_ev_module_event_pass,
     /// reply inbound from server
-    Reply = 2,
+    Reply = bindings::module_ev_module_event_reply,
     /// no reply, timeout or other error
-    NoReply = 3,
+    NoReply = bindings::module_ev_module_event_noreply,
     /// reply is there, but capitalisation check failed
-    CapsFail = 4,
+    CapsFail = bindings::module_ev_module_event_capsfail,
     /// next module is done, and its reply is awaiting you
-    ModDone = 5,
+    ModDone = bindings::module_ev_module_event_moddone,
     /// error
-    Error = 6,
-    Unknown = 7,
+    Error = bindings::module_ev_module_event_error,
+    Unknown = 99,
 }
 
 impl From<module_ev> for ModuleEvent {
     fn from(value: module_ev) -> Self {
         match value {
-            0 => Self::New,
-            1 => Self::Pass,
-            2 => Self::Reply,
-            3 => Self::NoReply,
-            4 => Self::CapsFail,
-            5 => Self::ModDone,
-            6 => Self::Error,
+            bindings::module_ev_module_event_new => Self::New,
+            bindings::module_ev_module_event_pass => Self::Pass,
+            bindings::module_ev_module_event_reply => Self::Reply,
+            bindings::module_ev_module_event_noreply => Self::NoReply,
+            bindings::module_ev_module_event_capsfail => Self::CapsFail,
+            bindings::module_ev_module_event_moddone => Self::ModDone,
+            bindings::module_ev_module_event_error => Self::Error,
             _ => Self::Unknown,
         }
     }

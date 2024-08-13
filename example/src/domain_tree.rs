@@ -109,21 +109,11 @@ mod tests {
         assert!(!tree.contains([&"a", &"c"]));
         let mut it = tree.iter();
         assert!(matches!(
-            it.next()
-                .unwrap()
-                .into_iter()
-                .copied()
-                .collect::<String>()
-                .as_str(),
+            it.next().unwrap().copied().collect::<String>().as_str(),
             "ab" | "bcd"
         ));
         assert!(matches!(
-            it.next()
-                .unwrap()
-                .into_iter()
-                .copied()
-                .collect::<String>()
-                .as_str(),
+            it.next().unwrap().copied().collect::<String>().as_str(),
             "ab" | "bcd"
         ));
     }

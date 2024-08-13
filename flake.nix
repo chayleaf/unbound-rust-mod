@@ -19,7 +19,12 @@
         outputs = [ "out" ];
         installPhase = ''
           cp ${./dummy.h} ./dummy.h
-          bindgen ./dummy.h -- -I $PWD > $out
+          opts=()
+          for file in **/*.h; do
+            opts+=(--allowlist-file "$PWD/$file")
+          done
+
+          bindgen --no-layout-tests "''${opts[@]}" dummy.h -- -I "$PWD" > "$out"
         '';
       });
       unbound-mod = let
@@ -28,13 +33,18 @@
       in craneLib.buildPackage {
         pname = "unbound-mod";
         version = "0.1.0";
+        cargoExtraArgs = "--package example";
         postPatch = ''
-          cp ${bindings} src/bindings.rs
+          ls -la
+          cp ${bindings} unbound-mod/src/bindings.rs
         '';
         src = nixpkgs.lib.cleanSourceWith {
           src = ./.;
           filter = path: type: lib.hasSuffix ".h" path || craneLib.filterCargoSources path type;
         };
+        postInstall = ''
+          mv $out/lib/libexample.so $out/lib/libunbound_mod.so
+        '';
         doCheck = false;
         LIBMNL_LIB_DIR = "${nixpkgs.lib.getLib pkgs.libmnl}/lib";
         LIBNFTNL_LIB_DIR = "${nixpkgs.lib.getLib pkgs.libnftnl}/lib";
