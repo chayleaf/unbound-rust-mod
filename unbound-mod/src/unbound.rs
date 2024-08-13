@@ -1,9 +1,7 @@
 #![allow(dead_code)]
 use crate::bindings::{
-    self, config_file, dns_msg, infra_cache, key_cache, lruhash_entry, module_env, module_ev,
-    module_ext_state, module_qstate, outbound_entry, packed_rrset_data, packed_rrset_key,
-    query_info, reply_info, rrset_cache, rrset_id_type, rrset_trust, sec_status, slabhash,
-    sldns_enum_ede_code, ub_packed_rrset_key,
+    self, module_env, module_ev, module_ext_state, module_qstate, rrset_id_type, rrset_trust,
+    sec_status, sldns_enum_ede_code,
 };
 use std::{
     ffi::CStr,
@@ -16,7 +14,12 @@ use std::{
 
 macro_rules! create_struct {
     ($ptr:tt, $name:tt, $mut:tt) => {
-        pub struct $name<'a>(pub(crate) *mut $ptr, pub(crate) PhantomData<&'a $ptr>);
+        #[repr(transparent)]
+        pub struct $name<'a>(
+            pub(crate) *mut bindings::$ptr,
+            pub(crate) PhantomData<&'a bindings::$ptr>,
+        );
+        #[repr(transparent)]
         pub struct $mut<'a>(pub(crate) $name<'a>);
         impl<'a> Deref for $mut<'a> {
             type Target = $name<'a>;
@@ -25,22 +28,52 @@ macro_rules! create_struct {
             }
         }
         impl<'a> $name<'a> {
-            pub const fn as_ptr(&self) -> *const $ptr {
+            pub const fn as_ptr(&self) -> *const bindings::$ptr {
                 self.0.cast_const()
             }
-            pub unsafe fn from_raw(raw: *const $ptr) -> Option<Self> {
+            pub unsafe fn from_raw(raw: *const bindings::$ptr) -> Option<Self> {
                 (!raw.is_null()).then_some(Self(raw.cast_mut(), PhantomData))
             }
         }
         impl<'a> $mut<'a> {
-            pub fn as_mut_ptr(&mut self) -> *mut $ptr {
+            pub fn as_mut_ptr(&mut self) -> *mut bindings::$ptr {
                 self.0 .0
             }
-            pub unsafe fn from_raw(raw: *mut $ptr) -> Option<Self> {
+            pub unsafe fn from_raw(raw: *mut bindings::$ptr) -> Option<Self> {
                 (!raw.is_null()).then_some(Self($name(raw, PhantomData)))
             }
         }
     };
+}
+
+macro_rules! create_enums {
+    {
+        $(#[repr($repr:ident/$typ:ty)]
+        enum $name:ident {
+            $($(#[doc = $doc:literal])?
+            $member:ident = $value:ident,)*
+        })*
+    } => {
+        $(
+        #[non_exhaustive]
+        #[repr($repr)]
+        #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
+        pub enum $name {
+            $($(#[doc = $doc])?
+            $member = bindings::$value,)*
+            #[doc(hidden)]
+            Unknown = 9999,
+        }
+        impl From<$typ> for $name {
+            fn from(x: $typ) -> Self {
+                match x {
+                    $(bindings::$value => Self::$member,)*
+                    _ => Self::Unknown,
+                }
+            }
+        }
+        )*
+    }
 }
 
 create_struct!(config_file, ConfigFile, ConfigFileMut);
@@ -48,6 +81,15 @@ create_struct!(slabhash, SlabHash, SlabHashMut);
 create_struct!(rrset_cache, RrsetCache, RrsetCacheMut);
 create_struct!(infra_cache, InfraCache, InfraCacheMut);
 create_struct!(key_cache, KeyCache, KeyCacheMut);
+create_struct!(outbound_entry, OutboundEntry, OutboundEntryMut);
+create_struct!(query_info, QueryInfo, QueryInfoMut);
+create_struct!(dns_msg, DnsMsg, DnsMsgMut);
+create_struct!(reply_info, ReplyInfo, ReplyInfoMut);
+create_struct!(ub_packed_rrset_key, UbPackedRrsetKey, UbPackedRrsetKeyMut);
+create_struct!(lruhash_entry, LruHashEntry, LruHashEntryMut);
+create_struct!(packed_rrset_key, PackedRrsetKey, PackedRrsetKeyMut);
+create_struct!(packed_rrset_data, PackedRrsetData, PackedRrsetDataMut);
+
 pub struct ModuleEnv<'a, T>(
     pub(crate) *mut module_env,
     pub(crate) c_int,
@@ -72,14 +114,6 @@ impl<'a, T> Deref for ModuleQstateMut<'a, T> {
         &self.0
     }
 }
-create_struct!(outbound_entry, OutboundEntry, OutboundEntryMut);
-create_struct!(query_info, QueryInfo, QueryInfoMut);
-create_struct!(dns_msg, DnsMsg, DnsMsgMut);
-create_struct!(reply_info, ReplyInfo, ReplyInfoMut);
-create_struct!(ub_packed_rrset_key, UbPackedRrsetKey, UbPackedRrsetKeyMut);
-create_struct!(lruhash_entry, LruHashEntry, LruHashEntryMut);
-create_struct!(packed_rrset_key, PackedRrsetKey, PackedRrsetKeyMut);
-create_struct!(packed_rrset_data, PackedRrsetData, PackedRrsetDataMut);
 
 impl<'a> QueryInfo<'a> {
     pub fn qname(&self) -> &CStr {
@@ -443,208 +477,118 @@ impl PackedRrsetData<'_> {
 
 type RrsetIdType = rrset_id_type;
 
-#[non_exhaustive]
-#[repr(u32)]
-#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
-pub enum ModuleEvent {
-    /// new query
-    New = bindings::module_ev_module_event_new,
-    /// query passed by other module
-    Pass = bindings::module_ev_module_event_pass,
-    /// reply inbound from server
-    Reply = bindings::module_ev_module_event_reply,
-    /// no reply, timeout or other error
-    NoReply = bindings::module_ev_module_event_noreply,
-    /// reply is there, but capitalisation check failed
-    CapsFail = bindings::module_ev_module_event_capsfail,
-    /// next module is done, and its reply is awaiting you
-    ModDone = bindings::module_ev_module_event_moddone,
-    /// error
-    Error = bindings::module_ev_module_event_error,
-    Unknown = 99,
-}
-
-impl From<module_ev> for ModuleEvent {
-    fn from(value: module_ev) -> Self {
-        match value {
-            bindings::module_ev_module_event_new => Self::New,
-            bindings::module_ev_module_event_pass => Self::Pass,
-            bindings::module_ev_module_event_reply => Self::Reply,
-            bindings::module_ev_module_event_noreply => Self::NoReply,
-            bindings::module_ev_module_event_capsfail => Self::CapsFail,
-            bindings::module_ev_module_event_moddone => Self::ModDone,
-            bindings::module_ev_module_event_error => Self::Error,
-            _ => Self::Unknown,
-        }
+create_enums! {
+    #[repr(u32/module_ev)]
+    enum ModuleEvent {
+        #[doc = " new query"]
+        New = module_ev_module_event_new,
+        #[doc = " query passed by other module"]
+        Pass = module_ev_module_event_pass,
+        #[doc = " reply inbound from server"]
+        Reply = module_ev_module_event_reply,
+        #[doc = " no reply, timeout or other error"]
+        NoReply = module_ev_module_event_noreply,
+        #[doc = " reply is there, but capitalisation check failed"]
+        CapsFail = module_ev_module_event_capsfail,
+        #[doc = " next module is done, and its reply is awaiting you"]
+        ModDone = module_ev_module_event_moddone,
+        #[doc = " error"]
+        Error = module_ev_module_event_error,
     }
-}
 
-#[non_exhaustive]
-#[repr(u32)]
-#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
-pub enum SecStatus {
-    /// UNCHECKED means that object has yet to be validated.
-    Unchecked = bindings::sec_status_sec_status_unchecked,
-    /// BOGUS means that the object (RRset or message) failed to validate\n  (according to local policy), but should have validated.
-    Bogus = bindings::sec_status_sec_status_bogus,
-    /// INDETERMINATE means that the object is insecure, but not\n authoritatively so. Generally this means that the RRset is not\n below a configured trust anchor.
-    Indeterminate = bindings::sec_status_sec_status_indeterminate,
-    /// INSECURE means that the object is authoritatively known to be\n insecure. Generally this means that this RRset is below a trust\n anchor, but also below a verified, insecure delegation.
-    Insecure = bindings::sec_status_sec_status_insecure,
-    /// SECURE_SENTINEL_FAIL means that the object (RRset or message)\n validated according to local policy but did not succeed in the root\n KSK sentinel test (draft-ietf-dnsop-kskroll-sentinel).
-    SecureSentinelFail = bindings::sec_status_sec_status_secure_sentinel_fail,
-    /// SECURE means that the object (RRset or message) validated\n according to local policy.
-    Secure = bindings::sec_status_sec_status_secure,
-    Unknown = 99,
-}
-
-impl From<sec_status> for SecStatus {
-    fn from(value: module_ev) -> Self {
-        match value {
-            bindings::sec_status_sec_status_unchecked => Self::Unchecked,
-            bindings::sec_status_sec_status_bogus => Self::Bogus,
-            bindings::sec_status_sec_status_indeterminate => Self::Indeterminate,
-            bindings::sec_status_sec_status_insecure => Self::Insecure,
-            bindings::sec_status_sec_status_secure_sentinel_fail => Self::SecureSentinelFail,
-            bindings::sec_status_sec_status_secure => Self::Secure,
-            _ => Self::Unknown,
-        }
+    #[repr(u32/sec_status)]
+    enum SecStatus {
+        #[doc = " UNCHECKED means that object has yet to be validated."]
+        Unchecked = sec_status_sec_status_unchecked,
+        #[doc = " BOGUS means that the object (RRset or message) failed to validate\n  (according to local policy), but should have validated."]
+        Bogus = sec_status_sec_status_bogus,
+        #[doc = " INDETERMINATE means that the object is insecure, but not\n authoritatively so. Generally this means that the RRset is not\n below a configured trust anchor."]
+        Indeterminate = sec_status_sec_status_indeterminate,
+        #[doc = " INSECURE means that the object is authoritatively known to be\n insecure. Generally this means that this RRset is below a trust\n anchor, but also below a verified, insecure delegation."]
+        Insecure = sec_status_sec_status_insecure,
+        #[doc = " SECURE_SENTINEL_FAIL means that the object (RRset or message)\n validated according to local policy but did not succeed in the root\n KSK sentinel test (draft-ietf-dnsop-kskroll-sentinel)."]
+        SecureSentinelFail = sec_status_sec_status_secure_sentinel_fail,
+        #[doc = " SECURE means that the object (RRset or message) validated\n according to local policy."]
+        Secure = sec_status_sec_status_secure,
     }
-}
 
-#[non_exhaustive]
-#[repr(i32)]
-#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
-pub enum SldnsEdeCode {
-    None = -1,
-    Other = 0,
-    UnsupportedDnskeyAlg = 1,
-    UnsupportedDsDigest = 2,
-    StaleAnswer = 3,
-    ForgedAnswer = 4,
-    DnssecIndeterminate = 5,
-    DnssecBogus = 6,
-    SignatureExpired = 7,
-    SignatureNotYetValid = 8,
-    DnskeyMissing = 9,
-    RrsigsMissing = 10,
-    NoZoneKeyBitSet = 11,
-    NsecMissing = 12,
-    CachedError = 13,
-    NotReady = 14,
-    Blocked = 15,
-    Censored = 16,
-    Filtered = 17,
-    Prohibited = 18,
-    StaleNxdomainAnswer = 19,
-    NotAuthoritative = 20,
-    NotSupported = 21,
-    NoReachableAuthority = 22,
-    NetworkError = 23,
-    InvalidData = 24,
-}
-
-impl From<sldns_enum_ede_code> for SldnsEdeCode {
-    fn from(value: sldns_enum_ede_code) -> Self {
-        match value {
-            -1 => Self::None,
-            0 => Self::Other,
-            1 => Self::UnsupportedDnskeyAlg,
-            2 => Self::UnsupportedDsDigest,
-            3 => Self::StaleAnswer,
-            4 => Self::ForgedAnswer,
-            5 => Self::DnssecIndeterminate,
-            6 => Self::DnssecBogus,
-            7 => Self::SignatureExpired,
-            8 => Self::SignatureNotYetValid,
-            9 => Self::DnskeyMissing,
-            10 => Self::RrsigsMissing,
-            11 => Self::NoZoneKeyBitSet,
-            12 => Self::NsecMissing,
-            13 => Self::CachedError,
-            14 => Self::NotReady,
-            15 => Self::Blocked,
-            16 => Self::Censored,
-            17 => Self::Filtered,
-            18 => Self::Prohibited,
-            19 => Self::StaleNxdomainAnswer,
-            20 => Self::NotAuthoritative,
-            21 => Self::NotSupported,
-            22 => Self::NoReachableAuthority,
-            23 => Self::NetworkError,
-            24 => Self::InvalidData,
-            _ => Self::Other,
-        }
+    #[repr(i32/sldns_enum_ede_code)]
+    enum SldnsEdeCode {
+        None = sldns_enum_ede_code_LDNS_EDE_NONE,
+        Other = sldns_enum_ede_code_LDNS_EDE_OTHER,
+        UnsupportedDnskeyAlg = sldns_enum_ede_code_LDNS_EDE_UNSUPPORTED_DNSKEY_ALG,
+        UnsupportedDsDigest = sldns_enum_ede_code_LDNS_EDE_UNSUPPORTED_DS_DIGEST,
+        StaleAnswer = sldns_enum_ede_code_LDNS_EDE_STALE_ANSWER,
+        ForgedAnswer = sldns_enum_ede_code_LDNS_EDE_FORGED_ANSWER,
+        DnssecIndeterminate = sldns_enum_ede_code_LDNS_EDE_DNSSEC_INDETERMINATE,
+        DnssecBogus = sldns_enum_ede_code_LDNS_EDE_DNSSEC_BOGUS,
+        SignatureExpired = sldns_enum_ede_code_LDNS_EDE_SIGNATURE_EXPIRED,
+        SignatureNotYetValid = sldns_enum_ede_code_LDNS_EDE_SIGNATURE_NOT_YET_VALID,
+        DnskeyMissing = sldns_enum_ede_code_LDNS_EDE_DNSKEY_MISSING,
+        RrsigsMissing = sldns_enum_ede_code_LDNS_EDE_RRSIGS_MISSING,
+        NoZoneKeyBitSet = sldns_enum_ede_code_LDNS_EDE_NO_ZONE_KEY_BIT_SET,
+        NsecMissing = sldns_enum_ede_code_LDNS_EDE_NSEC_MISSING,
+        CachedError = sldns_enum_ede_code_LDNS_EDE_CACHED_ERROR,
+        NotReady = sldns_enum_ede_code_LDNS_EDE_NOT_READY,
+        Blocked = sldns_enum_ede_code_LDNS_EDE_BLOCKED,
+        Censored = sldns_enum_ede_code_LDNS_EDE_CENSORED,
+        Filtered = sldns_enum_ede_code_LDNS_EDE_FILTERED,
+        Prohibited = sldns_enum_ede_code_LDNS_EDE_PROHIBITED,
+        StaleNxdomainAnswer = sldns_enum_ede_code_LDNS_EDE_STALE_NXDOMAIN_ANSWER,
+        NotAuthoritative = sldns_enum_ede_code_LDNS_EDE_NOT_AUTHORITATIVE,
+        NotSupported = sldns_enum_ede_code_LDNS_EDE_NOT_SUPPORTED,
+        NoReachableAuthority = sldns_enum_ede_code_LDNS_EDE_NO_REACHABLE_AUTHORITY,
+        NetworkError = sldns_enum_ede_code_LDNS_EDE_NETWORK_ERROR,
+        InvalidData = sldns_enum_ede_code_LDNS_EDE_INVALID_DATA,
     }
-}
 
-#[non_exhaustive]
-#[repr(u32)]
-#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
-pub enum RrsetTrust {
-    /// Initial value for trust
-    None = bindings::rrset_trust_rrset_trust_none,
-    /// Additional information from non-authoritative answers
-    AddNoAa = bindings::rrset_trust_rrset_trust_add_noAA,
-    /// Data from the authority section of a non-authoritative answer
-    AuthNoAa = bindings::rrset_trust_rrset_trust_auth_noAA,
-    /// Additional information from an authoritative answer
-    AddAa = bindings::rrset_trust_rrset_trust_add_AA,
-    /// non-authoritative data from the answer section of authoritative answers
-    NonauthAnsAa = bindings::rrset_trust_rrset_trust_nonauth_ans_AA,
-    /// Data from the answer section of a non-authoritative answer
-    AnsNoAa = bindings::rrset_trust_rrset_trust_ans_noAA,
-    /// Glue from a primary zone, or glue from a zone transfer
-    Glue = bindings::rrset_trust_rrset_trust_glue,
-    /// Data from the authority section of an authoritative answer
-    AuthAa = bindings::rrset_trust_rrset_trust_auth_AA,
-    /// The authoritative data included in the answer section of an\n  authoritative reply
-    AnsAa = bindings::rrset_trust_rrset_trust_ans_AA,
-    /// Data from a zone transfer, other than glue
-    SecNoglue = bindings::rrset_trust_rrset_trust_sec_noglue,
-    /// Data from a primary zone file, other than glue data
-    PrimNoglue = bindings::rrset_trust_rrset_trust_prim_noglue,
-    /// DNSSEC(rfc4034) validated with trusted keys
-    Validated = bindings::rrset_trust_rrset_trust_validated,
-    /// Ultimately trusted, no more trust is possible,
-    /// trusted keys from the unbound configuration setup.
-    Ultimate = bindings::rrset_trust_rrset_trust_ultimate,
-    Unknown = 99,
-}
-
-impl From<rrset_trust> for RrsetTrust {
-    fn from(value: rrset_trust) -> Self {
-        match value {
-            bindings::rrset_trust_rrset_trust_none => Self::None,
-            bindings::rrset_trust_rrset_trust_add_noAA => Self::AddNoAa,
-            bindings::rrset_trust_rrset_trust_auth_noAA => Self::AuthNoAa,
-            bindings::rrset_trust_rrset_trust_add_AA => Self::AddAa,
-            bindings::rrset_trust_rrset_trust_nonauth_ans_AA => Self::NonauthAnsAa,
-            bindings::rrset_trust_rrset_trust_ans_noAA => Self::AnsNoAa,
-            bindings::rrset_trust_rrset_trust_glue => Self::Glue,
-            bindings::rrset_trust_rrset_trust_auth_AA => Self::AuthAa,
-            bindings::rrset_trust_rrset_trust_ans_AA => Self::AnsAa,
-            bindings::rrset_trust_rrset_trust_sec_noglue => Self::SecNoglue,
-            bindings::rrset_trust_rrset_trust_prim_noglue => Self::PrimNoglue,
-            bindings::rrset_trust_rrset_trust_validated => Self::Validated,
-            bindings::rrset_trust_rrset_trust_ultimate => Self::Ultimate,
-            _ => Self::Unknown,
-        }
+    #[repr(u32/rrset_trust)]
+    enum RrsetTrust {
+        #[doc = " initial value for trust"]
+        None = rrset_trust_rrset_trust_none,
+        #[doc = " Additional information from non-authoritative answers"]
+        AddNoAa = rrset_trust_rrset_trust_add_noAA,
+        #[doc = " Data from the authority section of a non-authoritative answer"]
+        AuthNoAa = rrset_trust_rrset_trust_auth_noAA,
+        #[doc = " Additional information from an authoritative answer"]
+        AddAa = rrset_trust_rrset_trust_add_AA,
+        #[doc = " non-authoritative data from the answer section of authoritative\n answers"]
+        NonauthAnsAa = rrset_trust_rrset_trust_nonauth_ans_AA,
+        #[doc = " Data from the answer section of a non-authoritative answer"]
+        AnsNoAa = rrset_trust_rrset_trust_ans_noAA,
+        #[doc = " Glue from a primary zone, or glue from a zone transfer"]
+        Glue = rrset_trust_rrset_trust_glue,
+        #[doc = " Data from the authority section of an authoritative answer"]
+        AuthAa = rrset_trust_rrset_trust_auth_AA,
+        #[doc = " The authoritative data included in the answer section of an\n  authoritative reply"]
+        AnsAa = rrset_trust_rrset_trust_ans_AA,
+        #[doc = " Data from a zone transfer, other than glue"]
+        SecNoglue = rrset_trust_rrset_trust_sec_noglue,
+        #[doc = " Data from a primary zone file, other than glue data"]
+        PrimNoglue = rrset_trust_rrset_trust_prim_noglue,
+        #[doc = " DNSSEC(rfc4034) validated with trusted keys"]
+        Validated = rrset_trust_rrset_trust_validated,
+        #[doc = " ultimately trusted, no more trust is possible;\n trusted keys from the unbound configuration setup."]
+        Ultimate = rrset_trust_rrset_trust_ultimate,
     }
-}
 
-#[non_exhaustive]
-#[repr(u32)]
-#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
-pub enum ModuleExtState {
-    InitialState = bindings::module_ext_state_module_state_initial,
-    WaitReply = bindings::module_ext_state_module_wait_reply,
-    WaitModule = bindings::module_ext_state_module_wait_module,
-    RestartNext = bindings::module_ext_state_module_restart_next,
-    WaitSubquery = bindings::module_ext_state_module_wait_subquery,
-    Error = bindings::module_ext_state_module_error,
-    Finished = bindings::module_ext_state_module_finished,
-    Unknown = 99,
+    #[repr(u32/module_ext_state)]
+    enum ModuleExtState {
+        #[doc = " initial state - new query"]
+        InitialState = module_ext_state_module_state_initial,
+        #[doc = " waiting for reply to outgoing network query"]
+        WaitReply = module_ext_state_module_wait_reply,
+        #[doc = " module is waiting for another module"]
+        WaitModule = module_ext_state_module_wait_module,
+        #[doc = " module is waiting for another module; that other is restarted"]
+        RestartNext = module_ext_state_module_restart_next,
+        #[doc = " module is waiting for sub-query"]
+        WaitSubquery = module_ext_state_module_wait_subquery,
+        #[doc = " module could not finish the query"]
+        Error = module_ext_state_module_error,
+        #[doc = " module is finished with query"]
+        Finished = module_ext_state_module_finished,
+    }
 }
 
 impl ModuleExtState {
@@ -658,21 +602,6 @@ impl ModuleExtState {
             Self::WaitSubquery => 5,
             Self::WaitReply => 6,
             Self::Error => 7,
-        }
-    }
-}
-
-impl From<module_ext_state> for ModuleExtState {
-    fn from(value: module_ext_state) -> Self {
-        match value {
-            bindings::module_ext_state_module_state_initial => Self::InitialState,
-            bindings::module_ext_state_module_wait_reply => Self::WaitReply,
-            bindings::module_ext_state_module_wait_module => Self::WaitModule,
-            bindings::module_ext_state_module_restart_next => Self::RestartNext,
-            bindings::module_ext_state_module_wait_subquery => Self::WaitSubquery,
-            bindings::module_ext_state_module_error => Self::Error,
-            bindings::module_ext_state_module_finished => Self::Finished,
-            _ => Self::Unknown,
         }
     }
 }
@@ -692,175 +621,181 @@ pub mod rr_class {
 }
 
 pub mod rr_type {
-    pub const A: u16 = 1;
-    /// An authoritative name server
-    pub const NS: u16 = 2;
-    /// A mail destination (Obsolete - use MX)
-    pub const MD: u16 = 3;
-    /// A mail forwarder (Obsolete - use MX)
-    pub const MF: u16 = 4;
-    /// The canonical name for an alias
-    pub const CNAME: u16 = 5;
-    /// Marks the start of a zone of authority
-    pub const SOA: u16 = 6;
-    /// A mailbox domain name (EXPERIMENTAL)
-    pub const MB: u16 = 7;
-    /// A mail group member (EXPERIMENTAL)
-    pub const MG: u16 = 8;
-    /// A mail rename domain name (EXPERIMENTAL)
-    pub const MR: u16 = 9;
-    /// A null RR (EXPERIMENTAL)
-    pub const NULL: u16 = 10;
-    /// A well known service description
-    pub const WKS: u16 = 11;
-    /// A domain name pointer
-    pub const PTR: u16 = 12;
-    /// Host information
-    pub const HINFO: u16 = 13;
-    /// Mailbox or mail list information
-    pub const MINFO: u16 = 14;
-    /// Mail exchange
-    pub const MX: u16 = 15;
-    /// Text strings
-    pub const TXT: u16 = 16;
-    /// rFC1183
-    pub const RP: u16 = 17;
-    /// rFC1183
-    pub const AFSDB: u16 = 18;
-    /// rFC1183
-    pub const X25: u16 = 19;
-    /// rFC1183
-    pub const ISDN: u16 = 20;
-    /// rFC1183
-    pub const RT: u16 = 21;
-    /// rFC1706
-    pub const NSAP: u16 = 22;
-    /// rFC1348
-    pub const NSAP_PTR: u16 = 23;
-    /// 2535typecode
-    pub const SIG: u16 = 24;
-    /// 2535typecode
-    pub const KEY: u16 = 25;
-    /// rFC2163
-    pub const PX: u16 = 26;
-    /// rFC1712
-    pub const GPOS: u16 = 27;
-    /// Ipv6 address
-    pub const AAAA: u16 = 28;
-    /// lOC record  RFC1876
-    pub const LOC: u16 = 29;
-    /// 2535typecode
-    pub const NXT: u16 = 30;
-    /// Draft-ietf-nimrod-dns-01.txt
-    pub const EID: u16 = 31;
-    /// Draft-ietf-nimrod-dns-01.txt
-    pub const NIMLOC: u16 = 32;
-    /// sRV record RFC2782
-    pub const SRV: u16 = 33;
-    /// Http://www.jhsoft.com/rfc/af-saa-0069.000.rtf
-    pub const ATMA: u16 = 34;
-    /// rFC2915
-    pub const NAPTR: u16 = 35;
-    /// rFC2230
-    pub const KX: u16 = 36;
-    /// rFC2538
-    pub const CERT: u16 = 37;
-    /// rFC2874
-    pub const A6: u16 = 38;
-    /// rFC2672
-    pub const DNAME: u16 = 39;
-    /// Dnsind-kitchen-sink-02.txt
-    pub const SINK: u16 = 40;
-    /// pseudo OPT record...
-    pub const OPT: u16 = 41;
-    /// rFC3123
-    pub const APL: u16 = 42;
-    /// rFC4034, RFC3658
-    pub const DS: u16 = 43;
-    /// sSH Key Fingerprint
-    pub const SSHFP: u16 = 44;
-    /// iPsec Key
-    pub const IPSECKEY: u16 = 45;
-    /// dNSSEC
-    pub const RRSIG: u16 = 46;
-    /// dNSSEC
-    pub const NSEC: u16 = 47;
-    /// dNSSEC
-    pub const DNSKEY: u16 = 48;
-    /// dNSSEC
-    pub const DHCID: u16 = 49;
-    /// dNSSEC
-    pub const NSEC3: u16 = 50;
-    /// dNSSEC
-    pub const NSEC3PARAM: u16 = 51;
-    /// dNSSEC
-    pub const NSEC3PARAMS: u16 = 51;
-    /// dNSSEC
-    pub const TLSA: u16 = 52;
-    /// dNSSEC
-    pub const SMIMEA: u16 = 53;
-    /// dNSSEC
-    pub const HIP: u16 = 55;
-    ///draft-reid-dnsext-zs
-    pub const NINFO: u16 = 56;
-    ///draft-reid-dnsext-rkey
-    pub const RKEY: u16 = 57;
-    ///draft-ietf-dnsop-trust-history
-    pub const TALINK: u16 = 58;
-    ///draft-ietf-dnsop-trust-history
-    pub const CDS: u16 = 59;
-    ///RFC 7344
-    pub const CDNSKEY: u16 = 60;
-    ///RFC 7344
-    pub const OPENPGPKEY: u16 = 61;
-    ///RFC 7344
-    pub const CSYNC: u16 = 62;
-    ///RFC 7344
-    pub const ZONEMD: u16 = 63;
-    ///RFC 7344
-    pub const SVCB: u16 = 64;
-    ///RFC 7344
-    pub const HTTPS: u16 = 65;
-    ///RFC 7344
-    pub const SPF: u16 = 99;
-    ///RFC 7344
-    pub const UINFO: u16 = 100;
-    ///RFC 7344
-    pub const UID: u16 = 101;
-    ///RFC 7344
-    pub const GID: u16 = 102;
-    ///RFC 7344
-    pub const UNSPEC: u16 = 103;
-    ///RFC 7344
-    pub const NID: u16 = 104;
-    ///RFC 7344
-    pub const L32: u16 = 105;
-    ///RFC 7344
-    pub const L64: u16 = 106;
-    ///RFC 7344
-    pub const LP: u16 = 107;
-    ///draft-jabley-dnsext-eui48-eui64-rrtypes
-    pub const EUI48: u16 = 108;
-    ///draft-jabley-dnsext-eui48-eui64-rrtypes
-    pub const EUI64: u16 = 109;
-    ///draft-jabley-dnsext-eui48-eui64-rrtypes
-    pub const TKEY: u16 = 249;
-    ///draft-jabley-dnsext-eui48-eui64-rrtypes
-    pub const TSIG: u16 = 250;
-    ///draft-jabley-dnsext-eui48-eui64-rrtypes
-    pub const IXFR: u16 = 251;
-    ///draft-jabley-dnsext-eui48-eui64-rrtypes
-    pub const AXFR: u16 = 252;
-    /// a request for mailbox-related records (MB, MG or MR)
-    pub const MAILB: u16 = 253;
-    /// a request for mail agent RRs (Obsolete - see MX)
-    pub const MAILA: u16 = 254;
-    /// Any type (wildcard)
-    pub const ANY: u16 = 255;
-    pub const URI: u16 = 256;
-    pub const CAA: u16 = 257;
-    pub const AVC: u16 = 258;
-    ///DNSSEC trust Authorities
-    pub const TA: u16 = 32768;
-    pub const DLV: u16 = 32769;
+    use crate::bindings;
+    #[doc = "  a host address"]
+    pub const A: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_A as u16;
+    #[doc = "  an authoritative name server"]
+    pub const NS: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_NS as u16;
+    #[doc = "  a mail destination (Obsolete - use MX)"]
+    pub const MD: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_MD as u16;
+    #[doc = "  a mail forwarder (Obsolete - use MX)"]
+    pub const MF: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_MF as u16;
+    #[doc = "  the canonical name for an alias"]
+    pub const CNAME: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_CNAME as u16;
+    #[doc = "  marks the start of a zone of authority"]
+    pub const SOA: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_SOA as u16;
+    #[doc = "  a mailbox domain name (EXPERIMENTAL)"]
+    pub const MB: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_MB as u16;
+    #[doc = "  a mail group member (EXPERIMENTAL)"]
+    pub const MG: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_MG as u16;
+    #[doc = "  a mail rename domain name (EXPERIMENTAL)"]
+    pub const MR: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_MR as u16;
+    #[doc = "  a null RR (EXPERIMENTAL)"]
+    pub const NULL: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_NULL as u16;
+    #[doc = "  a well known service description"]
+    pub const WKS: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_WKS as u16;
+    #[doc = "  a domain name pointer"]
+    pub const PTR: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_PTR as u16;
+    #[doc = "  host information"]
+    pub const HINFO: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_HINFO as u16;
+    #[doc = "  mailbox or mail list information"]
+    pub const MINFO: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_MINFO as u16;
+    #[doc = "  mail exchange"]
+    pub const MX: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_MX as u16;
+    #[doc = "  text strings"]
+    pub const TXT: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_TXT as u16;
+    #[doc = "  RFC1183"]
+    pub const RP: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_RP as u16;
+    #[doc = "  RFC1183"]
+    pub const AFSDB: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_AFSDB as u16;
+    #[doc = "  RFC1183"]
+    pub const X25: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_X25 as u16;
+    #[doc = "  RFC1183"]
+    pub const ISDN: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_ISDN as u16;
+    #[doc = "  RFC1183"]
+    pub const RT: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_RT as u16;
+    #[doc = "  RFC1706"]
+    pub const NSAP: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_NSAP as u16;
+    #[doc = "  RFC1348"]
+    pub const NSAP_PTR: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_NSAP_PTR as u16;
+    #[doc = "  2535typecode"]
+    pub const SIG: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_SIG as u16;
+    #[doc = "  2535typecode"]
+    pub const KEY: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_KEY as u16;
+    #[doc = "  RFC2163"]
+    pub const PX: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_PX as u16;
+    #[doc = "  RFC1712"]
+    pub const GPOS: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_GPOS as u16;
+    #[doc = "  ipv6 address"]
+    pub const AAAA: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_AAAA as u16;
+    #[doc = "  LOC record  RFC1876"]
+    pub const LOC: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_LOC as u16;
+    #[doc = "  2535typecode"]
+    pub const NXT: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_NXT as u16;
+    #[doc = "  draft-ietf-nimrod-dns-01.txt"]
+    pub const EID: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_EID as u16;
+    #[doc = "  draft-ietf-nimrod-dns-01.txt"]
+    pub const NIMLOC: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_NIMLOC as u16;
+    #[doc = "  SRV record RFC2782"]
+    pub const SRV: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_SRV as u16;
+    #[doc = "  http://www.jhsoft.com/rfc/af-saa-0069.000.rtf"]
+    pub const ATMA: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_ATMA as u16;
+    #[doc = "  RFC2915"]
+    pub const NAPTR: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_NAPTR as u16;
+    #[doc = "  RFC2230"]
+    pub const KX: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_KX as u16;
+    #[doc = "  RFC2538"]
+    pub const CERT: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_CERT as u16;
+    #[doc = "  RFC2874"]
+    pub const A6: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_A6 as u16;
+    #[doc = "  RFC2672"]
+    pub const DNAME: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_DNAME as u16;
+    #[doc = "  dnsind-kitchen-sink-02.txt"]
+    pub const SINK: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_SINK as u16;
+    #[doc = "  Pseudo OPT record..."]
+    pub const OPT: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_OPT as u16;
+    #[doc = "  RFC3123"]
+    pub const APL: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_APL as u16;
+    #[doc = "  RFC4034, RFC3658"]
+    pub const DS: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_DS as u16;
+    #[doc = "  SSH Key Fingerprint"]
+    pub const SSHFP: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_SSHFP as u16;
+    #[doc = "  IPsec Key"]
+    pub const IPSECKEY: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_IPSECKEY as u16;
+    #[doc = "  DNSSEC"]
+    pub const RRSIG: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_RRSIG as u16;
+    #[doc = "  DNSSEC"]
+    pub const NSEC: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_NSEC as u16;
+    #[doc = "  DNSSEC"]
+    pub const DNSKEY: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_DNSKEY as u16;
+    #[doc = "  DNSSEC"]
+    pub const DHCID: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_DHCID as u16;
+    #[doc = "  DNSSEC"]
+    pub const NSEC3: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_NSEC3 as u16;
+    #[doc = "  DNSSEC"]
+    pub const NSEC3PARAM: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_NSEC3PARAM as u16;
+    #[doc = "  DNSSEC"]
+    pub const NSEC3PARAMS: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_NSEC3PARAMS as u16;
+    #[doc = "  DNSSEC"]
+    pub const TLSA: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_TLSA as u16;
+    #[doc = "  DNSSEC"]
+    pub const SMIMEA: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_SMIMEA as u16;
+    #[doc = "  DNSSEC"]
+    pub const HIP: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_HIP as u16;
+    #[doc = " draft-reid-dnsext-zs"]
+    pub const NINFO: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_NINFO as u16;
+    #[doc = " draft-reid-dnsext-rkey"]
+    pub const RKEY: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_RKEY as u16;
+    #[doc = " draft-ietf-dnsop-trust-history"]
+    pub const TALINK: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_TALINK as u16;
+    #[doc = " draft-ietf-dnsop-trust-history"]
+    pub const CDS: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_CDS as u16;
+    #[doc = " RFC 7344"]
+    pub const CDNSKEY: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_CDNSKEY as u16;
+    #[doc = " RFC 7344"]
+    pub const OPENPGPKEY: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_OPENPGPKEY as u16;
+    #[doc = " RFC 7344"]
+    pub const CSYNC: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_CSYNC as u16;
+    #[doc = " RFC 7344"]
+    pub const ZONEMD: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_ZONEMD as u16;
+    #[doc = " RFC 7344"]
+    pub const SVCB: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_SVCB as u16;
+    #[doc = " RFC 7344"]
+    pub const HTTPS: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_HTTPS as u16;
+    #[doc = " RFC 7344"]
+    pub const SPF: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_SPF as u16;
+    #[doc = " RFC 7344"]
+    pub const UINFO: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_UINFO as u16;
+    #[doc = " RFC 7344"]
+    pub const UID: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_UID as u16;
+    #[doc = " RFC 7344"]
+    pub const GID: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_GID as u16;
+    #[doc = " RFC 7344"]
+    pub const UNSPEC: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_UNSPEC as u16;
+    #[doc = " RFC 7344"]
+    pub const NID: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_NID as u16;
+    #[doc = " RFC 7344"]
+    pub const L32: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_L32 as u16;
+    #[doc = " RFC 7344"]
+    pub const L64: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_L64 as u16;
+    #[doc = " RFC 7344"]
+    pub const LP: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_LP as u16;
+    #[doc = " draft-jabley-dnsext-eui48-eui64-rrtypes"]
+    pub const EUI48: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_EUI48 as u16;
+    #[doc = " draft-jabley-dnsext-eui48-eui64-rrtypes"]
+    pub const EUI64: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_EUI64 as u16;
+    #[doc = " draft-jabley-dnsext-eui48-eui64-rrtypes"]
+    pub const TKEY: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_TKEY as u16;
+    #[doc = " draft-jabley-dnsext-eui48-eui64-rrtypes"]
+    pub const TSIG: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_TSIG as u16;
+    #[doc = " draft-jabley-dnsext-eui48-eui64-rrtypes"]
+    pub const IXFR: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_IXFR as u16;
+    #[doc = " draft-jabley-dnsext-eui48-eui64-rrtypes"]
+    pub const AXFR: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_AXFR as u16;
+    #[doc = "  A request for mailbox-related records (MB, MG or MR)"]
+    pub const MAILB: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_MAILB as u16;
+    #[doc = "  A request for mail agent RRs (Obsolete - see MX)"]
+    pub const MAILA: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_MAILA as u16;
+    #[doc = "  any type (wildcard)"]
+    pub const ANY: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_ANY as u16;
+    #[doc = "  any type (wildcard)"]
+    pub const URI: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_URI as u16;
+    #[doc = "  any type (wildcard)"]
+    pub const CAA: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_CAA as u16;
+    #[doc = "  any type (wildcard)"]
+    pub const AVC: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_AVC as u16;
+    #[doc = " DNSSEC Trust Authorities"]
+    pub const TA: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_TA as u16;
+    #[doc = " DNSSEC Trust Authorities"]
+    pub const DLV: u16 = bindings::sldns_enum_rr_type_LDNS_RR_TYPE_DLV as u16;
 }
