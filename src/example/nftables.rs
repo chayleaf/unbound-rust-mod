@@ -471,7 +471,7 @@ pub(crate) fn nftables_thread(
         }
     }
     let socket = mnl::Socket::new(mnl::Bus::Netfilter).unwrap();
-    let all_sets = crate::nftables::get_sets(&socket).unwrap();
+    let all_sets = get_sets(&socket).unwrap();
     for set in all_sets {
         for ruleset in &mut rulesets {
             if set.table_name_str() == Some("global") && set.family() == libc::NFPROTO_INET as u32 {
@@ -531,9 +531,7 @@ mod test {
     use ipnet::{Ipv4Net, Ipv6Net};
     use iptrie::RTrieSet;
 
-    use crate::nftables::{iter_ip_trie, should_add};
-
-    use super::get_sets;
+    use super::{get_sets, iter_ip_trie, should_add};
 
     #[test]
     fn test_nftables() {

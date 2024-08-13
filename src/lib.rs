@@ -15,11 +15,9 @@ use unbound::ModuleExtState;
 )]
 mod bindings;
 mod combine;
-mod domain_tree;
 #[cfg(feature = "example")]
 mod example;
 mod exports;
-mod nftables;
 mod unbound;
 
 pub trait UnboundMod: Send + Sync + Sized + RefUnwindSafe + UnwindSafe {

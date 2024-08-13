@@ -22,14 +22,22 @@ use serde::{
 use smallvec::SmallVec;
 
 use crate::{
-    domain_tree::PrefixSet,
-    nftables::{nftables_thread, NftData},
     unbound::{rr_class, rr_type, ModuleEvent, ModuleExtState, ReplyInfo},
     UnboundMod,
 };
+use domain_tree::PrefixSet;
+use nftables::{nftables_thread, NftData};
+
+mod domain_tree;
+mod nftables;
 
 type Domain = SmallVec<[u8; 32]>;
 type DomainSeg = SmallVec<[u8; 16]>;
+
+#[ctor]
+fn setup() {
+    crate::set_unbound_mod::<ExampleMod>();
+}
 
 struct IpNetDeser(IpNet);
 struct IpNetVisitor;
@@ -736,11 +744,6 @@ impl UnboundMod for ExampleMod {
         }
         Some(ModuleExtState::Finished)
     }
-}
-
-#[ctor]
-fn setup() {
-    crate::set_unbound_mod::<ExampleMod>();
 }
 
 #[cfg(test)]
