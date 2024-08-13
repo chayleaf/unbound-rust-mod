@@ -21,10 +21,10 @@
           cp ${./dummy.h} ./dummy.h
           opts=()
           for file in **/*.h; do
-            opts+=(--allowlist-file "$PWD/$file")
+            opts+=(--allowlist-file ".*/$file")
           done
 
-          bindgen --no-layout-tests "''${opts[@]}" dummy.h -- -I "$PWD" > "$out"
+          bindgen --no-layout-tests "''${opts[@]}" dummy.h -- -I "$PWD" $(grep ^CPPFLAGS= config.log | sed "s/.*='//;s/'//" | head -c-1 && grep ^CFLAGS= config.log | sed "s/.*-pthread//;s/'//") > "$out"
         '';
       });
       unbound-mod = let

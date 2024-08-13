@@ -138,7 +138,105 @@ pub const LDNS_NSCOUNT_OFF: u32 = 8;
 pub const LDNS_ARCOUNT_OFF: u32 = 10;
 pub const MAX_MODULE: u32 = 16;
 pub const MAX_KNOWN_EDNS_OPTS: u32 = 256;
+pub const DNSCRYPT_MAGIC_HEADER_LEN: u32 = 8;
+pub const DNSCRYPT_MAGIC_RESPONSE: &[u8; 9] = b"r6fnvWj8\0";
+pub const DNSCRYPT_MAX_PADDING: u32 = 256;
+pub const DNSCRYPT_BLOCK_SIZE: u32 = 64;
+pub const DNSCRYPT_MIN_PAD_LEN: u32 = 8;
+pub const CERT_MAGIC_CERT: &[u8; 5] = b"DNSC\0";
+pub const CERT_MAJOR_VERSION: u32 = 1;
+pub const CERT_MINOR_VERSION: u32 = 0;
+pub const CERT_OLD_MAGIC_HEADER: &[u8; 9] = b"7PYqwfzt\0";
+pub const CERT_FILE_EXPIRE_DAYS: u32 = 365;
+pub const DNSCRYPT_RESPONSE_HEADER_SIZE: u32 = 48;
+pub const NETEVENT_NOERROR: u32 = 0;
+pub const NETEVENT_CLOSED: i32 = -1;
+pub const NETEVENT_TIMEOUT: i32 = -2;
+pub const NETEVENT_CAPSFAIL: i32 = -3;
+pub const NETEVENT_DONE: i32 = -4;
+pub const NETEVENT_PKT_WRITTEN: i32 = -5;
+pub const NETEVENT_SLOW_ACCEPT_TIME: u32 = 2000;
+pub const SLOW_LOG_TIME: u32 = 10;
+pub const ZONEMD_SCHEME_SIMPLE: u32 = 1;
+pub const ZONEMD_ALGO_SHA384: u32 = 1;
+pub const ZONEMD_ALGO_SHA512: u32 = 2;
+pub const NUM_BUCKETS_HIST: u32 = 40;
+pub const UB_STATS_QTYPE_NUM: u32 = 256;
+pub const UB_STATS_QCLASS_NUM: u32 = 256;
+pub const UB_STATS_RCODE_NUM: u32 = 16;
+pub const UB_STATS_OPCODE_NUM: u32 = 16;
+pub const UB_STATS_BUCKET_NUM: u32 = 40;
+pub const UB_STATS_RPZ_ACTION_NUM: u32 = 10;
+pub const MESH_MAX_ACTIVATION: u32 = 10000;
+pub const MESH_MAX_SUBSUB: u32 = 1024;
+pub const ITERATOR_NAME_CACHELOOKUP_MAX: u32 = 3;
+pub const ITERATOR_NAME_CACHELOOKUP_MAX_PSIDE: u32 = 5;
+pub const LDNS_IP4ADDRLEN: u32 = 4;
+pub const LDNS_IP6ADDRLEN: u32 = 16;
+pub const LDNS_RR_BUF_SIZE: u32 = 65535;
+pub const LDNS_DEFAULT_TTL: u32 = 3600;
+pub const SVCB_KEY_MANDATORY: u32 = 0;
+pub const SVCB_KEY_ALPN: u32 = 1;
+pub const SVCB_KEY_NO_DEFAULT_ALPN: u32 = 2;
+pub const SVCB_KEY_PORT: u32 = 3;
+pub const SVCB_KEY_IPV4HINT: u32 = 4;
+pub const SVCB_KEY_ECH: u32 = 5;
+pub const SVCB_KEY_IPV6HINT: u32 = 6;
+pub const SVCB_KEY_DOHPATH: u32 = 7;
+pub const SVCPARAMKEY_COUNT: u32 = 8;
+pub const MAX_NUMBER_OF_SVCPARAMS: u32 = 64;
+pub const SVCB_MAX_COMMA_SEPARATED_VALUES: u32 = 1000;
+pub const LDNS_WIREPARSE_MASK: u32 = 4095;
+pub const LDNS_WIREPARSE_SHIFT: u32 = 12;
+pub const LDNS_WIREPARSE_ERR_OK: u32 = 0;
+pub const LDNS_WIREPARSE_ERR_GENERAL: u32 = 342;
+pub const LDNS_WIREPARSE_ERR_DOMAINNAME_OVERFLOW: u32 = 343;
+pub const LDNS_WIREPARSE_ERR_DOMAINNAME_UNDERFLOW: u32 = 344;
+pub const LDNS_WIREPARSE_ERR_BUFFER_TOO_SMALL: u32 = 345;
+pub const LDNS_WIREPARSE_ERR_LABEL_OVERFLOW: u32 = 346;
+pub const LDNS_WIREPARSE_ERR_EMPTY_LABEL: u32 = 347;
+pub const LDNS_WIREPARSE_ERR_SYNTAX_BAD_ESCAPE: u32 = 348;
+pub const LDNS_WIREPARSE_ERR_SYNTAX: u32 = 349;
+pub const LDNS_WIREPARSE_ERR_SYNTAX_TTL: u32 = 350;
+pub const LDNS_WIREPARSE_ERR_SYNTAX_TYPE: u32 = 351;
+pub const LDNS_WIREPARSE_ERR_SYNTAX_CLASS: u32 = 352;
+pub const LDNS_WIREPARSE_ERR_SYNTAX_RDATA: u32 = 353;
+pub const LDNS_WIREPARSE_ERR_SYNTAX_MISSING_VALUE: u32 = 354;
+pub const LDNS_WIREPARSE_ERR_INVALID_STR: u32 = 355;
+pub const LDNS_WIREPARSE_ERR_SYNTAX_B64: u32 = 356;
+pub const LDNS_WIREPARSE_ERR_SYNTAX_B32_EXT: u32 = 357;
+pub const LDNS_WIREPARSE_ERR_SYNTAX_HEX: u32 = 358;
+pub const LDNS_WIREPARSE_ERR_CERT_BAD_ALGORITHM: u32 = 359;
+pub const LDNS_WIREPARSE_ERR_SYNTAX_TIME: u32 = 360;
+pub const LDNS_WIREPARSE_ERR_SYNTAX_PERIOD: u32 = 361;
+pub const LDNS_WIREPARSE_ERR_SYNTAX_ILNP64: u32 = 362;
+pub const LDNS_WIREPARSE_ERR_SYNTAX_EUI48: u32 = 363;
+pub const LDNS_WIREPARSE_ERR_SYNTAX_EUI64: u32 = 364;
+pub const LDNS_WIREPARSE_ERR_SYNTAX_TAG: u32 = 365;
+pub const LDNS_WIREPARSE_ERR_NOT_IMPL: u32 = 366;
+pub const LDNS_WIREPARSE_ERR_SYNTAX_INT: u32 = 367;
+pub const LDNS_WIREPARSE_ERR_SYNTAX_IP4: u32 = 368;
+pub const LDNS_WIREPARSE_ERR_SYNTAX_IP6: u32 = 369;
+pub const LDNS_WIREPARSE_ERR_SYNTAX_INTEGER_OVERFLOW: u32 = 370;
+pub const LDNS_WIREPARSE_ERR_INCLUDE: u32 = 371;
+pub const LDNS_WIREPARSE_ERR_PARENTHESIS: u32 = 372;
+pub const LDNS_WIREPARSE_ERR_SVCB_UNKNOWN_KEY: u32 = 373;
+pub const LDNS_WIREPARSE_ERR_SVCB_MISSING_PARAM: u32 = 374;
+pub const LDNS_WIREPARSE_ERR_SVCB_TOO_MANY_PARAMS: u32 = 375;
+pub const LDNS_WIREPARSE_ERR_SVCB_DUPLICATE_KEYS: u32 = 376;
+pub const LDNS_WIREPARSE_ERR_SVCB_MANDATORY_TOO_MANY_KEYS: u32 = 377;
+pub const LDNS_WIREPARSE_ERR_SVCB_MANDATORY_MISSING_PARAM: u32 = 378;
+pub const LDNS_WIREPARSE_ERR_SVCB_MANDATORY_DUPLICATE_KEY: u32 = 379;
+pub const LDNS_WIREPARSE_ERR_SVCB_MANDATORY_IN_MANDATORY: u32 = 380;
+pub const LDNS_WIREPARSE_ERR_SVCB_PORT_VALUE_SYNTAX: u32 = 381;
+pub const LDNS_WIREPARSE_ERR_SVCB_IPV4_TOO_MANY_ADDRESSES: u32 = 382;
+pub const LDNS_WIREPARSE_ERR_SVCB_IPV6_TOO_MANY_ADDRESSES: u32 = 383;
+pub const LDNS_WIREPARSE_ERR_SVCB_ALPN_KEY_TOO_LARGE: u32 = 384;
+pub const LDNS_WIREPARSE_ERR_SVCB_NO_DEFAULT_ALPN_VALUE: u32 = 385;
+pub const LDNS_WIREPARSE_ERR_SVCPARAM_BROKEN_RDATA: u32 = 386;
 pub type __gnuc_va_list = __builtin_va_list;
+pub type __uid_t = ::std::os::raw::c_uint;
+pub type __gid_t = ::std::os::raw::c_uint;
 pub type __off_t = ::std::os::raw::c_long;
 pub type __off64_t = ::std::os::raw::c_long;
 pub type __time_t = ::std::os::raw::c_long;
@@ -195,6 +293,8 @@ pub struct _IO_FILE {
     pub _unused2: [::std::os::raw::c_char; 20usize],
 }
 pub type va_list = __gnuc_va_list;
+pub type gid_t = __gid_t;
+pub type uid_t = __uid_t;
 pub type socklen_t = __socklen_t;
 pub type time_t = __time_t;
 #[repr(C)]
@@ -258,10 +358,47 @@ pub type pthread_spinlock_t = ::std::os::raw::c_int;
 pub type sa_family_t = ::std::os::raw::c_ushort;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
+pub struct sockaddr {
+    pub sa_family: sa_family_t,
+    pub sa_data: [::std::os::raw::c_char; 14usize],
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
 pub struct sockaddr_storage {
     pub ss_family: sa_family_t,
     pub __ss_padding: [::std::os::raw::c_char; 118usize],
     pub __ss_align: ::std::os::raw::c_ulong,
+}
+pub type in_addr_t = u32;
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct in_addr {
+    pub s_addr: in_addr_t,
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct in_pktinfo {
+    pub ipi_ifindex: ::std::os::raw::c_int,
+    pub ipi_spec_dst: in_addr,
+    pub ipi_addr: in_addr,
+}
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct in6_addr {
+    pub __in6_u: in6_addr__bindgen_ty_1,
+}
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub union in6_addr__bindgen_ty_1 {
+    pub __u6_addr8: [u8; 16usize],
+    pub __u6_addr16: [u16; 8usize],
+    pub __u6_addr32: [u32; 4usize],
+}
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct in6_pktinfo {
+    pub ipi6_addr: in6_addr,
+    pub ipi6_ifindex: ::std::os::raw::c_uint,
 }
 #[doc = " 0 - no verbose messages"]
 pub const verbosity_value_NO_VERBOSE: verbosity_value = 0;
@@ -421,11 +558,6 @@ pub struct lruhash_entry {
 pub struct alloc_cache {
     _unused: [u8; 0],
 }
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct regional {
-    _unused: [u8; 0],
-}
 #[doc = " type used to uniquely identify rrsets. Cannot be reused without\n clearing the cache."]
 pub type rrset_id_type = u64;
 #[doc = " The identifying information for an RRset."]
@@ -454,6 +586,34 @@ pub struct ub_packed_rrset_key {
     #[doc = " key data: dname, type and class"]
     pub rk: packed_rrset_key,
 }
+#[doc = " initial value for trust"]
+pub const rrset_trust_rrset_trust_none: rrset_trust = 0;
+#[doc = " Additional information from non-authoritative answers"]
+pub const rrset_trust_rrset_trust_add_noAA: rrset_trust = 1;
+#[doc = " Data from the authority section of a non-authoritative answer"]
+pub const rrset_trust_rrset_trust_auth_noAA: rrset_trust = 2;
+#[doc = " Additional information from an authoritative answer"]
+pub const rrset_trust_rrset_trust_add_AA: rrset_trust = 3;
+#[doc = " non-authoritative data from the answer section of authoritative\n answers"]
+pub const rrset_trust_rrset_trust_nonauth_ans_AA: rrset_trust = 4;
+#[doc = " Data from the answer section of a non-authoritative answer"]
+pub const rrset_trust_rrset_trust_ans_noAA: rrset_trust = 5;
+#[doc = " Glue from a primary zone, or glue from a zone transfer"]
+pub const rrset_trust_rrset_trust_glue: rrset_trust = 6;
+#[doc = " Data from the authority section of an authoritative answer"]
+pub const rrset_trust_rrset_trust_auth_AA: rrset_trust = 7;
+#[doc = " The authoritative data included in the answer section of an\n  authoritative reply"]
+pub const rrset_trust_rrset_trust_ans_AA: rrset_trust = 8;
+#[doc = " Data from a zone transfer, other than glue"]
+pub const rrset_trust_rrset_trust_sec_noglue: rrset_trust = 9;
+#[doc = " Data from a primary zone file, other than glue data"]
+pub const rrset_trust_rrset_trust_prim_noglue: rrset_trust = 10;
+#[doc = " DNSSEC(rfc4034) validated with trusted keys"]
+pub const rrset_trust_rrset_trust_validated: rrset_trust = 11;
+#[doc = " ultimately trusted, no more trust is possible;\n trusted keys from the unbound configuration setup."]
+pub const rrset_trust_rrset_trust_ultimate: rrset_trust = 12;
+#[doc = " RRset trustworthiness. Bigger value is more trust. RFC 2181.\n The rrset_trust_add_noAA, rrset_trust_auth_noAA, rrset_trust_add_AA,\n are mentioned as the same trustworthiness in 2181, but split up here\n for ease of processing.\n\n rrset_trust_nonauth_ans_AA, rrset_trust_ans_noAA\n are also mentioned as the same trustworthiness in 2181, but split up here\n for ease of processing.\n\n Added trust_none for a sane initial value, smaller than anything else.\n Added validated and ultimate trust for keys and rrsig validated content."]
+pub type rrset_trust = ::std::os::raw::c_uint;
 #[doc = " UNCHECKED means that object has yet to be validated."]
 pub const sec_status_sec_status_unchecked: sec_status = 0;
 #[doc = " BOGUS means that the object (RRset or message) failed to validate\n  (according to local policy), but should have validated."]
@@ -468,6 +628,29 @@ pub const sec_status_sec_status_secure_sentinel_fail: sec_status = 4;
 pub const sec_status_sec_status_secure: sec_status = 5;
 #[doc = " Security status from validation for data.\n The order is significant; more secure, more proven later."]
 pub type sec_status = ::std::os::raw::c_uint;
+#[doc = " RRset data.\n\n The data is packed, stored contiguously in memory.\n\n It is not always stored contiguously, in that case, an unpacked-packed\n rrset has the arrays separate.  A bunch of routines work on that, but\n the packed rrset that is contiguous is for the rrset-cache and the\n cache-response routines in daemon/worker.c.\n\n memory layout:\n\to base struct\n\to rr_len size_t array\n\to rr_data uint8_t* array\n\to rr_ttl time_t array (after size_t and ptrs because those may be\n\t\t64bit and this array before those would make them unaligned).\n\t\tSince the stuff before is 32/64bit, rr_ttl is 32 bit aligned.\n\to rr_data rdata wireformats\n\to rrsig_data rdata wireformat(s)\n\n Rdata is stored in wireformat. The dname is stored in wireformat.\n TTLs are stored as absolute values (and could be expired).\n\n RRSIGs are stored in the arrays after the regular rrs.\n\n You need the packed_rrset_key to know dname, type, class of the\n resource records in this RRset. (if signed the rrsig gives the type too).\n\n On the wire an RR is:\n\tname, type, class, ttl, rdlength, rdata.\n So we need to send the following per RR:\n\tkey.dname, ttl, rr_data[i].\n\tsince key.dname ends with type and class.\n\tand rr_data starts with the rdlength.\n\tthe ttl value to send changes due to time."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct packed_rrset_data {
+    #[doc = " Timestamp added to TTLs in the packed data.\n Needed to support serving original TTLs."]
+    pub ttl_add: time_t,
+    #[doc = " TTL (in seconds like time()) of the rrset.\n Same for all RRs see rfc2181(5.2)."]
+    pub ttl: time_t,
+    #[doc = " number of rrs."]
+    pub count: usize,
+    #[doc = " number of rrsigs, if 0 no rrsigs"]
+    pub rrsig_count: usize,
+    #[doc = " the trustworthiness of the rrset data"]
+    pub trust: rrset_trust,
+    #[doc = " security status of the rrset data"]
+    pub security: sec_status,
+    #[doc = " length of every rr's rdata, rr_len[i] is size of rr_data[i]."]
+    pub rr_len: *mut usize,
+    #[doc = " ttl of every rr. rr_ttl[i] ttl of rr i."]
+    pub rr_ttl: *mut time_t,
+    #[doc = " Array of pointers to every rr's rdata.\n The rr_data[i] rdata is stored in uncompressed wireformat.\n The first uint16_t of rr_data[i] is network format rdlength.\n\n rr_data[count] to rr_data[count+rrsig_count] contain the rrsig data."]
+    pub rr_data: *mut *mut u8,
+}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct sldns_struct_lookup_table {
@@ -860,11 +1043,6 @@ pub const sldns_enum_ede_code_LDNS_EDE_NOT_SUPPORTED: sldns_enum_ede_code = 21;
 pub const sldns_enum_ede_code_LDNS_EDE_NO_REACHABLE_AUTHORITY: sldns_enum_ede_code = 22;
 pub const sldns_enum_ede_code_LDNS_EDE_NETWORK_ERROR: sldns_enum_ede_code = 23;
 pub const sldns_enum_ede_code_LDNS_EDE_INVALID_DATA: sldns_enum_ede_code = 24;
-pub const sldns_enum_ede_code_LDNS_EDE_SIGNATURE_EXPIRED_BEFORE_VALID: sldns_enum_ede_code = 25;
-pub const sldns_enum_ede_code_LDNS_EDE_TOO_EARLY: sldns_enum_ede_code = 26;
-pub const sldns_enum_ede_code_LDNS_EDE_UNSUPPORTED_NSEC3_ITERATIONS: sldns_enum_ede_code = 27;
-pub const sldns_enum_ede_code_LDNS_EDE_BADPROXYPOLICY: sldns_enum_ede_code = 28;
-pub const sldns_enum_ede_code_LDNS_EDE_SYNTHESIZED: sldns_enum_ede_code = 29;
 pub type sldns_enum_ede_code = ::std::os::raw::c_int;
 pub use self::sldns_enum_ede_code as sldns_ede_code;
 #[doc = " Contains all information about resource record types.\n\n This structure contains, for all rr types, the rdata fields that are defined."]
@@ -916,11 +1094,6 @@ extern "C" {
 extern "C" {
     #[doc = " retrieves a class by looking up its name.\n \\param[in] name string with the name\n \\return the cass which corresponds with the name"]
     pub fn sldns_get_rr_class_by_name(name: *const ::std::os::raw::c_char) -> sldns_rr_class;
-}
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct comm_reply {
-    _unused: [u8; 0],
 }
 #[doc = " Structure to store query information that makes answers to queries\n different."]
 #[repr(C)]
@@ -983,124 +1156,14 @@ pub struct reply_info {
     #[doc = " Packed array of ids (see counts) and pointers to packed_rrset_key.\n The number equals ancount+nscount+arcount RRsets.\n These are sorted in ascending pointer, the locking order. So\n this list can be locked (and id, ttl checked), to see if\n all the data is available and recent enough.\n\n This is defined as an array of size 1, so that the compiler\n associates the identifier with this position in the structure.\n Array bound overflow on this array then gives access to the further\n elements of the array, which are allocated after the main structure.\n\n It could be more pure to define as array of size 0, ref[0].\n But ref[1] may be less confusing for compilers.\n Use the accessor function for access."]
     pub ref_: [rrset_ref; 1usize],
 }
-#[doc = " Region allocated message reply"]
+#[doc = " Structure to keep hash table entry for message replies."]
 #[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct dns_msg {
-    #[doc = " query info"]
-    pub qinfo: query_info,
-    #[doc = " reply info - ptr to packed repinfo structure"]
-    pub rep: *mut reply_info,
-}
-#[doc = " The rbnode_type struct definition."]
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct rbnode_type {
-    #[doc = " parent in rbtree, RBTREE_NULL for root"]
-    pub parent: *mut rbnode_type,
-    #[doc = " left node (smaller items)"]
-    pub left: *mut rbnode_type,
-    #[doc = " right node (larger items)"]
-    pub right: *mut rbnode_type,
-    #[doc = " pointer to sorting key"]
-    pub key: *const ::std::os::raw::c_void,
-    #[doc = " colour of this node"]
-    pub color: u8,
-}
-extern "C" {
-    #[doc = " the global empty node"]
-    pub static mut rbtree_null_node: rbnode_type;
-}
-#[doc = " definition for tree struct"]
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct rbtree_type {
-    #[doc = " The root of the red-black tree"]
-    pub root: *mut rbnode_type,
-    #[doc = " The number of the nodes in the tree"]
-    pub count: usize,
-    #[doc = " Key compare function. <0,0,>0 like strcmp.\n Return 0 on two NULL ptrs."]
-    pub cmp: ::std::option::Option<
-        unsafe extern "C" fn(
-            arg1: *const ::std::os::raw::c_void,
-            arg2: *const ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-}
-extern "C" {
-    #[doc = " Create new tree (malloced) with given key compare function.\n @param cmpf: compare function (like strcmp) takes pointers to two keys.\n @return: new tree, empty."]
-    pub fn rbtree_create(
-        cmpf: ::std::option::Option<
-            unsafe extern "C" fn(
-                arg1: *const ::std::os::raw::c_void,
-                arg2: *const ::std::os::raw::c_void,
-            ) -> ::std::os::raw::c_int,
-        >,
-    ) -> *mut rbtree_type;
-}
-extern "C" {
-    #[doc = " Init a new tree (malloced by caller) with given key compare function.\n @param rbtree: uninitialised memory for new tree, returned empty.\n @param cmpf: compare function (like strcmp) takes pointers to two keys."]
-    pub fn rbtree_init(
-        rbtree: *mut rbtree_type,
-        cmpf: ::std::option::Option<
-            unsafe extern "C" fn(
-                arg1: *const ::std::os::raw::c_void,
-                arg2: *const ::std::os::raw::c_void,
-            ) -> ::std::os::raw::c_int,
-        >,
-    );
-}
-extern "C" {
-    #[doc = " Insert data into the tree.\n @param rbtree: tree to insert to.\n @param data: element to insert.\n @return: data ptr or NULL if key already present."]
-    pub fn rbtree_insert(rbtree: *mut rbtree_type, data: *mut rbnode_type) -> *mut rbnode_type;
-}
-extern "C" {
-    #[doc = " Delete element from tree.\n @param rbtree: tree to delete from.\n @param key: key of item to delete.\n @return: node that is now unlinked from the tree. User to delete it.\n returns 0 if node not present"]
-    pub fn rbtree_delete(
-        rbtree: *mut rbtree_type,
-        key: *const ::std::os::raw::c_void,
-    ) -> *mut rbnode_type;
-}
-extern "C" {
-    #[doc = " Find key in tree. Returns NULL if not found.\n @param rbtree: tree to find in.\n @param key: key that must match.\n @return: node that fits or NULL."]
-    pub fn rbtree_search(
-        rbtree: *mut rbtree_type,
-        key: *const ::std::os::raw::c_void,
-    ) -> *mut rbnode_type;
-}
-extern "C" {
-    #[doc = " Find, but match does not have to be exact.\n @param rbtree: tree to find in.\n @param key: key to find position of.\n @param result: set to the exact node if present, otherwise to element that\n   precedes the position of key in the tree. NULL if no smaller element.\n @return: true if exact match in result. Else result points to <= element,\n or NULL if key is smaller than the smallest key."]
-    pub fn rbtree_find_less_equal(
-        rbtree: *mut rbtree_type,
-        key: *const ::std::os::raw::c_void,
-        result: *mut *mut rbnode_type,
-    ) -> ::std::os::raw::c_int;
-}
-extern "C" {
-    #[doc = " Returns first (smallest) node in the tree\n @param rbtree: tree\n @return: smallest element or NULL if tree empty."]
-    pub fn rbtree_first(rbtree: *mut rbtree_type) -> *mut rbnode_type;
-}
-extern "C" {
-    #[doc = " Returns last (largest) node in the tree\n @param rbtree: tree\n @return: largest element or NULL if tree empty."]
-    pub fn rbtree_last(rbtree: *mut rbtree_type) -> *mut rbnode_type;
-}
-extern "C" {
-    #[doc = " Returns next larger node in the tree\n @param rbtree: tree\n @return: next larger element or NULL if no larger in tree."]
-    pub fn rbtree_next(rbtree: *mut rbnode_type) -> *mut rbnode_type;
-}
-extern "C" {
-    #[doc = " Returns previous smaller node in the tree\n @param rbtree: tree\n @return: previous smaller element or NULL if no previous in tree."]
-    pub fn rbtree_previous(rbtree: *mut rbnode_type) -> *mut rbnode_type;
-}
-extern "C" {
-    #[doc = " Call function for all elements in the redblack tree, such that\n leaf elements are called before parent elements. So that all\n elements can be safely free()d.\n Note that your function must not remove the nodes from the tree.\n Since that may trigger rebalances of the rbtree.\n @param tree: the tree\n @param func: function called with element and user arg.\n \tThe function must not alter the rbtree.\n @param arg: user argument."]
-    pub fn traverse_postorder(
-        tree: *mut rbtree_type,
-        func: ::std::option::Option<
-            unsafe extern "C" fn(arg1: *mut rbnode_type, arg2: *mut ::std::os::raw::c_void),
-        >,
-        arg: *mut ::std::os::raw::c_void,
-    );
+#[derive(Copy, Clone)]
+pub struct msgreply_entry {
+    #[doc = " the hash table key"]
+    pub key: query_info,
+    #[doc = " the hash table entry, data is struct reply_info*"]
+    pub entry: lruhash_entry,
 }
 pub const sldns_enum_pkt_section_LDNS_SECTION_QUESTION: sldns_enum_pkt_section = 0;
 pub const sldns_enum_pkt_section_LDNS_SECTION_ANSWER: sldns_enum_pkt_section = 1;
@@ -1134,10 +1197,94 @@ pub const sldns_enum_pkt_rcode_LDNS_RCODE_NOTAUTH: sldns_enum_pkt_rcode = 9;
 pub const sldns_enum_pkt_rcode_LDNS_RCODE_NOTZONE: sldns_enum_pkt_rcode = 10;
 pub type sldns_enum_pkt_rcode = ::std::os::raw::c_uint;
 pub use self::sldns_enum_pkt_rcode as sldns_pkt_rcode;
+#[doc = " Data stored in scratch pad memory during parsing.\n Stores the data that will enter into the msgreply and packet result."]
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
-pub struct config_file {
-    _unused: [u8; 0],
+pub struct msg_parse {
+    #[doc = " id from message, network format."]
+    pub id: u16,
+    #[doc = " flags from message, host format."]
+    pub flags: u16,
+    #[doc = " count of RRs, host format"]
+    pub qdcount: u16,
+    #[doc = " count of RRs, host format"]
+    pub ancount: u16,
+    #[doc = " count of RRs, host format"]
+    pub nscount: u16,
+    #[doc = " count of RRs, host format"]
+    pub arcount: u16,
+    #[doc = " count of RRsets per section."]
+    pub an_rrsets: usize,
+    #[doc = " count of RRsets per section."]
+    pub ns_rrsets: usize,
+    #[doc = " count of RRsets per section."]
+    pub ar_rrsets: usize,
+    #[doc = " total number of rrsets found."]
+    pub rrset_count: usize,
+    #[doc = " query dname (pointer to start location in packet, NULL if none"]
+    pub qname: *mut u8,
+    #[doc = " length of query dname in octets, 0 if none"]
+    pub qname_len: usize,
+    #[doc = " query type, host order. 0 if qdcount=0"]
+    pub qtype: u16,
+    #[doc = " query class, host order. 0 if qdcount=0"]
+    pub qclass: u16,
+    #[doc = " Hash table array used during parsing to lookup rrset types.\n Based on name, type, class.  Same hash value as in rrset cache."]
+    pub hashtable: [*mut rrset_parse; 32usize],
+    #[doc = " linked list of rrsets that have been found (in order)."]
+    pub rrset_first: *mut rrset_parse,
+    #[doc = " last element of rrset list."]
+    pub rrset_last: *mut rrset_parse,
+}
+#[doc = " Data stored for an rrset during parsing."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct rrset_parse {
+    #[doc = " next in hash bucket"]
+    pub rrset_bucket_next: *mut rrset_parse,
+    #[doc = " next in list of all rrsets"]
+    pub rrset_all_next: *mut rrset_parse,
+    #[doc = " hash value of rrset"]
+    pub hash: hashvalue_type,
+    #[doc = " which section was it found in: one of\n LDNS_SECTION_ANSWER, LDNS_SECTION_AUTHORITY, LDNS_SECTION_ADDITIONAL"]
+    pub section: sldns_pkt_section,
+    #[doc = " start of (possibly compressed) dname in packet"]
+    pub dname: *mut u8,
+    #[doc = " length of the dname uncompressed wireformat"]
+    pub dname_len: usize,
+    #[doc = " type, host order."]
+    pub type_: u16,
+    #[doc = " class, network order. var name so that it is not a c++ keyword."]
+    pub rrset_class: u16,
+    #[doc = " the flags for the rrset, like for packedrrset"]
+    pub flags: u32,
+    #[doc = " number of RRs in the rr list"]
+    pub rr_count: usize,
+    #[doc = " sum of RR rdata sizes"]
+    pub size: usize,
+    #[doc = " linked list of RRs in this rrset."]
+    pub rr_first: *mut rr_parse,
+    #[doc = " last in list of RRs in this rrset."]
+    pub rr_last: *mut rr_parse,
+    #[doc = " number of RRSIGs over this rrset."]
+    pub rrsig_count: usize,
+    #[doc = " linked list of RRsig RRs over this rrset."]
+    pub rrsig_first: *mut rr_parse,
+    #[doc = " last in list of RRSIG RRs over this rrset."]
+    pub rrsig_last: *mut rr_parse,
+}
+#[doc = " Data stored for an RR during parsing."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct rr_parse {
+    #[doc = " Pointer to the RR. Points to start of TTL value in the packet.\n Rdata length and rdata follow it.\n its dname, type and class are the same and stored for the rrset."]
+    pub ttl_data: *mut u8,
+    #[doc = " true if ttl_data is not part of the packet, but elsewhere in mem.\n Set for generated CNAMEs for DNAMEs."]
+    pub outside_packet: ::std::os::raw::c_int,
+    #[doc = " the length of the rdata if allocated (with no dname compression)"]
+    pub size: usize,
+    #[doc = " next in list of RRs."]
+    pub next: *mut rr_parse,
 }
 #[doc = " EDNS data storage\n rdata is parsed in a list (has accessor functions). allocated in a\n region."]
 #[repr(C)]
@@ -1270,32 +1417,12 @@ pub struct worker {
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
-pub struct comm_base {
-    _unused: [u8; 0],
-}
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct auth_zones {
-    _unused: [u8; 0],
-}
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
 pub struct outside_network {
     _unused: [u8; 0],
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct ub_randstate {
-    _unused: [u8; 0],
-}
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct mesh_area {
-    _unused: [u8; 0],
-}
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct mesh_state {
     _unused: [u8; 0],
 }
 #[repr(C)]
@@ -1315,27 +1442,7 @@ pub struct iter_forwards {
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
-pub struct iter_hints {
-    _unused: [u8; 0],
-}
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct respip_set {
-    _unused: [u8; 0],
-}
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct respip_client_info {
-    _unused: [u8; 0],
-}
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
 pub struct respip_addr_info {
-    _unused: [u8; 0],
-}
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct module_stack {
     _unused: [u8; 0],
 }
 #[repr(C)]
@@ -1594,11 +1701,6 @@ pub struct sock_list {
     #[doc = " sockaddr"]
     pub addr: sockaddr_storage,
 }
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct respip_action_info {
-    _unused: [u8; 0],
-}
 #[doc = " Struct to hold relevant data for serve expired"]
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -1684,25 +1786,14 @@ pub struct module_qstate {
 pub struct module_func_block {
     #[doc = " text string name of module"]
     pub name: *const ::std::os::raw::c_char,
-    #[doc = " Set up the module for start. This is called only once at startup.\n Privileged operations like opening device files may be done here.\n The function ptr can be NULL, if it is not used.\n @param env: module environment.\n @param id: module id number.\n return: 0 on error"]
-    pub startup: ::std::option::Option<
-        unsafe extern "C" fn(
-            env: *mut module_env,
-            id: ::std::os::raw::c_int,
-        ) -> ::std::os::raw::c_int,
-    >,
-    #[doc = " Close down the module for stop. This is called only once before\n shutdown to free resources allocated during startup().\n Closing privileged ports or files must be done here.\n The function ptr can be NULL, if it is not used.\n @param env: module environment.\n @param id: module id number."]
-    pub destartup: ::std::option::Option<
-        unsafe extern "C" fn(env: *mut module_env, id: ::std::os::raw::c_int),
-    >,
-    #[doc = " Initialise the module. Called when restarting or reloading the\n daemon.\n This is the place to apply settings from the config file.\n @param env: module environment.\n @param id: module id number.\n return: 0 on error"]
+    #[doc = " init the module. Called once for the global state.\n This is the place to apply settings from the config file.\n @param env: module environment.\n @param id: module id number.\n return: 0 on error"]
     pub init: ::std::option::Option<
         unsafe extern "C" fn(
             env: *mut module_env,
             id: ::std::os::raw::c_int,
         ) -> ::std::os::raw::c_int,
     >,
-    #[doc = " Deinitialise the module, undo stuff done during init().\n Called before reloading the daemon.\n @param env: module environment.\n @param id: module id number."]
+    #[doc = " de-init, delete, the module. Called once for the global state.\n @param env: module environment.\n @param id: module id number."]
     pub deinit: ::std::option::Option<
         unsafe extern "C" fn(env: *mut module_env, id: ::std::os::raw::c_int),
     >,
@@ -1855,8 +1946,2427 @@ extern "C" {
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
-pub struct config_view {
+pub struct serviced_query {
     _unused: [u8; 0],
+}
+#[doc = " The outbound list. This structure is part of the module specific query\n state."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct outbound_list {
+    #[doc = " The linked list of outbound query entries."]
+    pub first: *mut outbound_entry,
+}
+#[doc = " Outbound list entry. A serviced query sent by a module processing the\n query from the qstate. Double linked list to aid removal."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct outbound_entry {
+    #[doc = " next in list"]
+    pub next: *mut outbound_entry,
+    #[doc = " prev in list"]
+    pub prev: *mut outbound_entry,
+    #[doc = " The query that was sent out"]
+    pub qsent: *mut serviced_query,
+    #[doc = " the module query state that sent it"]
+    pub qstate: *mut module_qstate,
+}
+extern "C" {
+    #[doc = " Init the user allocated outbound list structure\n @param list: the list structure."]
+    pub fn outbound_list_init(list: *mut outbound_list);
+}
+extern "C" {
+    #[doc = " Clear the user owner outbound list structure.\n Deletes serviced queries.\n @param list: the list structure. It is cleared, but the list struct itself\n \tis callers responsibility to delete."]
+    pub fn outbound_list_clear(list: *mut outbound_list);
+}
+extern "C" {
+    #[doc = " Insert new entry into the list. Caller must allocate the entry with malloc.\n qstate and qsent are set by caller.\n @param list: the list to add to.\n @param e: entry to add, it is only half initialised at call start, fully\n\tinitialised at call end."]
+    pub fn outbound_list_insert(list: *mut outbound_list, e: *mut outbound_entry);
+}
+extern "C" {
+    #[doc = " Remove an entry from the list, and deletes it.\n Deletes serviced query in the entry.\n @param list: the list to remove from.\n @param e: the entry to remove."]
+    pub fn outbound_list_remove(list: *mut outbound_list, e: *mut outbound_entry);
+}
+extern "C" {
+    #[doc = " Get the module function block.\n @return: function block with function pointers to module methods."]
+    pub fn dynlibmod_get_funcblock() -> *mut module_func_block;
+}
+extern "C" {
+    #[doc = " dynlib module init"]
+    pub fn dynlibmod_init(env: *mut module_env, id: ::std::os::raw::c_int)
+        -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " dynlib module deinit"]
+    pub fn dynlibmod_deinit(env: *mut module_env, id: ::std::os::raw::c_int);
+}
+extern "C" {
+    #[doc = " dynlib module operate on a query"]
+    pub fn dynlibmod_operate(
+        qstate: *mut module_qstate,
+        event: module_ev,
+        id: ::std::os::raw::c_int,
+        outbound: *mut outbound_entry,
+    );
+}
+extern "C" {
+    #[doc = " dynlib module"]
+    pub fn dynlibmod_inform_super(
+        qstate: *mut module_qstate,
+        id: ::std::os::raw::c_int,
+        super_: *mut module_qstate,
+    );
+}
+extern "C" {
+    #[doc = " dynlib module cleanup query state"]
+    pub fn dynlibmod_clear(qstate: *mut module_qstate, id: ::std::os::raw::c_int);
+}
+extern "C" {
+    #[doc = " dynlib module alloc size routine"]
+    pub fn dynlibmod_get_mem(env: *mut module_env, id: ::std::os::raw::c_int) -> usize;
+}
+extern "C" {
+    pub fn dynlib_inplace_cb_reply_generic(
+        qinfo: *mut query_info,
+        qstate: *mut module_qstate,
+        rep: *mut reply_info,
+        rcode: ::std::os::raw::c_int,
+        edns: *mut edns_data,
+        opt_list_out: *mut *mut edns_option,
+        repinfo: *mut comm_reply,
+        region: *mut regional,
+        start_time: *mut timeval,
+        id: ::std::os::raw::c_int,
+        callback: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    pub fn dynlib_inplace_cb_query_generic(
+        qinfo: *mut query_info,
+        flags: u16,
+        qstate: *mut module_qstate,
+        addr: *mut sockaddr_storage,
+        addrlen: socklen_t,
+        zone: *mut u8,
+        zonelen: usize,
+        region: *mut regional,
+        id: ::std::os::raw::c_int,
+        callback: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    pub fn dynlib_inplace_cb_edns_back_parsed(
+        qstate: *mut module_qstate,
+        id: ::std::os::raw::c_int,
+        cb_args: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    pub fn dynlib_inplace_cb_query_response(
+        qstate: *mut module_qstate,
+        response: *mut dns_msg,
+        id: ::std::os::raw::c_int,
+        cb_args: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    pub fn inplace_cb_register_wrapped(
+        cb: *mut ::std::os::raw::c_void,
+        type_: inplace_cb_list_type,
+        cbarg: *mut ::std::os::raw::c_void,
+        env: *mut module_env,
+        id: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    pub fn inplace_cb_delete_wrapped(
+        env: *mut module_env,
+        type_: inplace_cb_list_type,
+        id: ::std::os::raw::c_int,
+    );
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct cb_pair {
+    pub cb: *mut ::std::os::raw::c_void,
+    pub cb_arg: *mut ::std::os::raw::c_void,
+}
+#[doc = " Global state for the module."]
+pub type func_init_t = ::std::option::Option<
+    unsafe extern "C" fn(
+        arg1: *mut module_env,
+        arg2: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int,
+>;
+pub type func_deinit_t =
+    ::std::option::Option<unsafe extern "C" fn(arg1: *mut module_env, arg2: ::std::os::raw::c_int)>;
+pub type func_operate_t = ::std::option::Option<
+    unsafe extern "C" fn(
+        arg1: *mut module_qstate,
+        arg2: module_ev,
+        arg3: ::std::os::raw::c_int,
+        arg4: *mut outbound_entry,
+    ),
+>;
+pub type func_inform_t = ::std::option::Option<
+    unsafe extern "C" fn(
+        arg1: *mut module_qstate,
+        arg2: ::std::os::raw::c_int,
+        arg3: *mut module_qstate,
+    ),
+>;
+pub type func_clear_t = ::std::option::Option<
+    unsafe extern "C" fn(arg1: *mut module_qstate, arg2: ::std::os::raw::c_int),
+>;
+pub type func_get_mem_t = ::std::option::Option<
+    unsafe extern "C" fn(arg1: *mut module_env, arg2: ::std::os::raw::c_int) -> usize,
+>;
+pub type inplace_cb_delete_wrapped_t = ::std::option::Option<
+    unsafe extern "C" fn(
+        arg1: *mut module_env,
+        arg2: inplace_cb_list_type,
+        arg3: ::std::os::raw::c_int,
+    ),
+>;
+pub type inplace_cb_register_wrapped_t = ::std::option::Option<
+    unsafe extern "C" fn(
+        arg1: *mut ::std::os::raw::c_void,
+        arg2: inplace_cb_list_type,
+        arg3: *mut ::std::os::raw::c_void,
+        arg4: *mut module_env,
+        arg5: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int,
+>;
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct dynlibmod_env {
+    #[doc = " Dynamic library filename."]
+    pub fname: *const ::std::os::raw::c_char,
+    #[doc = " dynamic library handle"]
+    pub dynamic_library: *mut ::std::os::raw::c_void,
+    #[doc = " Module init function"]
+    pub func_init: func_init_t,
+    #[doc = " Module deinit function"]
+    pub func_deinit: func_deinit_t,
+    #[doc = " Module operate function"]
+    pub func_operate: func_operate_t,
+    #[doc = " Module super_inform function"]
+    pub func_inform: func_inform_t,
+    #[doc = " Module clear function"]
+    pub func_clear: func_clear_t,
+    #[doc = " Module get_mem function"]
+    pub func_get_mem: func_get_mem_t,
+    #[doc = " Wrapped inplace callback functions to circumvent callback whitelisting"]
+    pub inplace_cb_delete_wrapped: inplace_cb_delete_wrapped_t,
+    pub inplace_cb_register_wrapped: inplace_cb_register_wrapped_t,
+    #[doc = " Pointer to any data the dynamic library might want to keep"]
+    pub dyn_env: *mut ::std::os::raw::c_void,
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct SignedCert {
+    pub magic_cert: [u8; 4usize],
+    pub version_major: [u8; 2usize],
+    pub version_minor: [u8; 2usize],
+    pub signed_content: [u8; 64usize],
+    pub server_publickey: [u8; 32usize],
+    pub magic_query: [u8; 8usize],
+    pub serial: [u8; 4usize],
+    pub ts_begin: [u8; 4usize],
+    pub ts_end: [u8; 4usize],
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct KeyPair_ {
+    pub crypt_publickey: [u8; 32usize],
+    pub crypt_secretkey: [u8; 32usize],
+}
+pub type KeyPair = KeyPair_;
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct cert_ {
+    pub magic_query: [u8; 8usize],
+    pub es_version: [u8; 2usize],
+    pub keypair: *mut KeyPair,
+}
+pub type dnsccert = cert_;
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct dnsc_env {
+    pub signed_certs: *mut SignedCert,
+    pub rotated_certs: *mut *mut SignedCert,
+    pub certs: *mut dnsccert,
+    pub signed_certs_count: usize,
+    pub rotated_certs_count: usize,
+    pub provider_publickey: [u8; 32usize],
+    pub provider_secretkey: [u8; 64usize],
+    pub keypairs: *mut KeyPair,
+    pub keypairs_count: usize,
+    pub nonce_ts_last: u64,
+    pub hash_key: [::std::os::raw::c_uchar; 16usize],
+    pub provider_name: *mut ::std::os::raw::c_char,
+    #[doc = " Caches"]
+    pub shared_secrets_cache: *mut slabhash,
+    #[doc = " lock on shared secret cache counters"]
+    pub shared_secrets_cache_lock: lock_basic_type,
+    #[doc = " number of misses from shared_secrets_cache"]
+    pub num_query_dnscrypt_secret_missed_cache: usize,
+    #[doc = " slabhash keeping track of nonce/cient pk/server sk pairs."]
+    pub nonces_cache: *mut slabhash,
+    #[doc = " lock on nonces_cache, used to avoid race condition in updating the hash"]
+    pub nonces_cache_lock: lock_basic_type,
+    #[doc = " number of replayed queries"]
+    pub num_query_dnscrypt_replay: usize,
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct dnscrypt_query_header {
+    pub magic_query: [u8; 8usize],
+    pub publickey: [u8; 32usize],
+    pub nonce: [u8; 12usize],
+    pub mac: [u8; 16usize],
+}
+extern "C" {
+    #[doc = " Initialize DNSCrypt environment.\n Initialize sodium library and allocate the dnsc_env structure.\n \\return an uninitialized struct dnsc_env."]
+    pub fn dnsc_create() -> *mut dnsc_env;
+}
+extern "C" {
+    #[doc = " Apply configuration.\n Read certificates and secret keys from configuration. Initialize hashkey and\n provider name as well as loading cert TXT records.\n In case of issue applying configuration, this function fatals.\n \\param[in] env the struct dnsc_env to populate.\n \\param[in] cfg the config_file struct with dnscrypt options.\n \\return 0 on success."]
+    pub fn dnsc_apply_cfg(env: *mut dnsc_env, cfg: *mut config_file) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Delete DNSCrypt environment\n"]
+    pub fn dnsc_delete(env: *mut dnsc_env);
+}
+extern "C" {
+    #[doc = " handle a crypted dnscrypt request.\n Determine whether or not a query is coming over the dnscrypt listener and\n attempt to uncurve it or detect if it is a certificate query.\n return 0 in case of failure."]
+    pub fn dnsc_handle_curved_request(
+        dnscenv: *mut dnsc_env,
+        repinfo: *mut comm_reply,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " handle an unencrypted dnscrypt request.\n Determine whether or not a query is going over the dnscrypt channel and\n attempt to curve it unless it was not crypted like when  it is a\n certificate query.\n \\return 0 in case of failure."]
+    pub fn dnsc_handle_uncurved_request(repinfo: *mut comm_reply) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Computes the size of the shared secret cache entry."]
+    pub fn dnsc_shared_secrets_sizefunc(
+        k: *mut ::std::os::raw::c_void,
+        d: *mut ::std::os::raw::c_void,
+    ) -> usize;
+}
+extern "C" {
+    #[doc = " Compares two shared secret cache keys."]
+    pub fn dnsc_shared_secrets_compfunc(
+        m1: *mut ::std::os::raw::c_void,
+        m2: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Function to delete a shared secret cache key."]
+    pub fn dnsc_shared_secrets_delkeyfunc(
+        k: *mut ::std::os::raw::c_void,
+        arg: *mut ::std::os::raw::c_void,
+    );
+}
+extern "C" {
+    #[doc = " Function to delete a share secret cache value."]
+    pub fn dnsc_shared_secrets_deldatafunc(
+        d: *mut ::std::os::raw::c_void,
+        arg: *mut ::std::os::raw::c_void,
+    );
+}
+extern "C" {
+    #[doc = " Computes the size of the nonce cache entry."]
+    pub fn dnsc_nonces_sizefunc(
+        k: *mut ::std::os::raw::c_void,
+        d: *mut ::std::os::raw::c_void,
+    ) -> usize;
+}
+extern "C" {
+    #[doc = " Compares two nonce cache keys."]
+    pub fn dnsc_nonces_compfunc(
+        m1: *mut ::std::os::raw::c_void,
+        m2: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Function to delete a nonce cache key."]
+    pub fn dnsc_nonces_delkeyfunc(k: *mut ::std::os::raw::c_void, arg: *mut ::std::os::raw::c_void);
+}
+extern "C" {
+    #[doc = " Function to delete a nonce cache value."]
+    pub fn dnsc_nonces_deldatafunc(
+        d: *mut ::std::os::raw::c_void,
+        arg: *mut ::std::os::raw::c_void,
+    );
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct nghttp2_session {
+    _unused: [u8; 0],
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct nghttp2_session_callbacks {
+    _unused: [u8; 0],
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct tcl_list {
+    _unused: [u8; 0],
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct ub_event_base {
+    _unused: [u8; 0],
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct unbound_socket {
+    _unused: [u8; 0],
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct internal_event {
+    _unused: [u8; 0],
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct internal_base {
+    _unused: [u8; 0],
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct internal_timer {
+    _unused: [u8; 0],
+}
+pub type listen_type = i32;
+#[doc = " callback from communication point function type"]
+pub type comm_point_callback_type = ::std::option::Option<
+    unsafe extern "C" fn(
+        arg1: *mut comm_point,
+        arg2: *mut ::std::os::raw::c_void,
+        arg3: ::std::os::raw::c_int,
+        arg4: *mut comm_reply,
+    ) -> ::std::os::raw::c_int,
+>;
+#[doc = " A communication point dispatcher. Thread specific."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct comm_base {
+    #[doc = " behind the scenes structure. with say libevent info. alloced"]
+    pub eb: *mut internal_base,
+    #[doc = " callback to stop listening on accept sockets,\n performed when accept() will not function properly"]
+    pub stop_accept: ::std::option::Option<unsafe extern "C" fn(arg1: *mut ::std::os::raw::c_void)>,
+    #[doc = " callback to start listening on accept sockets, performed\n after stop_accept() then a timeout has passed."]
+    pub start_accept:
+        ::std::option::Option<unsafe extern "C" fn(arg1: *mut ::std::os::raw::c_void)>,
+    #[doc = " user argument for stop_accept and start_accept functions"]
+    pub cb_arg: *mut ::std::os::raw::c_void,
+}
+#[doc = " Reply information for a communication point."]
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct comm_reply {
+    #[doc = " the comm_point with fd to send reply on to."]
+    pub c: *mut comm_point,
+    #[doc = " the address (for UDP based communication)"]
+    pub remote_addr: sockaddr_storage,
+    #[doc = " length of address"]
+    pub remote_addrlen: socklen_t,
+    #[doc = " return type 0 (none), 4(IP4), 6(IP6)\n  used only with listen_type_udp_ancil*"]
+    pub srctype: ::std::os::raw::c_int,
+    pub client_nonce: [u8; 12usize],
+    pub nmkey: [u8; 32usize],
+    pub dnsc_cert: *const dnsccert,
+    pub is_dnscrypted: ::std::os::raw::c_int,
+    #[doc = " variable with return source data"]
+    pub pktinfo: comm_reply__bindgen_ty_1,
+    #[doc = " max udp size for udp packets"]
+    pub max_udp_size: usize,
+    pub is_proxied: ::std::os::raw::c_int,
+    #[doc = " the client address\n  the same as remote_addr if not proxied"]
+    pub client_addr: sockaddr_storage,
+    #[doc = " the original address length"]
+    pub client_addrlen: socklen_t,
+}
+#[doc = " the return source interface data"]
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub union comm_reply__bindgen_ty_1 {
+    pub v6info: in6_pktinfo,
+    pub v4info: in_pktinfo,
+}
+#[doc = " Communication point to the network\n These behaviours can be accomplished by setting the flags\n and passing return values from the callback.\n    udp frontside: called after readdone. sendafter.\n    tcp frontside: called readdone, sendafter. close.\n    udp behind: called after readdone. No send after.\n    tcp behind: write done, read done, then called. No send after."]
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct comm_point {
+    #[doc = " behind the scenes structure, with say libevent info. alloced."]
+    pub ev: *mut internal_event,
+    #[doc = " if the event is added or not"]
+    pub event_added: ::std::os::raw::c_int,
+    #[doc = " Reference to struct that is part of the listening ports,\n where for listening ports information is kept about the address."]
+    pub socket: *mut unbound_socket,
+    #[doc = " file descriptor for communication point"]
+    pub fd: ::std::os::raw::c_int,
+    #[doc = " timeout (NULL if it does not). Malloced."]
+    pub timeout: *mut timeval,
+    #[doc = " buffer pointer. Either to perthread, or own buffer or NULL"]
+    pub buffer: *mut sldns_buffer,
+    #[doc = " Read/Write state for TCP"]
+    pub tcp_is_reading: ::std::os::raw::c_int,
+    #[doc = " The current read/write count for TCP"]
+    pub tcp_byte_count: usize,
+    #[doc = " parent communication point (for TCP sockets)"]
+    pub tcp_parent: *mut comm_point,
+    #[doc = " sockaddr from peer, for TCP handlers"]
+    pub repinfo: comm_reply,
+    #[doc = " the number of TCP handlers for this tcp-accept socket"]
+    pub max_tcp_count: ::std::os::raw::c_int,
+    #[doc = " current number of tcp handler in-use for this accept socket"]
+    pub cur_tcp_count: ::std::os::raw::c_int,
+    #[doc = " malloced array of tcp handlers for a tcp-accept,\nof size max_tcp_count."]
+    pub tcp_handlers: *mut *mut comm_point,
+    #[doc = " linked list of free tcp_handlers to use for new queries.\nFor tcp_accept the first entry, for tcp_handlers the next one."]
+    pub tcp_free: *mut comm_point,
+    #[doc = " the SSL object with rw bio (owned) or for commaccept ctx ref"]
+    pub ssl: *mut ::std::os::raw::c_void,
+    pub ssl_shake_state: comm_point__bindgen_ty_1,
+    pub http_min_version: comm_point__bindgen_ty_2,
+    #[doc = " http endpoint"]
+    pub http_endpoint: *mut ::std::os::raw::c_char,
+    #[doc = " Currently reading in http headers"]
+    pub http_in_headers: ::std::os::raw::c_int,
+    #[doc = " Currently reading in chunk headers, 0=not, 1=firstline, 2=unused\n (more lines), 3=trailer headers after chunk"]
+    pub http_in_chunk_headers: ::std::os::raw::c_int,
+    #[doc = " chunked transfer"]
+    pub http_is_chunked: ::std::os::raw::c_int,
+    #[doc = " http temp buffer (shared buffer for temporary work)"]
+    pub http_temp: *mut sldns_buffer,
+    #[doc = " http stored content in buffer"]
+    pub http_stored: usize,
+    #[doc = " http2 session"]
+    pub h2_session: *mut http2_session,
+    #[doc = " set to 1 if h2 is negotiated to be used (using alpn)"]
+    pub use_h2: ::std::os::raw::c_int,
+    #[doc = " stream currently being handled"]
+    pub h2_stream: *mut http2_stream,
+    #[doc = " maximum allowed query buffer size, per stream"]
+    pub http2_stream_max_qbuffer_size: usize,
+    #[doc = " maximum number of HTTP/2 streams per connection. Send in HTTP/2\n SETTINGS frame."]
+    pub http2_max_streams: u32,
+    #[doc = " the dnstap environment"]
+    pub dtenv: *mut dt_env,
+    #[doc = " variable with type of socket, UDP,TCP-accept,TCP,pipe"]
+    pub type_: comm_point_type,
+    #[doc = " if set, PROXYv2 is expected on this connection"]
+    pub pp2_enabled: ::std::os::raw::c_int,
+    pub pp2_header_state: comm_point__bindgen_ty_3,
+    #[doc = " if set the connection is NOT closed on delete."]
+    pub do_not_close: ::std::os::raw::c_int,
+    #[doc = " if set, the connection is closed on error, on timeout,\nand after read/write completes. No callback is done."]
+    pub tcp_do_close: ::std::os::raw::c_int,
+    #[doc = " flag that indicates the stream is both written and read from."]
+    pub tcp_write_and_read: ::std::os::raw::c_int,
+    #[doc = " byte count for written length over write channel, for when\n tcp_write_and_read is enabled.  When tcp_write_and_read is enabled,\n this is the counter for writing, the one for reading is in the\n commpoint.buffer sldns buffer.  The counter counts from 0 to\n 2+tcp_write_pkt_len, and includes the tcp length bytes."]
+    pub tcp_write_byte_count: usize,
+    #[doc = " packet to write currently over the write channel. for when\n tcp_write_and_read is enabled.  When tcp_write_and_read is enabled,\n this is the buffer for the written packet, the commpoint.buffer\n sldns buffer is the buffer for the received packet."]
+    pub tcp_write_pkt: *mut u8,
+    #[doc = " length of tcp_write_pkt in bytes"]
+    pub tcp_write_pkt_len: usize,
+    #[doc = " if set try to read another packet again (over connection with\n multiple packets), once set, tries once, then zero again,\n so set it in the packet complete section.\n The pointer itself has to be set before the callback is invoked,\n when you set things up, and continue to exist also after the\n commpoint is closed and deleted in your callback.  So that after\n the callback cleans up netevent can see what it has to do.\n Or leave NULL if it is not used at all."]
+    pub tcp_more_read_again: *mut ::std::os::raw::c_int,
+    #[doc = " if set try to write another packet (over connection with\n multiple packets), once set, tries once, then zero again,\n so set it in the packet complete section.\n The pointer itself has to be set before the callback is invoked,\n when you set things up, and continue to exist also after the\n commpoint is closed and deleted in your callback.  So that after\n the callback cleans up netevent can see what it has to do.\n Or leave NULL if it is not used at all."]
+    pub tcp_more_write_again: *mut ::std::os::raw::c_int,
+    #[doc = " if set, read/write completes:\nread/write state of tcp is toggled.\nbuffer reset/bytecount reset.\nthis flag cleared.\nSo that when that is done the callback is called."]
+    pub tcp_do_toggle_rw: ::std::os::raw::c_int,
+    #[doc = " timeout in msec for TCP wait times for this connection"]
+    pub tcp_timeout_msec: ::std::os::raw::c_int,
+    #[doc = " if set, tcp keepalive is enabled on this connection"]
+    pub tcp_keepalive: ::std::os::raw::c_int,
+    #[doc = " if set, checks for pending error from nonblocking connect() call."]
+    pub tcp_check_nb_connect: ::std::os::raw::c_int,
+    #[doc = " if set, check for connection limit on tcp accept."]
+    pub tcp_conn_limit: *mut tcl_list,
+    #[doc = " the entry for the connection."]
+    pub tcl_addr: *mut tcl_addr,
+    #[doc = " the structure to keep track of open requests on this channel"]
+    pub tcp_req_info: *mut tcp_req_info,
+    #[doc = " used to track if the sendto() call should be done when using TFO."]
+    pub tcp_do_fastopen: ::std::os::raw::c_int,
+    #[doc = " Is this a dnscrypt channel"]
+    pub dnscrypt: ::std::os::raw::c_int,
+    #[doc = " encrypted buffer pointer. Either to perthread, or own buffer or NULL"]
+    pub dnscrypt_buffer: *mut sldns_buffer,
+    #[doc = " number of queries outstanding on this socket, used by\n outside network for udp ports"]
+    pub inuse: ::std::os::raw::c_int,
+    #[doc = " the timestamp when the packet was received by the kernel"]
+    pub recv_tv: timeval,
+    #[doc = " callback when done.\ntcp_accept does not get called back, is NULL then.\nIf a timeout happens, callback with timeout=1 is called.\nIf an error happens, callback is called with error set\nnonzero. If not NETEVENT_NOERROR, it is an errno value.\nIf the connection is closed (by remote end) then the\ncallback is called with error set to NETEVENT_CLOSED=-1.\nIf a timeout happens on the connection, the error is set to\nNETEVENT_TIMEOUT=-2.\nThe reply_info can be copied if the reply needs to happen at a\nlater time. It consists of a struct with commpoint and address.\nIt can be passed to a msg send routine some time later.\nNote the reply information is temporary and must be copied.\nNULL is passed for_reply info, in cases where error happened.\n\ndeclare as:\nint my_callback(struct comm_point* c, void* my_arg, int error,\nstruct comm_reply *reply_info);\n\nif the routine returns 0, nothing is done.\nNotzero, the buffer will be sent back to client.\nFor UDP this is done without changing the commpoint.\nIn TCP it sets write state."]
+    pub callback: comm_point_callback_type,
+    #[doc = " argument to pass to callback."]
+    pub cb_arg: *mut ::std::os::raw::c_void,
+}
+#[doc = " no handshake, it has been done"]
+pub const comm_point_comm_ssl_shake_none: comm_point__bindgen_ty_1 = 0;
+#[doc = " ssl initial handshake wants to read"]
+pub const comm_point_comm_ssl_shake_read: comm_point__bindgen_ty_1 = 1;
+#[doc = " ssl initial handshake wants to write"]
+pub const comm_point_comm_ssl_shake_write: comm_point__bindgen_ty_1 = 2;
+#[doc = " ssl_write wants to read"]
+pub const comm_point_comm_ssl_shake_hs_read: comm_point__bindgen_ty_1 = 3;
+#[doc = " ssl_read wants to write"]
+pub const comm_point_comm_ssl_shake_hs_write: comm_point__bindgen_ty_1 = 4;
+#[doc = " handshake state for init and renegotiate"]
+pub type comm_point__bindgen_ty_1 = ::std::os::raw::c_uint;
+pub const comm_point_http_version_none: comm_point__bindgen_ty_2 = 0;
+pub const comm_point_http_version_2: comm_point__bindgen_ty_2 = 2;
+#[doc = " Do not allow connection to use HTTP version lower than this. 0=no\n minimum."]
+pub type comm_point__bindgen_ty_2 = ::std::os::raw::c_uint;
+#[doc = " UDP socket - handle datagrams."]
+pub const comm_point_type_comm_udp: comm_point_type = 0;
+#[doc = " TCP accept socket - only creates handlers if readable."]
+pub const comm_point_type_comm_tcp_accept: comm_point_type = 1;
+#[doc = " TCP handler socket - handle byteperbyte readwrite."]
+pub const comm_point_type_comm_tcp: comm_point_type = 2;
+#[doc = " HTTP handler socket"]
+pub const comm_point_type_comm_http: comm_point_type = 3;
+#[doc = " AF_UNIX socket - for internal commands."]
+pub const comm_point_type_comm_local: comm_point_type = 4;
+#[doc = " raw - not DNS format - for pipe readers and writers"]
+pub const comm_point_type_comm_raw: comm_point_type = 5;
+#[doc = " is this a UDP, TCP-accept or TCP socket."]
+pub type comm_point_type = i32;
+#[doc = " no header encounter yet"]
+pub const comm_point_pp2_header_none: comm_point__bindgen_ty_3 = 0;
+#[doc = " read the static part of the header"]
+pub const comm_point_pp2_header_init: comm_point__bindgen_ty_3 = 1;
+#[doc = " read the full header"]
+pub const comm_point_pp2_header_done: comm_point__bindgen_ty_3 = 2;
+#[doc = " header state for the PROXYv2 header (for TCP)"]
+pub type comm_point__bindgen_ty_3 = ::std::os::raw::c_uint;
+#[doc = " Structure only for making timeout events."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct comm_timer {
+    #[doc = " the internal event stuff (derived)"]
+    pub ev_timer: *mut internal_timer,
+    #[doc = " callback function, takes user arg only"]
+    pub callback: ::std::option::Option<unsafe extern "C" fn(arg1: *mut ::std::os::raw::c_void)>,
+    #[doc = " callback user argument"]
+    pub cb_arg: *mut ::std::os::raw::c_void,
+}
+#[doc = " Structure only for signal events."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct comm_signal {
+    #[doc = " the communication base"]
+    pub base: *mut comm_base,
+    #[doc = " the internal event stuff"]
+    pub ev_signal: *mut internal_signal,
+    #[doc = " callback function, takes signal number and user arg"]
+    pub callback: ::std::option::Option<
+        unsafe extern "C" fn(arg1: ::std::os::raw::c_int, arg2: *mut ::std::os::raw::c_void),
+    >,
+    #[doc = " callback user argument"]
+    pub cb_arg: *mut ::std::os::raw::c_void,
+}
+extern "C" {
+    #[doc = " Create a new comm base.\n @param sigs: if true it attempts to create a default loop for\n   signal handling.\n @return: the new comm base. NULL on error."]
+    pub fn comm_base_create(sigs: ::std::os::raw::c_int) -> *mut comm_base;
+}
+extern "C" {
+    #[doc = " Create comm base that uses the given ub_event_base (underlying pluggable\n event mechanism pointer).\n @param base: underlying pluggable event base.\n @return: the new comm base. NULL on error."]
+    pub fn comm_base_create_event(base: *mut ub_event_base) -> *mut comm_base;
+}
+extern "C" {
+    #[doc = " Delete comm base structure but not the underlying lib event base.\n All comm points must have been deleted.\n @param b: the base to delete."]
+    pub fn comm_base_delete_no_base(b: *mut comm_base);
+}
+extern "C" {
+    #[doc = " Destroy a comm base.\n All comm points must have been deleted.\n @param b: the base to delete."]
+    pub fn comm_base_delete(b: *mut comm_base);
+}
+extern "C" {
+    #[doc = " Obtain two pointers. The pointers never change (until base_delete()).\n The pointers point to time values that are updated regularly.\n @param b: the communication base that will update the time values.\n @param tt: pointer to time in seconds is returned.\n @param tv: pointer to time in microseconds is returned."]
+    pub fn comm_base_timept(b: *mut comm_base, tt: *mut *mut time_t, tv: *mut *mut timeval);
+}
+extern "C" {
+    #[doc = " Dispatch the comm base events.\n @param b: the communication to perform."]
+    pub fn comm_base_dispatch(b: *mut comm_base);
+}
+extern "C" {
+    #[doc = " Exit from dispatch loop.\n @param b: the communication base that is in dispatch()."]
+    pub fn comm_base_exit(b: *mut comm_base);
+}
+extern "C" {
+    #[doc = " Set the slow_accept mode handlers.  You can not provide these if you do\n not perform accept() calls.\n @param b: comm base\n @param stop_accept: function that stops listening to accept fds.\n @param start_accept: function that resumes listening to accept fds.\n @param arg: callback arg to pass to the functions."]
+    pub fn comm_base_set_slow_accept_handlers(
+        b: *mut comm_base,
+        stop_accept: ::std::option::Option<unsafe extern "C" fn(arg1: *mut ::std::os::raw::c_void)>,
+        start_accept: ::std::option::Option<
+            unsafe extern "C" fn(arg1: *mut ::std::os::raw::c_void),
+        >,
+        arg: *mut ::std::os::raw::c_void,
+    );
+}
+extern "C" {
+    #[doc = " Access internal data structure (for util/tube.c on windows)\n @param b: comm base\n @return ub_event_base."]
+    pub fn comm_base_internal(b: *mut comm_base) -> *mut ub_event_base;
+}
+extern "C" {
+    #[doc = " Create an UDP comm point. Calls malloc.\n setups the structure with the parameters you provide.\n @param base: in which base to alloc the commpoint.\n @param fd: file descriptor of open UDP socket.\n @param buffer: shared buffer by UDP sockets from this thread.\n @param pp2_enabled: if the comm point will support PROXYv2.\n @param callback: callback function pointer.\n @param callback_arg: will be passed to your callback function.\n @param socket: and opened socket properties will be passed to your callback function.\n @return: returns the allocated communication point. NULL on error.\n Sets timeout to NULL. Turns off TCP options."]
+    pub fn comm_point_create_udp(
+        base: *mut comm_base,
+        fd: ::std::os::raw::c_int,
+        buffer: *mut sldns_buffer,
+        pp2_enabled: ::std::os::raw::c_int,
+        callback: comm_point_callback_type,
+        callback_arg: *mut ::std::os::raw::c_void,
+        socket: *mut unbound_socket,
+    ) -> *mut comm_point;
+}
+extern "C" {
+    #[doc = " Create an UDP with ancillary data comm point. Calls malloc.\n Uses recvmsg instead of recv to get udp message.\n setups the structure with the parameters you provide.\n @param base: in which base to alloc the commpoint.\n @param fd: file descriptor of open UDP socket.\n @param buffer: shared buffer by UDP sockets from this thread.\n @param pp2_enabled: if the comm point will support PROXYv2.\n @param callback: callback function pointer.\n @param callback_arg: will be passed to your callback function.\n @param socket: and opened socket properties will be passed to your callback function.\n @return: returns the allocated communication point. NULL on error.\n Sets timeout to NULL. Turns off TCP options."]
+    pub fn comm_point_create_udp_ancil(
+        base: *mut comm_base,
+        fd: ::std::os::raw::c_int,
+        buffer: *mut sldns_buffer,
+        pp2_enabled: ::std::os::raw::c_int,
+        callback: comm_point_callback_type,
+        callback_arg: *mut ::std::os::raw::c_void,
+        socket: *mut unbound_socket,
+    ) -> *mut comm_point;
+}
+extern "C" {
+    #[doc = " Create a TCP listener comm point. Calls malloc.\n Setups the structure with the parameters you provide.\n Also Creates TCP Handlers, pre allocated for you.\n Uses the parameters you provide.\n @param base: in which base to alloc the commpoint.\n @param fd: file descriptor of open TCP socket set to listen nonblocking.\n @param num: becomes max_tcp_count, the routine allocates that\n\tmany tcp handler commpoints.\n @param idle_timeout: TCP idle timeout in ms.\n @param harden_large_queries: whether query size should be limited.\n @param http_max_streams: maximum number of HTTP/2 streams per connection.\n @param http_endpoint: HTTP endpoint to service queries on\n @param tcp_conn_limit: TCP connection limit info.\n @param bufsize: size of buffer to create for handlers.\n @param spoolbuf: shared spool buffer for tcp_req_info structures.\n \tor NULL to not create those structures in the tcp handlers.\n @param port_type: the type of port we are creating a TCP listener for. Used\n \tto select handler type to use.\n @param pp2_enabled: if the comm point will support PROXYv2.\n @param callback: callback function pointer for TCP handlers.\n @param callback_arg: will be passed to your callback function.\n @param socket: and opened socket properties will be passed to your callback function.\n @return: returns the TCP listener commpoint. You can find the\n  \tTCP handlers in the array inside the listener commpoint.\n\treturns NULL on error.\n Inits timeout to NULL. All handlers are on the free list."]
+    pub fn comm_point_create_tcp(
+        base: *mut comm_base,
+        fd: ::std::os::raw::c_int,
+        num: ::std::os::raw::c_int,
+        idle_timeout: ::std::os::raw::c_int,
+        harden_large_queries: ::std::os::raw::c_int,
+        http_max_streams: u32,
+        http_endpoint: *mut ::std::os::raw::c_char,
+        tcp_conn_limit: *mut tcl_list,
+        bufsize: usize,
+        spoolbuf: *mut sldns_buffer,
+        port_type: listen_type,
+        pp2_enabled: ::std::os::raw::c_int,
+        callback: comm_point_callback_type,
+        callback_arg: *mut ::std::os::raw::c_void,
+        socket: *mut unbound_socket,
+    ) -> *mut comm_point;
+}
+extern "C" {
+    #[doc = " Create an outgoing TCP commpoint. No file descriptor is opened, left at -1.\n @param base: in which base to alloc the commpoint.\n @param bufsize: size of buffer to create for handlers.\n @param callback: callback function pointer for the handler.\n @param callback_arg: will be passed to your callback function.\n @return: the commpoint or NULL on error."]
+    pub fn comm_point_create_tcp_out(
+        base: *mut comm_base,
+        bufsize: usize,
+        callback: comm_point_callback_type,
+        callback_arg: *mut ::std::os::raw::c_void,
+    ) -> *mut comm_point;
+}
+extern "C" {
+    #[doc = " Create an outgoing HTTP commpoint. No file descriptor is opened, left at -1.\n @param base: in which base to alloc the commpoint.\n @param bufsize: size of buffer to create for handlers.\n @param callback: callback function pointer for the handler.\n @param callback_arg: will be passed to your callback function.\n @param temp: sldns buffer, shared between other http_out commpoints, for\n \ttemporary data when performing callbacks.\n @return: the commpoint or NULL on error."]
+    pub fn comm_point_create_http_out(
+        base: *mut comm_base,
+        bufsize: usize,
+        callback: comm_point_callback_type,
+        callback_arg: *mut ::std::os::raw::c_void,
+        temp: *mut sldns_buffer,
+    ) -> *mut comm_point;
+}
+extern "C" {
+    #[doc = " Create commpoint to listen to a local domain file descriptor.\n @param base: in which base to alloc the commpoint.\n @param fd: file descriptor of open AF_UNIX socket set to listen nonblocking.\n @param bufsize: size of buffer to create for handlers.\n @param callback: callback function pointer for the handler.\n @param callback_arg: will be passed to your callback function.\n @return: the commpoint or NULL on error."]
+    pub fn comm_point_create_local(
+        base: *mut comm_base,
+        fd: ::std::os::raw::c_int,
+        bufsize: usize,
+        callback: comm_point_callback_type,
+        callback_arg: *mut ::std::os::raw::c_void,
+    ) -> *mut comm_point;
+}
+extern "C" {
+    #[doc = " Create commpoint to listen to a local domain pipe descriptor.\n @param base: in which base to alloc the commpoint.\n @param fd: file descriptor.\n @param writing: true if you want to listen to writes, false for reads.\n @param callback: callback function pointer for the handler.\n @param callback_arg: will be passed to your callback function.\n @return: the commpoint or NULL on error."]
+    pub fn comm_point_create_raw(
+        base: *mut comm_base,
+        fd: ::std::os::raw::c_int,
+        writing: ::std::os::raw::c_int,
+        callback: comm_point_callback_type,
+        callback_arg: *mut ::std::os::raw::c_void,
+    ) -> *mut comm_point;
+}
+extern "C" {
+    #[doc = " Close a comm point fd.\n @param c: comm point to close."]
+    pub fn comm_point_close(c: *mut comm_point);
+}
+extern "C" {
+    #[doc = " Close and deallocate (free) the comm point. If the comm point is\n a tcp-accept point, also its tcp-handler points are deleted.\n @param c: comm point to delete."]
+    pub fn comm_point_delete(c: *mut comm_point);
+}
+extern "C" {
+    #[doc = " Send reply. Put message into commpoint buffer.\n @param repinfo: The reply info copied from a commpoint callback call."]
+    pub fn comm_point_send_reply(repinfo: *mut comm_reply);
+}
+extern "C" {
+    #[doc = " Drop reply. Cleans up.\n @param repinfo: The reply info copied from a commpoint callback call."]
+    pub fn comm_point_drop_reply(repinfo: *mut comm_reply);
+}
+extern "C" {
+    #[doc = " Send an udp message over a commpoint.\n @param c: commpoint to send it from.\n @param packet: what to send.\n @param addr: where to send it to.   If NULL, send is performed,\n \tfor connected sockets, to the connected address.\n @param addrlen: length of addr.\n @param is_connected: if the UDP socket is connect()ed.\n @return: false on a failure."]
+    pub fn comm_point_send_udp_msg(
+        c: *mut comm_point,
+        packet: *mut sldns_buffer,
+        addr: *mut sockaddr,
+        addrlen: socklen_t,
+        is_connected: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Stop listening for input on the commpoint. No callbacks will happen.\n @param c: commpoint to disable. The fd is not closed."]
+    pub fn comm_point_stop_listening(c: *mut comm_point);
+}
+extern "C" {
+    #[doc = " Start listening again for input on the comm point.\n @param c: commpoint to enable again.\n @param newfd: new fd, or -1 to leave fd be.\n @param msec: timeout in milliseconds, or -1 for no (change to the) timeout.\n\tSo seconds*1000."]
+    pub fn comm_point_start_listening(
+        c: *mut comm_point,
+        newfd: ::std::os::raw::c_int,
+        msec: ::std::os::raw::c_int,
+    );
+}
+extern "C" {
+    #[doc = " Stop listening and start listening again for reading or writing.\n @param c: commpoint\n @param rd: if true, listens for reading.\n @param wr: if true, listens for writing."]
+    pub fn comm_point_listen_for_rw(
+        c: *mut comm_point,
+        rd: ::std::os::raw::c_int,
+        wr: ::std::os::raw::c_int,
+    );
+}
+extern "C" {
+    #[doc = " For TCP handlers that use c->tcp_timeout_msec, this routine adjusts\n it with the minimum.  Otherwise, a 0 value advertised without the\n minimum applied moves to a 0 in comm_point_start_listening and that\n routine treats it as no timeout, listen forever, which is not wanted.\n @param c: comm point to use the tcp_timeout_msec of.\n @return adjusted tcp_timeout_msec value with the minimum if smaller."]
+    pub fn adjusted_tcp_timeout(c: *mut comm_point) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Get size of memory used by comm point.\n For TCP handlers this includes subhandlers.\n For UDP handlers, this does not include the (shared) UDP buffer.\n @param c: commpoint.\n @return size in bytes."]
+    pub fn comm_point_get_mem(c: *mut comm_point) -> usize;
+}
+extern "C" {
+    #[doc = " create timer. Not active upon creation.\n @param base: event handling base.\n @param cb: callback function: void myfunc(void* myarg);\n @param cb_arg: user callback argument.\n @return: the new timer or NULL on error."]
+    pub fn comm_timer_create(
+        base: *mut comm_base,
+        cb: ::std::option::Option<unsafe extern "C" fn(arg1: *mut ::std::os::raw::c_void)>,
+        cb_arg: *mut ::std::os::raw::c_void,
+    ) -> *mut comm_timer;
+}
+extern "C" {
+    #[doc = " disable timer. Stops callbacks from happening.\n @param timer: to disable."]
+    pub fn comm_timer_disable(timer: *mut comm_timer);
+}
+extern "C" {
+    #[doc = " reset timevalue for timer.\n @param timer: timer to (re)set.\n @param tv: when the timer should activate. if NULL timer is disabled."]
+    pub fn comm_timer_set(timer: *mut comm_timer, tv: *mut timeval);
+}
+extern "C" {
+    #[doc = " delete timer.\n @param timer: to delete."]
+    pub fn comm_timer_delete(timer: *mut comm_timer);
+}
+extern "C" {
+    #[doc = " see if timeout has been set to a value.\n @param timer: the timer to examine.\n @return: false if disabled or not set."]
+    pub fn comm_timer_is_set(timer: *mut comm_timer) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Get size of memory used by comm timer.\n @param timer: the timer to examine.\n @return size in bytes."]
+    pub fn comm_timer_get_mem(timer: *mut comm_timer) -> usize;
+}
+extern "C" {
+    #[doc = " Create a signal handler. Call signal_bind() later to bind to a signal.\n @param base: communication base to use.\n @param callback: called when signal is caught.\n @param cb_arg: user argument to callback\n @return: the signal struct or NULL on error."]
+    pub fn comm_signal_create(
+        base: *mut comm_base,
+        callback: ::std::option::Option<
+            unsafe extern "C" fn(arg1: ::std::os::raw::c_int, arg2: *mut ::std::os::raw::c_void),
+        >,
+        cb_arg: *mut ::std::os::raw::c_void,
+    ) -> *mut comm_signal;
+}
+extern "C" {
+    #[doc = " Bind signal struct to catch a signal. A single comm_signal can be bound\n to multiple signals, calling comm_signal_bind multiple times.\n @param comsig: the communication point, with callback information.\n @param sig: signal number.\n @return: true on success. false on error."]
+    pub fn comm_signal_bind(
+        comsig: *mut comm_signal,
+        sig: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Delete the signal communication point.\n @param comsig: to delete."]
+    pub fn comm_signal_delete(comsig: *mut comm_signal);
+}
+extern "C" {
+    #[doc = " perform accept(2) with error checking.\n @param c: commpoint with accept fd.\n @param addr: remote end returned here.\n @param addrlen: length of remote end returned here.\n @return new fd, or -1 on error.\n\tif -1, error message has been printed if necessary, simply drop\n\tout of the reading handler."]
+    pub fn comm_point_perform_accept(
+        c: *mut comm_point,
+        addr: *mut sockaddr_storage,
+        addrlen: *mut socklen_t,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " This routine is published for checks and tests, and is only used internally.\n handle libevent callback for udp comm point.\n @param fd: file descriptor.\n @param event: event bits from libevent:\n\tEV_READ, EV_WRITE, EV_SIGNAL, EV_TIMEOUT.\n @param arg: the comm_point structure."]
+    pub fn comm_point_udp_callback(
+        fd: ::std::os::raw::c_int,
+        event: ::std::os::raw::c_short,
+        arg: *mut ::std::os::raw::c_void,
+    );
+}
+extern "C" {
+    #[doc = " This routine is published for checks and tests, and is only used internally.\n handle libevent callback for udp ancillary data comm point.\n @param fd: file descriptor.\n @param event: event bits from libevent:\n\tEV_READ, EV_WRITE, EV_SIGNAL, EV_TIMEOUT.\n @param arg: the comm_point structure."]
+    pub fn comm_point_udp_ancil_callback(
+        fd: ::std::os::raw::c_int,
+        event: ::std::os::raw::c_short,
+        arg: *mut ::std::os::raw::c_void,
+    );
+}
+extern "C" {
+    #[doc = " This routine is published for checks and tests, and is only used internally.\n handle libevent callback for tcp accept comm point\n @param fd: file descriptor.\n @param event: event bits from libevent:\n\tEV_READ, EV_WRITE, EV_SIGNAL, EV_TIMEOUT.\n @param arg: the comm_point structure."]
+    pub fn comm_point_tcp_accept_callback(
+        fd: ::std::os::raw::c_int,
+        event: ::std::os::raw::c_short,
+        arg: *mut ::std::os::raw::c_void,
+    );
+}
+extern "C" {
+    #[doc = " This routine is published for checks and tests, and is only used internally.\n handle libevent callback for tcp data comm point\n @param fd: file descriptor.\n @param event: event bits from libevent:\n\tEV_READ, EV_WRITE, EV_SIGNAL, EV_TIMEOUT.\n @param arg: the comm_point structure."]
+    pub fn comm_point_tcp_handle_callback(
+        fd: ::std::os::raw::c_int,
+        event: ::std::os::raw::c_short,
+        arg: *mut ::std::os::raw::c_void,
+    );
+}
+extern "C" {
+    #[doc = " This routine is published for checks and tests, and is only used internally.\n handle libevent callback for tcp data comm point\n @param fd: file descriptor.\n @param event: event bits from libevent:\n\tEV_READ, EV_WRITE, EV_SIGNAL, EV_TIMEOUT.\n @param arg: the comm_point structure."]
+    pub fn comm_point_http_handle_callback(
+        fd: ::std::os::raw::c_int,
+        event: ::std::os::raw::c_short,
+        arg: *mut ::std::os::raw::c_void,
+    );
+}
+#[doc = " HTTP2 session.  HTTP2 related info per comm point."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct http2_session {
+    #[doc = " first item in list of streams"]
+    pub first_stream: *mut http2_stream,
+    #[doc = " nghttp2 session"]
+    pub session: *mut nghttp2_session,
+    #[doc = " store nghttp2 callbacks for easy reuse"]
+    pub callbacks: *mut nghttp2_session_callbacks,
+    #[doc = " comm point containing buffer used to build answer in worker or\n module"]
+    pub c: *mut comm_point,
+    #[doc = " session is instructed to get dropped (comm port will be closed)"]
+    pub is_drop: ::std::os::raw::c_int,
+    #[doc = " postpone dropping the session, can be used to prevent dropping\n while being in a callback"]
+    pub postpone_drop: ::std::os::raw::c_int,
+}
+pub const http_status_HTTP_STATUS_OK: http_status = 200;
+pub const http_status_HTTP_STATUS_BAD_REQUEST: http_status = 400;
+pub const http_status_HTTP_STATUS_NOT_FOUND: http_status = 404;
+pub const http_status_HTTP_STATUS_PAYLOAD_TOO_LARGE: http_status = 413;
+pub const http_status_HTTP_STATUS_URI_TOO_LONG: http_status = 414;
+pub const http_status_HTTP_STATUS_UNSUPPORTED_MEDIA_TYPE: http_status = 415;
+pub const http_status_HTTP_STATUS_NOT_IMPLEMENTED: http_status = 501;
+#[doc = " enum of HTTP status"]
+pub type http_status = ::std::os::raw::c_uint;
+#[doc = " HTTP stream. Part of list of HTTP2 streams per session."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct http2_stream {
+    #[doc = " next stream in list per session"]
+    pub next: *mut http2_stream,
+    #[doc = " previous stream in list per session"]
+    pub prev: *mut http2_stream,
+    #[doc = " HTTP2 stream ID is an unsigned 31-bit integer"]
+    pub stream_id: i32,
+    pub http_method: http2_stream__bindgen_ty_1,
+    #[doc = " message contains invalid content type"]
+    pub invalid_content_type: ::std::os::raw::c_int,
+    #[doc = " message body content type"]
+    pub content_length: usize,
+    #[doc = " HTTP response status"]
+    pub status: http_status,
+    #[doc = " request for non existing endpoint"]
+    pub invalid_endpoint: ::std::os::raw::c_int,
+    #[doc = " query in request is too large"]
+    pub query_too_large: ::std::os::raw::c_int,
+    #[doc = " buffer to store query into. Can't use session shared buffer as query\n can arrive in parts, intertwined with frames for other queries."]
+    pub qbuffer: *mut sldns_buffer,
+    #[doc = " buffer to store response into. Can't use shared buffer as a next\n query read callback can overwrite it before it is send out."]
+    pub rbuffer: *mut sldns_buffer,
+    #[doc = " mesh area containing mesh state"]
+    pub mesh: *mut mesh_area,
+    #[doc = " mesh state for query. Used to remove mesh reply before closing\n stream."]
+    pub mesh_state: *mut mesh_state,
+}
+pub const http2_stream_HTTP_METHOD_POST: http2_stream__bindgen_ty_1 = 1;
+pub const http2_stream_HTTP_METHOD_GET: http2_stream__bindgen_ty_1 = 2;
+pub const http2_stream_HTTP_METHOD_UNSUPPORTED: http2_stream__bindgen_ty_1 = 3;
+#[doc = " HTTP method used for this stream"]
+pub type http2_stream__bindgen_ty_1 = ::std::os::raw::c_uint;
+extern "C" {
+    #[doc = " nghttp2 receive cb. Read from SSL connection into nghttp2 buffer"]
+    pub fn http2_recv_cb(
+        session: *mut nghttp2_session,
+        buf: *mut u8,
+        len: usize,
+        flags: ::std::os::raw::c_int,
+        cb_arg: *mut ::std::os::raw::c_void,
+    ) -> isize;
+}
+extern "C" {
+    #[doc = " nghttp2 send callback. Send from nghttp2 buffer to ssl socket"]
+    pub fn http2_send_cb(
+        session: *mut nghttp2_session,
+        buf: *const u8,
+        len: usize,
+        flags: ::std::os::raw::c_int,
+        cb_arg: *mut ::std::os::raw::c_void,
+    ) -> isize;
+}
+extern "C" {
+    #[doc = " nghttp2 callback on closing stream"]
+    pub fn http2_stream_close_cb(
+        session: *mut nghttp2_session,
+        stream_id: i32,
+        error_code: u32,
+        cb_arg: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Create new http2 stream\n @param stream_id: ID for stream to create.\n @return malloc'ed stream, NULL on error"]
+    pub fn http2_stream_create(stream_id: i32) -> *mut http2_stream;
+}
+extern "C" {
+    #[doc = " Add new stream to session linked list\n @param h2_session: http2 session to add stream to\n @param h2_stream: stream to add to session list"]
+    pub fn http2_session_add_stream(h2_session: *mut http2_session, h2_stream: *mut http2_stream);
+}
+extern "C" {
+    #[doc = " Add mesh state to stream. To be able to remove mesh reply on stream closure"]
+    pub fn http2_stream_add_meshstate(
+        h2_stream: *mut http2_stream,
+        mesh: *mut mesh_area,
+        m: *mut mesh_state,
+    );
+}
+extern "C" {
+    #[doc = " This routine is published for checks and tests, and is only used internally.\n handle libevent callback for timer comm.\n @param fd: file descriptor (always -1).\n @param event: event bits from libevent:\n\tEV_READ, EV_WRITE, EV_SIGNAL, EV_TIMEOUT.\n @param arg: the comm_timer structure."]
+    pub fn comm_timer_callback(
+        fd: ::std::os::raw::c_int,
+        event: ::std::os::raw::c_short,
+        arg: *mut ::std::os::raw::c_void,
+    );
+}
+extern "C" {
+    #[doc = " This routine is published for checks and tests, and is only used internally.\n handle libevent callback for signal comm.\n @param fd: file descriptor (used for the signal number).\n @param event: event bits from libevent:\n\tEV_READ, EV_WRITE, EV_SIGNAL, EV_TIMEOUT.\n @param arg: the internal commsignal structure."]
+    pub fn comm_signal_callback(
+        fd: ::std::os::raw::c_int,
+        event: ::std::os::raw::c_short,
+        arg: *mut ::std::os::raw::c_void,
+    );
+}
+extern "C" {
+    #[doc = " This routine is published for checks and tests, and is only used internally.\n libevent callback for AF_UNIX fds\n @param fd: file descriptor.\n @param event: event bits from libevent:\n\tEV_READ, EV_WRITE, EV_SIGNAL, EV_TIMEOUT.\n @param arg: the comm_point structure."]
+    pub fn comm_point_local_handle_callback(
+        fd: ::std::os::raw::c_int,
+        event: ::std::os::raw::c_short,
+        arg: *mut ::std::os::raw::c_void,
+    );
+}
+extern "C" {
+    #[doc = " This routine is published for checks and tests, and is only used internally.\n libevent callback for raw fd access.\n @param fd: file descriptor.\n @param event: event bits from libevent:\n\tEV_READ, EV_WRITE, EV_SIGNAL, EV_TIMEOUT.\n @param arg: the comm_point structure."]
+    pub fn comm_point_raw_handle_callback(
+        fd: ::std::os::raw::c_int,
+        event: ::std::os::raw::c_short,
+        arg: *mut ::std::os::raw::c_void,
+    );
+}
+extern "C" {
+    #[doc = " This routine is published for checks and tests, and is only used internally.\n libevent callback for timeout on slow accept.\n @param fd: file descriptor.\n @param event: event bits from libevent:\n\tEV_READ, EV_WRITE, EV_SIGNAL, EV_TIMEOUT.\n @param arg: the comm_point structure."]
+    pub fn comm_base_handle_slow_accept(
+        fd: ::std::os::raw::c_int,
+        event: ::std::os::raw::c_short,
+        arg: *mut ::std::os::raw::c_void,
+    );
+}
+extern "C" {
+    #[doc = " See if errno for tcp connect has to be logged or not. This uses errno\n @param addr: apart from checking errno, the addr is checked for ip4mapped\n \tand broadcast type, hence passed.\n @param addrlen: length of the addr parameter.\n @return true if it needs to be logged."]
+    pub fn tcp_connect_errno_needs_log(
+        addr: *mut sockaddr,
+        addrlen: socklen_t,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " True if the ssl handshake error has to be squelched from the logs\n @param err: the error returned by the openssl routine, ERR_get_error.\n \tThis is a packed structure with elements that are examined.\n @return true if the error is squelched (not logged)."]
+    pub fn squelch_err_ssl_handshake(err: ::std::os::raw::c_ulong) -> ::std::os::raw::c_int;
+}
+#[doc = " the regional* is the first block*.\n every block has a ptr to the next in first bytes.\n and so does the regional struct, which is the first block."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct regional {
+    #[doc = " next chunk. NULL if first chunk is the only chunk.\n first inside that chunk is the char* next pointer.\n When regional_free_all() has been called this value is NULL."]
+    pub next: *mut ::std::os::raw::c_char,
+    #[doc = " first large object, cast to char** to obtain next ptr"]
+    pub large_list: *mut ::std::os::raw::c_char,
+    #[doc = " total large size"]
+    pub total_large: usize,
+    #[doc = " initial chunk size"]
+    pub first_size: usize,
+    #[doc = " number of bytes available in the current chunk."]
+    pub available: usize,
+    #[doc = " current chunk data position."]
+    pub data: *mut ::std::os::raw::c_char,
+    #[doc = " threshold for outside of chunk allocations"]
+    pub large_object_size: usize,
+    #[doc = " padding for sizeof8 alignment of sizeof(struct regional)\n for 32bit systems"]
+    pub padding: usize,
+}
+extern "C" {
+    #[doc = " Create a new regional.\n @return: newly allocated regional."]
+    pub fn regional_create() -> *mut regional;
+}
+extern "C" {
+    #[doc = " Create a new region, with custom settings.\n @param size: length of first block.\n @return: newly allocated regional."]
+    pub fn regional_create_custom(size: usize) -> *mut regional;
+}
+extern "C" {
+    #[doc = " Create a new region, with custom settings, that will allocate everything\n outside the region chunk.\n @param size: length of first block.\n @return: newly allocated regional."]
+    pub fn regional_create_nochunk(size: usize) -> *mut regional;
+}
+extern "C" {
+    #[doc = " Free all memory associated with regional. Only keeps the first block with\n the regional inside it.\n @param r: the region."]
+    pub fn regional_free_all(r: *mut regional);
+}
+extern "C" {
+    #[doc = " Destroy regional.  All memory associated with regional is freed as if\n regional_free_all was called, as well as destroying the regional struct.\n @param r: to delete."]
+    pub fn regional_destroy(r: *mut regional);
+}
+extern "C" {
+    #[doc = " Allocate size bytes of memory inside regional.  The memory is\n deallocated when region_free_all is called for this region.\n @param r: the region.\n @param size: number of bytes.\n @return: pointer to memory allocated."]
+    pub fn regional_alloc(r: *mut regional, size: usize) -> *mut ::std::os::raw::c_void;
+}
+extern "C" {
+    #[doc = " Allocate size bytes of memory inside regional and copy INIT into it.\n The memory is deallocated when region_free_all is called for this\n region.\n @param r: the region.\n @param init: to copy.\n @param size: number of bytes.\n @return: pointer to memory allocated."]
+    pub fn regional_alloc_init(
+        r: *mut regional,
+        init: *const ::std::os::raw::c_void,
+        size: usize,
+    ) -> *mut ::std::os::raw::c_void;
+}
+extern "C" {
+    #[doc = " Allocate size bytes of memory inside regional that are initialized to\n 0.  The memory is deallocated when region_free_all is called for\n this region.\n @param r: the region.\n @param size: number of bytes.\n @return: pointer to memory allocated."]
+    pub fn regional_alloc_zero(r: *mut regional, size: usize) -> *mut ::std::os::raw::c_void;
+}
+extern "C" {
+    #[doc = " Duplicate string and allocate the result in regional.\n @param r: the region.\n @param string: null terminated string.\n @return: pointer to memory allocated."]
+    pub fn regional_strdup(
+        r: *mut regional,
+        string: *const ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+}
+extern "C" {
+    #[doc = " Debug print regional statistics to log"]
+    pub fn regional_log_stats(r: *mut regional);
+}
+extern "C" {
+    #[doc = " get total memory size in use by region"]
+    pub fn regional_get_mem(r: *mut regional) -> usize;
+}
+#[doc = " List head for strlist processing, used for append operation."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct config_strlist_head {
+    #[doc = " first in list of text items"]
+    pub first: *mut config_strlist,
+    #[doc = " last in list of text items"]
+    pub last: *mut config_strlist,
+}
+#[doc = " The configuration options.\n Strings are malloced."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct config_file {
+    #[doc = " verbosity level as specified in the config file"]
+    pub verbosity: ::std::os::raw::c_int,
+    #[doc = " statistics interval (in seconds)"]
+    pub stat_interval: ::std::os::raw::c_int,
+    #[doc = " if false, statistics values are reset after printing them"]
+    pub stat_cumulative: ::std::os::raw::c_int,
+    #[doc = " if true, the statistics are kept in greater detail"]
+    pub stat_extended: ::std::os::raw::c_int,
+    #[doc = " if true, inhibits a lot of =0 lines from the extended stats output"]
+    pub stat_inhibit_zero: ::std::os::raw::c_int,
+    #[doc = " number of threads to create"]
+    pub num_threads: ::std::os::raw::c_int,
+    #[doc = " port on which queries are answered."]
+    pub port: ::std::os::raw::c_int,
+    #[doc = " do ip4 query support."]
+    pub do_ip4: ::std::os::raw::c_int,
+    #[doc = " do ip6 query support."]
+    pub do_ip6: ::std::os::raw::c_int,
+    #[doc = " do nat64 on queries"]
+    pub do_nat64: ::std::os::raw::c_int,
+    #[doc = " prefer ip4 upstream queries."]
+    pub prefer_ip4: ::std::os::raw::c_int,
+    #[doc = " prefer ip6 upstream queries."]
+    pub prefer_ip6: ::std::os::raw::c_int,
+    #[doc = " do udp query support."]
+    pub do_udp: ::std::os::raw::c_int,
+    #[doc = " do tcp query support."]
+    pub do_tcp: ::std::os::raw::c_int,
+    #[doc = " max number of queries on a reuse connection."]
+    pub max_reuse_tcp_queries: usize,
+    #[doc = " timeout for REUSE entries in milliseconds."]
+    pub tcp_reuse_timeout: ::std::os::raw::c_int,
+    #[doc = " timeout in milliseconds for TCP queries to auth servers."]
+    pub tcp_auth_query_timeout: ::std::os::raw::c_int,
+    #[doc = " tcp upstream queries (no UDP upstream queries)"]
+    pub tcp_upstream: ::std::os::raw::c_int,
+    #[doc = " udp upstream enabled when no UDP downstream is enabled (do_udp no)"]
+    pub udp_upstream_without_downstream: ::std::os::raw::c_int,
+    #[doc = " maximum segment size of tcp socket which queries are answered"]
+    pub tcp_mss: ::std::os::raw::c_int,
+    #[doc = " maximum segment size of tcp socket for outgoing queries"]
+    pub outgoing_tcp_mss: ::std::os::raw::c_int,
+    #[doc = " tcp idle timeout, in msec"]
+    pub tcp_idle_timeout: ::std::os::raw::c_int,
+    #[doc = " do edns tcp keepalive"]
+    pub do_tcp_keepalive: ::std::os::raw::c_int,
+    #[doc = " tcp keepalive timeout, in msec"]
+    pub tcp_keepalive_timeout: ::std::os::raw::c_int,
+    #[doc = " timeout of packets sitting in the socket queue"]
+    pub sock_queue_timeout: ::std::os::raw::c_int,
+    #[doc = " proxy protocol ports"]
+    pub proxy_protocol_port: *mut config_strlist,
+    #[doc = " private key file for dnstcp-ssl service (enabled if not NULL)"]
+    pub ssl_service_key: *mut ::std::os::raw::c_char,
+    #[doc = " public key file for dnstcp-ssl service"]
+    pub ssl_service_pem: *mut ::std::os::raw::c_char,
+    #[doc = " port on which to provide ssl service"]
+    pub ssl_port: ::std::os::raw::c_int,
+    #[doc = " if outgoing tcp connections use SSL"]
+    pub ssl_upstream: ::std::os::raw::c_int,
+    #[doc = " cert bundle for outgoing connections"]
+    pub tls_cert_bundle: *mut ::std::os::raw::c_char,
+    #[doc = " should the system certificate store get added to the cert bundle"]
+    pub tls_win_cert: ::std::os::raw::c_int,
+    #[doc = " additional tls ports"]
+    pub tls_additional_port: *mut config_strlist,
+    #[doc = " secret key used to encrypt and decrypt TLS session ticket"]
+    pub tls_session_ticket_keys: config_strlist_head,
+    #[doc = " TLS ciphers"]
+    pub tls_ciphers: *mut ::std::os::raw::c_char,
+    #[doc = " TLS chiphersuites (TLSv1.3)"]
+    pub tls_ciphersuites: *mut ::std::os::raw::c_char,
+    #[doc = " if SNI is to be used"]
+    pub tls_use_sni: ::std::os::raw::c_int,
+    #[doc = " port on which to provide DNS over HTTPS service"]
+    pub https_port: ::std::os::raw::c_int,
+    #[doc = " endpoint for HTTP service"]
+    pub http_endpoint: *mut ::std::os::raw::c_char,
+    #[doc = " MAX_CONCURRENT_STREAMS HTTP/2 setting"]
+    pub http_max_streams: u32,
+    #[doc = " maximum size of all HTTP2 query buffers combined."]
+    pub http_query_buffer_size: usize,
+    #[doc = " maximum size of all HTTP2 response buffers combined."]
+    pub http_response_buffer_size: usize,
+    #[doc = " set TCP_NODELAY option for http sockets"]
+    pub http_nodelay: ::std::os::raw::c_int,
+    #[doc = " Disable TLS for http sockets downstream"]
+    pub http_notls_downstream: ::std::os::raw::c_int,
+    #[doc = " outgoing port range number of ports (per thread)"]
+    pub outgoing_num_ports: ::std::os::raw::c_int,
+    #[doc = " number of outgoing tcp buffers per (per thread)"]
+    pub outgoing_num_tcp: usize,
+    #[doc = " number of incoming tcp buffers per (per thread)"]
+    pub incoming_num_tcp: usize,
+    #[doc = " allowed udp port numbers, array with 0 if not allowed"]
+    pub outgoing_avail_ports: *mut ::std::os::raw::c_int,
+    #[doc = " EDNS buffer size to use"]
+    pub edns_buffer_size: usize,
+    #[doc = " size of the stream wait buffers, max"]
+    pub stream_wait_size: usize,
+    #[doc = " number of bytes buffer size for DNS messages"]
+    pub msg_buffer_size: usize,
+    #[doc = " size of the message cache"]
+    pub msg_cache_size: usize,
+    #[doc = " slabs in the message cache."]
+    pub msg_cache_slabs: usize,
+    #[doc = " number of queries every thread can service"]
+    pub num_queries_per_thread: usize,
+    #[doc = " number of msec to wait before items can be jostled out"]
+    pub jostle_time: usize,
+    #[doc = " size of the rrset cache"]
+    pub rrset_cache_size: usize,
+    #[doc = " slabs in the rrset cache"]
+    pub rrset_cache_slabs: usize,
+    #[doc = " host cache ttl in seconds"]
+    pub host_ttl: ::std::os::raw::c_int,
+    #[doc = " number of slabs in the infra host cache"]
+    pub infra_cache_slabs: usize,
+    #[doc = " max number of hosts in the infra cache"]
+    pub infra_cache_numhosts: usize,
+    #[doc = " min value for infra cache rtt (min retransmit timeout)"]
+    pub infra_cache_min_rtt: ::std::os::raw::c_int,
+    #[doc = " max value for infra cache rtt (max retransmit timeout)"]
+    pub infra_cache_max_rtt: ::std::os::raw::c_int,
+    #[doc = " keep probing hosts that are down"]
+    pub infra_keep_probing: ::std::os::raw::c_int,
+    #[doc = " delay close of udp-timeouted ports, if 0 no delayclose. in msec"]
+    pub delay_close: ::std::os::raw::c_int,
+    #[doc = " udp_connect enable uses UDP connect to mitigate ICMP side channel"]
+    pub udp_connect: ::std::os::raw::c_int,
+    #[doc = " the target fetch policy for the iterator"]
+    pub target_fetch_policy: *mut ::std::os::raw::c_char,
+    #[doc = " percent*10, how many times in 1000 to pick from the fastest\n destinations"]
+    pub fast_server_permil: ::std::os::raw::c_int,
+    #[doc = " number of fastest server to select from"]
+    pub fast_server_num: usize,
+    #[doc = " automatic interface for incoming messages. Uses ipv6 remapping,\n and recvmsg/sendmsg ancillary data to detect interfaces, boolean"]
+    pub if_automatic: ::std::os::raw::c_int,
+    #[doc = " extra ports to open if if_automatic enabled, or NULL for default"]
+    pub if_automatic_ports: *mut ::std::os::raw::c_char,
+    #[doc = " SO_RCVBUF size to set on port 53 UDP socket"]
+    pub so_rcvbuf: usize,
+    #[doc = " SO_SNDBUF size to set on port 53 UDP socket"]
+    pub so_sndbuf: usize,
+    #[doc = " SO_REUSEPORT requested on port 53 sockets"]
+    pub so_reuseport: ::std::os::raw::c_int,
+    #[doc = " IP_TRANSPARENT socket option requested on port 53 sockets"]
+    pub ip_transparent: ::std::os::raw::c_int,
+    #[doc = " IP_FREEBIND socket option request on port 53 sockets"]
+    pub ip_freebind: ::std::os::raw::c_int,
+    #[doc = " IP_TOS socket option requested on port 53 sockets"]
+    pub ip_dscp: ::std::os::raw::c_int,
+    #[doc = " number of interfaces to open. If 0 default all interfaces."]
+    pub num_ifs: ::std::os::raw::c_int,
+    #[doc = " interface description strings (IP addresses)"]
+    pub ifs: *mut *mut ::std::os::raw::c_char,
+    #[doc = " number of outgoing interfaces to open.\n If 0 default all interfaces."]
+    pub num_out_ifs: ::std::os::raw::c_int,
+    #[doc = " outgoing interface description strings (IP addresses)"]
+    pub out_ifs: *mut *mut ::std::os::raw::c_char,
+    #[doc = " the root hints"]
+    pub root_hints: *mut config_strlist,
+    #[doc = " the stub definitions, linked list"]
+    pub stubs: *mut config_stub,
+    #[doc = " the forward zone definitions, linked list"]
+    pub forwards: *mut config_stub,
+    #[doc = " the auth zone definitions, linked list"]
+    pub auths: *mut config_auth,
+    #[doc = " the views definitions, linked list"]
+    pub views: *mut config_view,
+    #[doc = " list of donotquery addresses, linked list"]
+    pub donotqueryaddrs: *mut config_strlist,
+    #[doc = " list of servers we send edns-client-subnet option to and\n accept option from, linked list"]
+    pub client_subnet: *mut config_strlist,
+    #[doc = " list of zones we send edns-client-subnet option for"]
+    pub client_subnet_zone: *mut config_strlist,
+    #[doc = " opcode assigned by IANA for edns0-client-subnet option"]
+    pub client_subnet_opcode: u16,
+    #[doc = " Do not check whitelist if incoming query contains an ECS record"]
+    pub client_subnet_always_forward: ::std::os::raw::c_int,
+    #[doc = " Subnet length we are willing to give up privacy for"]
+    pub max_client_subnet_ipv4: u8,
+    pub max_client_subnet_ipv6: u8,
+    #[doc = " Minimum subnet length we are willing to answer"]
+    pub min_client_subnet_ipv4: u8,
+    pub min_client_subnet_ipv6: u8,
+    #[doc = " Max number of nodes in the ECS radix tree"]
+    pub max_ecs_tree_size_ipv4: u32,
+    pub max_ecs_tree_size_ipv6: u32,
+    #[doc = " list of access control entries, linked list"]
+    pub acls: *mut config_str2list,
+    #[doc = " use default localhost donotqueryaddr entries"]
+    pub donotquery_localhost: ::std::os::raw::c_int,
+    #[doc = " list of tcp connection limitss, linked list"]
+    pub tcp_connection_limits: *mut config_str2list,
+    #[doc = " harden against very small edns buffer sizes"]
+    pub harden_short_bufsize: ::std::os::raw::c_int,
+    #[doc = " harden against very large query sizes"]
+    pub harden_large_queries: ::std::os::raw::c_int,
+    #[doc = " harden against spoofed glue (out of zone data)"]
+    pub harden_glue: ::std::os::raw::c_int,
+    #[doc = " harden against receiving no DNSSEC data for trust anchor"]
+    pub harden_dnssec_stripped: ::std::os::raw::c_int,
+    #[doc = " harden against queries that fall under known nxdomain names"]
+    pub harden_below_nxdomain: ::std::os::raw::c_int,
+    #[doc = " harden the referral path, query for NS,A,AAAA and validate"]
+    pub harden_referral_path: ::std::os::raw::c_int,
+    #[doc = " harden against algorithm downgrade"]
+    pub harden_algo_downgrade: ::std::os::raw::c_int,
+    #[doc = " harden against unknown records in the authority section and in\n the additional section"]
+    pub harden_unknown_additional: ::std::os::raw::c_int,
+    #[doc = " use 0x20 bits in query as random ID bits"]
+    pub use_caps_bits_for_id: ::std::os::raw::c_int,
+    #[doc = " 0x20 whitelist, domains that do not use capsforid"]
+    pub caps_whitelist: *mut config_strlist,
+    #[doc = " strip away these private addrs from answers, no DNS Rebinding"]
+    pub private_address: *mut config_strlist,
+    #[doc = " allow domain (and subdomains) to use private address space"]
+    pub private_domain: *mut config_strlist,
+    #[doc = " what threshold for unwanted action."]
+    pub unwanted_threshold: usize,
+    #[doc = " the number of seconds maximal TTL used for RRsets and messages"]
+    pub max_ttl: ::std::os::raw::c_int,
+    #[doc = " the number of seconds minimum TTL used for RRsets and messages"]
+    pub min_ttl: ::std::os::raw::c_int,
+    #[doc = " the number of seconds maximal negative TTL for SOA in auth"]
+    pub max_negative_ttl: ::std::os::raw::c_int,
+    #[doc = " the number of seconds minimal negative TTL for SOA in auth"]
+    pub min_negative_ttl: ::std::os::raw::c_int,
+    #[doc = " if prefetching of messages should be performed."]
+    pub prefetch: ::std::os::raw::c_int,
+    #[doc = " if prefetching of DNSKEYs should be performed."]
+    pub prefetch_key: ::std::os::raw::c_int,
+    #[doc = " deny queries of type ANY with an empty answer"]
+    pub deny_any: ::std::os::raw::c_int,
+    #[doc = " chrootdir, if not \"\" or chroot will be done"]
+    pub chrootdir: *mut ::std::os::raw::c_char,
+    #[doc = " username to change to, if not \"\"."]
+    pub username: *mut ::std::os::raw::c_char,
+    #[doc = " working directory"]
+    pub directory: *mut ::std::os::raw::c_char,
+    #[doc = " filename to log to."]
+    pub logfile: *mut ::std::os::raw::c_char,
+    #[doc = " pidfile to write pid to."]
+    pub pidfile: *mut ::std::os::raw::c_char,
+    #[doc = " should log messages be sent to syslogd"]
+    pub use_syslog: ::std::os::raw::c_int,
+    #[doc = " log timestamp in ascii UTC"]
+    pub log_time_ascii: ::std::os::raw::c_int,
+    #[doc = " log queries with one line per query"]
+    pub log_queries: ::std::os::raw::c_int,
+    #[doc = " log replies with one line per reply"]
+    pub log_replies: ::std::os::raw::c_int,
+    #[doc = " tag log_queries and log_replies for filtering"]
+    pub log_tag_queryreply: ::std::os::raw::c_int,
+    #[doc = " log every local-zone hit"]
+    pub log_local_actions: ::std::os::raw::c_int,
+    #[doc = " log servfails with a reason"]
+    pub log_servfail: ::std::os::raw::c_int,
+    #[doc = " log identity to report"]
+    pub log_identity: *mut ::std::os::raw::c_char,
+    #[doc = " log dest addr for log_replies"]
+    pub log_destaddr: ::std::os::raw::c_int,
+    #[doc = " do not report identity (id.server, hostname.bind)"]
+    pub hide_identity: ::std::os::raw::c_int,
+    #[doc = " do not report version (version.server, version.bind)"]
+    pub hide_version: ::std::os::raw::c_int,
+    #[doc = " do not report trustanchor (trustanchor.unbound)"]
+    pub hide_trustanchor: ::std::os::raw::c_int,
+    #[doc = " do not report the User-Agent HTTP header"]
+    pub hide_http_user_agent: ::std::os::raw::c_int,
+    #[doc = " identity, hostname is returned if \"\"."]
+    pub identity: *mut ::std::os::raw::c_char,
+    #[doc = " version, package version returned if \"\"."]
+    pub version: *mut ::std::os::raw::c_char,
+    #[doc = " User-Agent for HTTP header"]
+    pub http_user_agent: *mut ::std::os::raw::c_char,
+    #[doc = " nsid"]
+    pub nsid_cfg_str: *mut ::std::os::raw::c_char,
+    pub nsid: *mut u8,
+    pub nsid_len: u16,
+    #[doc = " the module configuration string"]
+    pub module_conf: *mut ::std::os::raw::c_char,
+    #[doc = " files with trusted DS and DNSKEYs in zonefile format, list"]
+    pub trust_anchor_file_list: *mut config_strlist,
+    #[doc = " list of trustanchor keys, linked list"]
+    pub trust_anchor_list: *mut config_strlist,
+    #[doc = " files with 5011 autotrust tracked keys"]
+    pub auto_trust_anchor_file_list: *mut config_strlist,
+    #[doc = " files with trusted DNSKEYs in named.conf format, list"]
+    pub trusted_keys_file_list: *mut config_strlist,
+    #[doc = " insecure domain list"]
+    pub domain_insecure: *mut config_strlist,
+    #[doc = " send key tag query"]
+    pub trust_anchor_signaling: ::std::os::raw::c_int,
+    #[doc = " enable root key sentinel"]
+    pub root_key_sentinel: ::std::os::raw::c_int,
+    #[doc = " if not 0, this value is the validation date for RRSIGs"]
+    pub val_date_override: i32,
+    #[doc = " the minimum for signature clock skew"]
+    pub val_sig_skew_min: i32,
+    #[doc = " the maximum for signature clock skew"]
+    pub val_sig_skew_max: i32,
+    #[doc = " max number of query restarts, number of IPs to probe"]
+    pub val_max_restart: i32,
+    #[doc = " this value sets the number of seconds before revalidating bogus"]
+    pub bogus_ttl: ::std::os::raw::c_int,
+    #[doc = " should validator clean additional section for secure msgs"]
+    pub val_clean_additional: ::std::os::raw::c_int,
+    #[doc = " log bogus messages by the validator"]
+    pub val_log_level: ::std::os::raw::c_int,
+    #[doc = " squelch val_log_level to log - this is library goes to callback"]
+    pub val_log_squelch: ::std::os::raw::c_int,
+    #[doc = " should validator allow bogus messages to go through"]
+    pub val_permissive_mode: ::std::os::raw::c_int,
+    #[doc = " use cached NSEC records to synthesise (negative) answers"]
+    pub aggressive_nsec: ::std::os::raw::c_int,
+    #[doc = " ignore the CD flag in incoming queries and refuse them bogus data"]
+    pub ignore_cd: ::std::os::raw::c_int,
+    #[doc = " disable EDNS DO flag in outgoing requests"]
+    pub disable_edns_do: ::std::os::raw::c_int,
+    #[doc = " serve expired entries and prefetch them"]
+    pub serve_expired: ::std::os::raw::c_int,
+    #[doc = " serve expired entries until TTL after expiration"]
+    pub serve_expired_ttl: ::std::os::raw::c_int,
+    #[doc = " reset serve expired TTL after failed update attempt"]
+    pub serve_expired_ttl_reset: ::std::os::raw::c_int,
+    #[doc = " TTL for the serve expired replies"]
+    pub serve_expired_reply_ttl: ::std::os::raw::c_int,
+    #[doc = " serve expired entries only after trying to update the entries and this\n  timeout (in milliseconds) is reached"]
+    pub serve_expired_client_timeout: ::std::os::raw::c_int,
+    #[doc = " serve EDE code 3 - Stale Answer (RFC8914) for expired entries"]
+    pub ede_serve_expired: ::std::os::raw::c_int,
+    #[doc = " serve original TTLs rather than decrementing ones"]
+    pub serve_original_ttl: ::std::os::raw::c_int,
+    #[doc = " nsec3 maximum iterations per key size, string"]
+    pub val_nsec3_key_iterations: *mut ::std::os::raw::c_char,
+    #[doc = " if zonemd failures are permitted, only logged"]
+    pub zonemd_permissive_mode: ::std::os::raw::c_int,
+    #[doc = " autotrust add holddown time, in seconds"]
+    pub add_holddown: ::std::os::raw::c_uint,
+    #[doc = " autotrust del holddown time, in seconds"]
+    pub del_holddown: ::std::os::raw::c_uint,
+    #[doc = " autotrust keep_missing time, in seconds. 0 is forever."]
+    pub keep_missing: ::std::os::raw::c_uint,
+    #[doc = " permit small holddown values, allowing 5011 rollover very fast"]
+    pub permit_small_holddown: ::std::os::raw::c_int,
+    #[doc = " size of the key cache"]
+    pub key_cache_size: usize,
+    #[doc = " slabs in the key cache."]
+    pub key_cache_slabs: usize,
+    #[doc = " size of the neg cache"]
+    pub neg_cache_size: usize,
+    #[doc = " local zones config"]
+    pub local_zones: *mut config_str2list,
+    #[doc = " local zones nodefault list"]
+    pub local_zones_nodefault: *mut config_strlist,
+    #[doc = " do not add any default local zone"]
+    pub local_zones_disable_default: ::std::os::raw::c_int,
+    #[doc = " local data RRs configured"]
+    pub local_data: *mut config_strlist,
+    #[doc = " local zone override types per netblock"]
+    pub local_zone_overrides: *mut config_str3list,
+    #[doc = " unblock lan zones (reverse lookups for AS112 zones)"]
+    pub unblock_lan_zones: ::std::os::raw::c_int,
+    #[doc = " insecure lan zones (don't validate AS112 zones)"]
+    pub insecure_lan_zones: ::std::os::raw::c_int,
+    #[doc = " list of zonename, tagbitlist"]
+    pub local_zone_tags: *mut config_strbytelist,
+    #[doc = " list of aclname, tagbitlist"]
+    pub acl_tags: *mut config_strbytelist,
+    #[doc = " list of aclname, tagname, localzonetype"]
+    pub acl_tag_actions: *mut config_str3list,
+    #[doc = " list of aclname, tagname, redirectdata"]
+    pub acl_tag_datas: *mut config_str3list,
+    #[doc = " list of aclname, view"]
+    pub acl_view: *mut config_str2list,
+    #[doc = " list of interface action entries, linked list"]
+    pub interface_actions: *mut config_str2list,
+    #[doc = " list of interface, tagbitlist"]
+    pub interface_tags: *mut config_strbytelist,
+    #[doc = " list of interface, tagname, localzonetype"]
+    pub interface_tag_actions: *mut config_str3list,
+    #[doc = " list of interface, tagname, redirectdata"]
+    pub interface_tag_datas: *mut config_str3list,
+    #[doc = " list of interface, view"]
+    pub interface_view: *mut config_str2list,
+    #[doc = " list of IP-netblock, tagbitlist"]
+    pub respip_tags: *mut config_strbytelist,
+    #[doc = " list of response-driven access control entries, linked list"]
+    pub respip_actions: *mut config_str2list,
+    #[doc = " RRs configured for response-driven access controls"]
+    pub respip_data: *mut config_str2list,
+    #[doc = " tag list, array with tagname[i] is malloced string"]
+    pub tagname: *mut *mut ::std::os::raw::c_char,
+    #[doc = " number of items in the taglist"]
+    pub num_tags: ::std::os::raw::c_int,
+    #[doc = " remote control section. enable toggle."]
+    pub remote_control_enable: ::std::os::raw::c_int,
+    #[doc = " the interfaces the remote control should listen on"]
+    pub control_ifs: config_strlist_head,
+    #[doc = " if the use-cert option is set"]
+    pub control_use_cert: ::std::os::raw::c_int,
+    #[doc = " port number for the control port"]
+    pub control_port: ::std::os::raw::c_int,
+    #[doc = " private key file for server"]
+    pub server_key_file: *mut ::std::os::raw::c_char,
+    #[doc = " certificate file for server"]
+    pub server_cert_file: *mut ::std::os::raw::c_char,
+    #[doc = " private key file for unbound-control"]
+    pub control_key_file: *mut ::std::os::raw::c_char,
+    #[doc = " certificate file for unbound-control"]
+    pub control_cert_file: *mut ::std::os::raw::c_char,
+    #[doc = " Python script file"]
+    pub python_script: *mut config_strlist,
+    #[doc = " Dynamic library file"]
+    pub dynlib_file: *mut config_strlist,
+    #[doc = " Use systemd socket activation."]
+    pub use_systemd: ::std::os::raw::c_int,
+    #[doc = " daemonize, i.e. fork into the background."]
+    pub do_daemonize: ::std::os::raw::c_int,
+    pub minimal_responses: ::std::os::raw::c_int,
+    pub rrset_roundrobin: ::std::os::raw::c_int,
+    pub unknown_server_time_limit: ::std::os::raw::c_int,
+    #[doc = " Wait time to drop recursion replies"]
+    pub discard_timeout: ::std::os::raw::c_int,
+    #[doc = " Wait limit for number of replies per IP address"]
+    pub wait_limit: ::std::os::raw::c_int,
+    #[doc = " Wait limit for number of replies per IP address with cookie"]
+    pub wait_limit_cookie: ::std::os::raw::c_int,
+    #[doc = " wait limit per netblock"]
+    pub wait_limit_netblock: *mut config_str2list,
+    #[doc = " wait limit with cookie per netblock"]
+    pub wait_limit_cookie_netblock: *mut config_str2list,
+    pub max_udp_size: usize,
+    pub dns64_prefix: *mut ::std::os::raw::c_char,
+    pub dns64_synthall: ::std::os::raw::c_int,
+    #[doc = " ignore AAAAs for these domain names and use A record anyway"]
+    pub dns64_ignore_aaaa: *mut config_strlist,
+    pub nat64_prefix: *mut ::std::os::raw::c_char,
+    #[doc = " true to enable dnstap support"]
+    pub dnstap: ::std::os::raw::c_int,
+    #[doc = " using bidirectional frame streams if true"]
+    pub dnstap_bidirectional: ::std::os::raw::c_int,
+    #[doc = " dnstap socket path"]
+    pub dnstap_socket_path: *mut ::std::os::raw::c_char,
+    #[doc = " dnstap IP"]
+    pub dnstap_ip: *mut ::std::os::raw::c_char,
+    #[doc = " dnstap TLS enable"]
+    pub dnstap_tls: ::std::os::raw::c_int,
+    #[doc = " dnstap tls server authentication name"]
+    pub dnstap_tls_server_name: *mut ::std::os::raw::c_char,
+    #[doc = " dnstap server cert bundle"]
+    pub dnstap_tls_cert_bundle: *mut ::std::os::raw::c_char,
+    #[doc = " dnstap client key for client authentication"]
+    pub dnstap_tls_client_key_file: *mut ::std::os::raw::c_char,
+    #[doc = " dnstap client cert for client authentication"]
+    pub dnstap_tls_client_cert_file: *mut ::std::os::raw::c_char,
+    #[doc = " true to send \"identity\" via dnstap"]
+    pub dnstap_send_identity: ::std::os::raw::c_int,
+    #[doc = " true to send \"version\" via dnstap"]
+    pub dnstap_send_version: ::std::os::raw::c_int,
+    #[doc = " dnstap \"identity\", hostname is used if \"\"."]
+    pub dnstap_identity: *mut ::std::os::raw::c_char,
+    #[doc = " dnstap \"version\", package version is used if \"\"."]
+    pub dnstap_version: *mut ::std::os::raw::c_char,
+    #[doc = " true to log dnstap RESOLVER_QUERY message events"]
+    pub dnstap_log_resolver_query_messages: ::std::os::raw::c_int,
+    #[doc = " true to log dnstap RESOLVER_RESPONSE message events"]
+    pub dnstap_log_resolver_response_messages: ::std::os::raw::c_int,
+    #[doc = " true to log dnstap CLIENT_QUERY message events"]
+    pub dnstap_log_client_query_messages: ::std::os::raw::c_int,
+    #[doc = " true to log dnstap CLIENT_RESPONSE message events"]
+    pub dnstap_log_client_response_messages: ::std::os::raw::c_int,
+    #[doc = " true to log dnstap FORWARDER_QUERY message events"]
+    pub dnstap_log_forwarder_query_messages: ::std::os::raw::c_int,
+    #[doc = " true to log dnstap FORWARDER_RESPONSE message events"]
+    pub dnstap_log_forwarder_response_messages: ::std::os::raw::c_int,
+    #[doc = " true to disable DNSSEC lameness check in iterator"]
+    pub disable_dnssec_lame_check: ::std::os::raw::c_int,
+    #[doc = " ratelimit for ip addresses. 0 is off, otherwise qps (unless overridden)"]
+    pub ip_ratelimit: ::std::os::raw::c_int,
+    #[doc = " ratelimit for ip addresses with a valid DNS Cookie. 0 is off,\n  otherwise qps (unless overridden)"]
+    pub ip_ratelimit_cookie: ::std::os::raw::c_int,
+    #[doc = " number of slabs for ip_ratelimit cache"]
+    pub ip_ratelimit_slabs: usize,
+    #[doc = " memory size in bytes for ip_ratelimit cache"]
+    pub ip_ratelimit_size: usize,
+    #[doc = " ip_ratelimit factor, 0 blocks all, 10 allows 1/10 of traffic"]
+    pub ip_ratelimit_factor: ::std::os::raw::c_int,
+    #[doc = " ratelimit backoff, when on, if the limit is reached it is\n  considered an attack and it backs off until 'demand' decreases over\n  the RATE_WINDOW."]
+    pub ip_ratelimit_backoff: ::std::os::raw::c_int,
+    #[doc = " ratelimit for domains. 0 is off, otherwise qps (unless overridden)"]
+    pub ratelimit: ::std::os::raw::c_int,
+    #[doc = " number of slabs for ratelimit cache"]
+    pub ratelimit_slabs: usize,
+    #[doc = " memory size in bytes for ratelimit cache"]
+    pub ratelimit_size: usize,
+    #[doc = " ratelimits for domain (exact match)"]
+    pub ratelimit_for_domain: *mut config_str2list,
+    #[doc = " ratelimits below domain"]
+    pub ratelimit_below_domain: *mut config_str2list,
+    #[doc = " ratelimit factor, 0 blocks all, 10 allows 1/10 of traffic"]
+    pub ratelimit_factor: ::std::os::raw::c_int,
+    #[doc = " ratelimit backoff, when on, if the limit is reached it is\n  considered an attack and it backs off until 'demand' decreases over\n  the RATE_WINDOW."]
+    pub ratelimit_backoff: ::std::os::raw::c_int,
+    #[doc = " number of retries on outgoing queries"]
+    pub outbound_msg_retry: ::std::os::raw::c_int,
+    #[doc = " max sent queries per qstate; resets on query restarts (e.g.,\n  CNAMES) and referrals"]
+    pub max_sent_count: ::std::os::raw::c_int,
+    #[doc = " max number of query restarts; determines max length of CNAME chain"]
+    pub max_query_restarts: ::std::os::raw::c_int,
+    #[doc = " minimise outgoing QNAME and hide original QTYPE if possible"]
+    pub qname_minimisation: ::std::os::raw::c_int,
+    #[doc = " minimise QNAME in strict mode, minimise according to RFC.\n  Do not apply fallback"]
+    pub qname_minimisation_strict: ::std::os::raw::c_int,
+    #[doc = " SHM data - true if shm is enabled"]
+    pub shm_enable: ::std::os::raw::c_int,
+    #[doc = " SHM data - key for the shm"]
+    pub shm_key: ::std::os::raw::c_int,
+    #[doc = " list of EDNS client string entries, linked list"]
+    pub edns_client_strings: *mut config_str2list,
+    #[doc = " EDNS opcode to use for EDNS client strings"]
+    pub edns_client_string_opcode: u16,
+    #[doc = " DNSCrypt */\n/** true to enable dnscrypt"]
+    pub dnscrypt: ::std::os::raw::c_int,
+    #[doc = " port on which to provide dnscrypt service"]
+    pub dnscrypt_port: ::std::os::raw::c_int,
+    #[doc = " provider name 2.dnscrypt-cert.example.com"]
+    pub dnscrypt_provider: *mut ::std::os::raw::c_char,
+    #[doc = " dnscrypt secret keys 1.key"]
+    pub dnscrypt_secret_key: *mut config_strlist,
+    #[doc = " dnscrypt provider certs 1.cert"]
+    pub dnscrypt_provider_cert: *mut config_strlist,
+    #[doc = " dnscrypt provider certs 1.cert which have been rotated and should not be\n advertised through DNS's providername TXT record but are required to be\n able to handle existing traffic using the old cert."]
+    pub dnscrypt_provider_cert_rotated: *mut config_strlist,
+    #[doc = " memory size in bytes for dnscrypt shared secrets cache"]
+    pub dnscrypt_shared_secret_cache_size: usize,
+    #[doc = " number of slabs for dnscrypt shared secrets cache"]
+    pub dnscrypt_shared_secret_cache_slabs: usize,
+    #[doc = " memory size in bytes for dnscrypt nonces cache"]
+    pub dnscrypt_nonce_cache_size: usize,
+    #[doc = " number of slabs for dnscrypt nonces cache"]
+    pub dnscrypt_nonce_cache_slabs: usize,
+    #[doc = " EDNS padding according to RFC7830 and RFC8467 */\n/** true to enable padding of responses (default: on)"]
+    pub pad_responses: ::std::os::raw::c_int,
+    #[doc = " block size with which to pad encrypted responses (default: 468)"]
+    pub pad_responses_block_size: usize,
+    #[doc = " true to enable padding of queries (default: on)"]
+    pub pad_queries: ::std::os::raw::c_int,
+    #[doc = " block size with which to pad encrypted queries (default: 128)"]
+    pub pad_queries_block_size: usize,
+    #[doc = " backend DB name"]
+    pub cachedb_backend: *mut ::std::os::raw::c_char,
+    #[doc = " secret seed for hash key calculation"]
+    pub cachedb_secret: *mut ::std::os::raw::c_char,
+    #[doc = " cachedb that does not store, but only reads from database, if on"]
+    pub cachedb_no_store: ::std::os::raw::c_int,
+    #[doc = " cachedb check before serving serve-expired response"]
+    pub cachedb_check_when_serve_expired: ::std::os::raw::c_int,
+    #[doc = " redis server's IP address or host name"]
+    pub redis_server_host: *mut ::std::os::raw::c_char,
+    #[doc = " redis server's TCP port"]
+    pub redis_server_port: ::std::os::raw::c_int,
+    #[doc = " redis server's unix path. Or \"\", NULL if unused"]
+    pub redis_server_path: *mut ::std::os::raw::c_char,
+    #[doc = " redis server's AUTH password. Or \"\", NULL if unused"]
+    pub redis_server_password: *mut ::std::os::raw::c_char,
+    #[doc = " timeout (in ms) for communication with the redis server"]
+    pub redis_timeout: ::std::os::raw::c_int,
+    #[doc = " set timeout on redis records based on DNS response ttl"]
+    pub redis_expire_records: ::std::os::raw::c_int,
+    #[doc = " set the redis logical database upon connection"]
+    pub redis_logical_db: ::std::os::raw::c_int,
+    #[doc = " Downstream DNS Cookies */\n/** do answer with server cookie when request contained cookie option"]
+    pub do_answer_cookie: ::std::os::raw::c_int,
+    #[doc = " cookie secret"]
+    pub cookie_secret: [u8; 40usize],
+    #[doc = " cookie secret length"]
+    pub cookie_secret_len: usize,
+    #[doc = " respond with Extended DNS Errors (RFC8914)"]
+    pub ede: ::std::os::raw::c_int,
+}
+extern "C" {
+    #[doc = " from cfg username, after daemonize setup performed"]
+    pub static mut cfg_uid: uid_t;
+}
+extern "C" {
+    #[doc = " from cfg username, after daemonize setup performed"]
+    pub static mut cfg_gid: gid_t;
+}
+extern "C" {
+    #[doc = " debug and enable small timeouts"]
+    pub static mut autr_permit_small_holddown: ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " size (in bytes) of stream wait buffers max"]
+    pub static mut stream_wait_max: usize;
+}
+extern "C" {
+    #[doc = " size (in bytes) of all total HTTP2 query buffers max"]
+    pub static mut http2_query_buffer_max: usize;
+}
+extern "C" {
+    #[doc = " size (in bytes) of all total HTTP2 response buffers max"]
+    pub static mut http2_response_buffer_max: usize;
+}
+#[doc = " Stub config options"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct config_stub {
+    #[doc = " next in list"]
+    pub next: *mut config_stub,
+    #[doc = " domain name (in text) of the stub apex domain"]
+    pub name: *mut ::std::os::raw::c_char,
+    #[doc = " list of stub nameserver hosts (domain name)"]
+    pub hosts: *mut config_strlist,
+    #[doc = " list of stub nameserver addresses (IP address)"]
+    pub addrs: *mut config_strlist,
+    #[doc = " if stub-prime is set"]
+    pub isprime: ::std::os::raw::c_int,
+    #[doc = " if forward-first is set (failover to without if fails)"]
+    pub isfirst: ::std::os::raw::c_int,
+    #[doc = " use tcp for queries to this stub"]
+    pub tcp_upstream: ::std::os::raw::c_int,
+    #[doc = " use SSL for queries to this stub"]
+    pub ssl_upstream: ::std::os::raw::c_int,
+    #[doc = " no cache"]
+    pub no_cache: ::std::os::raw::c_int,
+}
+#[doc = " Auth config options"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct config_auth {
+    #[doc = " next in list"]
+    pub next: *mut config_auth,
+    #[doc = " domain name (in text) of the auth apex domain"]
+    pub name: *mut ::std::os::raw::c_char,
+    #[doc = " list of masters"]
+    pub masters: *mut config_strlist,
+    #[doc = " list of urls"]
+    pub urls: *mut config_strlist,
+    #[doc = " list of allow-notify"]
+    pub allow_notify: *mut config_strlist,
+    #[doc = " zonefile (or NULL)"]
+    pub zonefile: *mut ::std::os::raw::c_char,
+    #[doc = " provide downstream answers"]
+    pub for_downstream: ::std::os::raw::c_int,
+    #[doc = " provide upstream answers"]
+    pub for_upstream: ::std::os::raw::c_int,
+    #[doc = " fallback to recursion to authorities if zone expired and other\n reasons perhaps (like, query bogus)"]
+    pub fallback_enabled: ::std::os::raw::c_int,
+    #[doc = " this zone is used to create local-zone policies"]
+    pub isrpz: ::std::os::raw::c_int,
+    #[doc = " rpz tags (or NULL)"]
+    pub rpz_taglist: *mut u8,
+    #[doc = " length of the taglist (in bytes)"]
+    pub rpz_taglistlen: usize,
+    #[doc = " Override RPZ action for this zone, regardless of zone content"]
+    pub rpz_action_override: *mut ::std::os::raw::c_char,
+    #[doc = " Log when this RPZ policy is applied"]
+    pub rpz_log: ::std::os::raw::c_int,
+    #[doc = " Display this name in the log when RPZ policy is applied"]
+    pub rpz_log_name: *mut ::std::os::raw::c_char,
+    #[doc = " Always reply with this CNAME target if the cname override action is\n used"]
+    pub rpz_cname: *mut ::std::os::raw::c_char,
+    #[doc = " signal nxdomain block with unset RA"]
+    pub rpz_signal_nxdomain_ra: ::std::os::raw::c_int,
+    #[doc = " Check ZONEMD records for this zone"]
+    pub zonemd_check: ::std::os::raw::c_int,
+    #[doc = " Reject absence of ZONEMD records, zone must have one"]
+    pub zonemd_reject_absence: ::std::os::raw::c_int,
+}
+#[doc = " View config options"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct config_view {
+    #[doc = " next in list"]
+    pub next: *mut config_view,
+    #[doc = " view name"]
+    pub name: *mut ::std::os::raw::c_char,
+    #[doc = " local zones"]
+    pub local_zones: *mut config_str2list,
+    #[doc = " local data RRs"]
+    pub local_data: *mut config_strlist,
+    #[doc = " local zones nodefault list"]
+    pub local_zones_nodefault: *mut config_strlist,
+    #[doc = " Fallback to global local_zones when there is no match in the view\n view specific tree. 1 for yes, 0 for no"]
+    pub isfirst: ::std::os::raw::c_int,
+    #[doc = " predefined actions for particular IP address responses"]
+    pub respip_actions: *mut config_str2list,
+    #[doc = " data complementing the 'redirect' response IP actions"]
+    pub respip_data: *mut config_str2list,
+}
+#[doc = " List of strings for config options"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct config_strlist {
+    #[doc = " next item in list"]
+    pub next: *mut config_strlist,
+    #[doc = " config option string"]
+    pub str_: *mut ::std::os::raw::c_char,
+}
+#[doc = " List of two strings for config options"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct config_str2list {
+    #[doc = " next item in list"]
+    pub next: *mut config_str2list,
+    #[doc = " first string"]
+    pub str_: *mut ::std::os::raw::c_char,
+    #[doc = " second string"]
+    pub str2: *mut ::std::os::raw::c_char,
+}
+#[doc = " List of three strings for config options"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct config_str3list {
+    #[doc = " next item in list"]
+    pub next: *mut config_str3list,
+    #[doc = " first string"]
+    pub str_: *mut ::std::os::raw::c_char,
+    #[doc = " second string"]
+    pub str2: *mut ::std::os::raw::c_char,
+    #[doc = " third string"]
+    pub str3: *mut ::std::os::raw::c_char,
+}
+#[doc = " List of string, bytestring for config options"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct config_strbytelist {
+    #[doc = " next item in list"]
+    pub next: *mut config_strbytelist,
+    #[doc = " first string"]
+    pub str_: *mut ::std::os::raw::c_char,
+    #[doc = " second bytestring"]
+    pub str2: *mut u8,
+    pub str2len: usize,
+}
+extern "C" {
+    #[doc = " Create config file structure. Filled with default values.\n @return: the new structure or NULL on memory error."]
+    pub fn config_create() -> *mut config_file;
+}
+extern "C" {
+    #[doc = " Create config file structure for library use. Filled with default values.\n @return: the new structure or NULL on memory error."]
+    pub fn config_create_forlib() -> *mut config_file;
+}
+extern "C" {
+    #[doc = " Read the config file from the specified filename.\n @param config: where options are stored into, must be freshly created.\n @param filename: name of configfile. If NULL nothing is done.\n @param chroot: if not NULL, the chroot dir currently in use (for include).\n @return: false on error. In that case errno is set, ENOENT means\n \tfile not found."]
+    pub fn config_read(
+        config: *mut config_file,
+        filename: *const ::std::os::raw::c_char,
+        chroot: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Destroy the config file structure.\n @param config: to delete."]
+    pub fn config_delete(config: *mut config_file);
+}
+extern "C" {
+    #[doc = " Apply config to global constants; this routine is called in single thread.\n @param config: to apply. Side effect: global constants change."]
+    pub fn config_apply(config: *mut config_file);
+}
+extern "C" {
+    #[doc = " Find username, sets cfg_uid and cfg_gid.\n @param config: the config structure."]
+    pub fn config_lookup_uid(config: *mut config_file);
+}
+extern "C" {
+    #[doc = " Set the given keyword to the given value.\n @param config: where to store config\n @param option: option name, including the ':' character.\n @param value: value, this string is copied if needed, or parsed.\n \tThe caller owns the value string.\n @return 0 on error (malloc or syntax error)."]
+    pub fn config_set_option(
+        config: *mut config_file,
+        option: *const ::std::os::raw::c_char,
+        value: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Call print routine for the given option.\n @param cfg: config.\n @param opt: option name without trailing :.\n\tThis is different from config_set_option.\n @param func: print func, called as (str, arg) for every data element.\n @param arg: user argument for print func.\n @return false if the option name is not supported (syntax error)."]
+    pub fn config_get_option(
+        cfg: *mut config_file,
+        opt: *const ::std::os::raw::c_char,
+        func: ::std::option::Option<
+            unsafe extern "C" fn(
+                arg1: *mut ::std::os::raw::c_char,
+                arg2: *mut ::std::os::raw::c_void,
+            ),
+        >,
+        arg: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Get an option and return strlist\n @param cfg: config file\n @param opt: option name.\n @param list: list is returned here. malloced, caller must free it.\n @return 0=OK, 1=syntax error, 2=malloc failed."]
+    pub fn config_get_option_list(
+        cfg: *mut config_file,
+        opt: *const ::std::os::raw::c_char,
+        list: *mut *mut config_strlist,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Get an option and collate results into string\n @param cfg: config file\n @param opt: option name.\n @param str: string. malloced, caller must free it.\n @return 0=OK, 1=syntax error, 2=malloc failed."]
+    pub fn config_get_option_collate(
+        cfg: *mut config_file,
+        opt: *const ::std::os::raw::c_char,
+        str_: *mut *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " function to print to a file, use as func with config_get_option.\n @param line: text to print. \\n appended.\n @param arg: pass a FILE*, like stdout."]
+    pub fn config_print_func(line: *mut ::std::os::raw::c_char, arg: *mut ::std::os::raw::c_void);
+}
+extern "C" {
+    #[doc = " function to collate the text strings into a strlist_head.\n @param line: text to append.\n @param arg: pass a strlist_head structure. zeroed on start."]
+    pub fn config_collate_func(line: *mut ::std::os::raw::c_char, arg: *mut ::std::os::raw::c_void);
+}
+extern "C" {
+    #[doc = " take a strlist_head list and return a malloc string. separated with newline.\n @param list: strlist first to collate. zeroes return \"\".\n @return NULL on malloc failure. Or if malloc failure happened in strlist."]
+    pub fn config_collate_cat(list: *mut config_strlist) -> *mut ::std::os::raw::c_char;
+}
+extern "C" {
+    #[doc = " Append text at end of list.\n @param list: list head. zeroed at start.\n @param item: new item. malloced by caller. if NULL the insertion fails.\n @return true on success.\n on fail the item is free()ed."]
+    pub fn cfg_strlist_append(
+        list: *mut config_strlist_head,
+        item: *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Searches the end of a string list and appends the given text.\n @param head: pointer to strlist head variable.\n @param item: new item. malloced by caller. if NULL the insertion fails.\n @return true on success."]
+    pub fn cfg_strlist_append_ex(
+        head: *mut *mut config_strlist,
+        item: *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Find string in strlist.\n @param head: pointer to strlist head variable.\n @param item: the item to search for.\n @return: the element in the list when found, NULL otherwise."]
+    pub fn cfg_strlist_find(
+        head: *mut config_strlist,
+        item: *const ::std::os::raw::c_char,
+    ) -> *mut config_strlist;
+}
+extern "C" {
+    #[doc = " Insert string into strlist.\n @param head: pointer to strlist head variable.\n @param item: new item. malloced by caller. If NULL the insertion fails.\n @return: true on success.\n on fail, the item is free()d."]
+    pub fn cfg_strlist_insert(
+        head: *mut *mut config_strlist,
+        item: *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " insert with region for allocation."]
+    pub fn cfg_region_strlist_insert(
+        region: *mut regional,
+        head: *mut *mut config_strlist,
+        item: *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Insert string into str2list.\n @param head: pointer to str2list head variable.\n @param item: new item. malloced by caller. If NULL the insertion fails.\n @param i2: 2nd string, malloced by caller. If NULL the insertion fails.\n @return: true on success.\n on fail, the item and i2 are free()d."]
+    pub fn cfg_str2list_insert(
+        head: *mut *mut config_str2list,
+        item: *mut ::std::os::raw::c_char,
+        i2: *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Insert string into str3list.\n @param head: pointer to str3list head variable.\n @param item: new item. malloced by caller. If NULL the insertion fails.\n @param i2: 2nd string, malloced by caller. If NULL the insertion fails.\n @param i3: 3rd string, malloced by caller. If NULL the insertion fails.\n @return: true on success."]
+    pub fn cfg_str3list_insert(
+        head: *mut *mut config_str3list,
+        item: *mut ::std::os::raw::c_char,
+        i2: *mut ::std::os::raw::c_char,
+        i3: *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Insert string into strbytelist.\n @param head: pointer to strbytelist head variable.\n @param item: new item. malloced by caller. If NULL the insertion fails.\n @param i2: 2nd string, malloced by caller. If NULL the insertion fails.\n @param i2len: length of the i2 bytestring.\n @return: true on success."]
+    pub fn cfg_strbytelist_insert(
+        head: *mut *mut config_strbytelist,
+        item: *mut ::std::os::raw::c_char,
+        i2: *mut u8,
+        i2len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Find stub in config list, also returns prevptr (for deletion).\n @param pp: call routine with pointer to a pointer to the start of the list,\n \tif the stub is found, on exit, the value contains a pointer to the\n \tnext pointer that points to the found element (or to the list start\n \tpointer if it is the first element).\n @param nm: name of stub to find.\n @return: pointer to config_stub if found, or NULL if not found."]
+    pub fn cfg_stub_find(
+        pp: *mut *mut *mut config_stub,
+        nm: *const ::std::os::raw::c_char,
+    ) -> *mut config_stub;
+}
+extern "C" {
+    #[doc = " Delete items in config string list.\n @param list: list."]
+    pub fn config_delstrlist(list: *mut config_strlist);
+}
+extern "C" {
+    #[doc = " Delete items in config double string list.\n @param list: list."]
+    pub fn config_deldblstrlist(list: *mut config_str2list);
+}
+extern "C" {
+    #[doc = " Delete items in config triple string list.\n @param list: list."]
+    pub fn config_deltrplstrlist(list: *mut config_str3list);
+}
+extern "C" {
+    #[doc = " delete string array"]
+    pub fn config_del_strarray(array: *mut *mut ::std::os::raw::c_char, num: ::std::os::raw::c_int);
+}
+extern "C" {
+    #[doc = " delete stringbytelist"]
+    pub fn config_del_strbytelist(list: *mut config_strbytelist);
+}
+extern "C" {
+    #[doc = " Delete a stub item\n @param p: stub item"]
+    pub fn config_delstub(p: *mut config_stub);
+}
+extern "C" {
+    #[doc = " Delete items in config stub list.\n @param list: list."]
+    pub fn config_delstubs(list: *mut config_stub);
+}
+extern "C" {
+    #[doc = " Delete an auth item\n @param p: auth item"]
+    pub fn config_delauth(p: *mut config_auth);
+}
+extern "C" {
+    #[doc = " Delete items in config auth list.\n @param list: list."]
+    pub fn config_delauths(list: *mut config_auth);
+}
+extern "C" {
+    #[doc = " Delete a view item\n @param p: view item"]
+    pub fn config_delview(p: *mut config_view);
+}
+extern "C" {
+    #[doc = " Delete items in config view list.\n @param list: list."]
+    pub fn config_delviews(list: *mut config_view);
+}
+extern "C" {
+    #[doc = " check if config for remote control turns on IP-address interface\n with certificates or a named pipe without certificates."]
+    pub fn options_remote_is_address(cfg: *mut config_file) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert 14digit to time value\n @param str: string of 14 digits\n @return time value or 0 for error."]
+    pub fn cfg_convert_timeval(str_: *const ::std::os::raw::c_char) -> time_t;
+}
+extern "C" {
+    #[doc = " Count number of values in the string.\n format ::= (sp num)+ sp\n num ::= [-](0-9)+\n sp ::= (space|tab)*\n\n @param str: string\n @return: 0 on parse error, or empty string, else\n\tnumber of integer values in the string."]
+    pub fn cfg_count_numbers(str_: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert a 'nice' memory or file size into a bytecount\n From '100k' to 102400. and so on. Understands kKmMgG.\n k=1024, m=1024*1024, g=1024*1024*1024.\n @param str: string\n @param res: result is stored here, size in bytes.\n @return: true if parsed correctly, or 0 on a parse error (and an error\n is logged)."]
+    pub fn cfg_parse_memsize(
+        str_: *const ::std::os::raw::c_char,
+        res: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Parse nsid from string into binary nsid. nsid is either a hexadecimal\n string or an ascii string prepended with ascii_ in which case the\n characters after ascii_ are simply copied.\n @param str: the string to parse.\n @param nsid_len: returns length of nsid in bytes.\n @return malloced bytes or NULL on parse error or malloc failure."]
+    pub fn cfg_parse_nsid(str_: *const ::std::os::raw::c_char, nsid_len: *mut u16) -> *mut u8;
+}
+extern "C" {
+    #[doc = " Add a tag name to the config.  It is added at the end with a new ID value.\n @param cfg: the config structure.\n @param tag: string (which is copied) with the name.\n @return: false on alloc failure."]
+    pub fn config_add_tag(
+        cfg: *mut config_file,
+        tag: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Find tag ID in the tag list.\n @param cfg: the config structure.\n @param tag: string with tag name to search for.\n @return: 0..(num_tags-1) with tag ID, or -1 if tagname is not found."]
+    pub fn find_tag_id(
+        cfg: *mut config_file,
+        tag: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " parse taglist from string into bytestring with bitlist.\n @param cfg: the config structure (with tagnames)\n @param str: the string to parse.  Parse puts 0 bytes in string.\n @param listlen: returns length of in bytes.\n @return malloced bytes with a bitlist of the tags.  or NULL on parse error\n or malloc failure."]
+    pub fn config_parse_taglist(
+        cfg: *mut config_file,
+        str_: *mut ::std::os::raw::c_char,
+        listlen: *mut usize,
+    ) -> *mut u8;
+}
+extern "C" {
+    #[doc = " convert tag bitlist to a malloced string with tag names.  For debug output.\n @param cfg: the config structure (with tagnames)\n @param taglist: the tag bitlist.\n @param len: length of the tag bitlist.\n @return malloced string or NULL."]
+    pub fn config_taglist2str(
+        cfg: *mut config_file,
+        taglist: *mut u8,
+        len: usize,
+    ) -> *mut ::std::os::raw::c_char;
+}
+extern "C" {
+    #[doc = " see if two taglists intersect (have tags in common).\n @param list1: first tag bitlist.\n @param list1len: length in bytes of first list.\n @param list2: second tag bitlist.\n @param list2len: length in bytes of second list.\n @return true if there are tags in common, 0 if not."]
+    pub fn taglist_intersect(
+        list1: *mut u8,
+        list1len: usize,
+        list2: *const u8,
+        list2len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Parse local-zone directive into two strings and register it in the config.\n @param cfg: to put it in.\n @param val: argument strings to local-zone, \"example.com nodefault\".\n @return: false on failure"]
+    pub fn cfg_parse_local_zone(
+        cfg: *mut config_file,
+        val: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Mark \"number\" or \"low-high\" as available or not in ports array.\n @param str: string in input\n @param allow: give true if this range is permitted.\n @param avail: the array from cfg.\n @param num: size of the array (65536).\n @return: true if parsed correctly, or 0 on a parse error (and an error\n is logged)."]
+    pub fn cfg_mark_ports(
+        str_: *const ::std::os::raw::c_char,
+        allow: ::std::os::raw::c_int,
+        avail: *mut ::std::os::raw::c_int,
+        num: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Get a condensed list of ports returned. allocated.\n @param cfg: config file.\n @param avail: the available ports array is returned here.\n @return: number of ports in array or 0 on error."]
+    pub fn cfg_condense_ports(
+        cfg: *mut config_file,
+        avail: *mut *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Apply system specific port range policy.\n @param cfg: config file.\n @param num: size of the array (65536)."]
+    pub fn cfg_apply_local_port_policy(cfg: *mut config_file, num: ::std::os::raw::c_int);
+}
+extern "C" {
+    #[doc = " Scan ports available\n @param avail: the array from cfg.\n @param num: size of the array (65536).\n @return the number of ports available for use."]
+    pub fn cfg_scan_ports(
+        avail: *mut ::std::os::raw::c_int,
+        num: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert a filename to full pathname in original filesys\n @param fname: the path name to convert.\n      Must not be null or empty.\n @param cfg: config struct for chroot and chdir (if set).\n @param use_chdir: if false, only chroot is applied.\n @return pointer to malloced buffer which is: [chroot][chdir]fname\n      or NULL on malloc failure."]
+    pub fn fname_after_chroot(
+        fname: *const ::std::os::raw::c_char,
+        cfg: *mut config_file,
+        use_chdir: ::std::os::raw::c_int,
+    ) -> *mut ::std::os::raw::c_char;
+}
+extern "C" {
+    #[doc = " Convert a ptr shorthand into a full reverse-notation PTR record.\n @param str: input string, \"IP name\"\n @return: malloced string \"reversed-ip-name PTR name\""]
+    pub fn cfg_ptr_reverse(str_: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
+}
+#[doc = " Used during options parsing"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct config_parser_state {
+    #[doc = " name of file being parser"]
+    pub filename: *mut ::std::os::raw::c_char,
+    #[doc = " line number in the file, starts at 1"]
+    pub line: ::std::os::raw::c_int,
+    #[doc = " number of errors encountered"]
+    pub errors: ::std::os::raw::c_int,
+    #[doc = " the result of parsing is stored here."]
+    pub cfg: *mut config_file,
+    #[doc = " the current chroot dir (or NULL if none)"]
+    pub chroot: *const ::std::os::raw::c_char,
+    #[doc = " if we are started in a toplevel, or not, after a force_toplevel"]
+    pub started_toplevel: ::std::os::raw::c_int,
+}
+extern "C" {
+    #[doc = " global config parser object used during config parsing"]
+    pub static mut cfg_parser: *mut config_parser_state;
+}
+extern "C" {
+    #[doc = " init lex state"]
+    pub fn init_cfg_parse();
+}
+extern "C" {
+    #[doc = " lex in file"]
+    pub static mut ub_c_in: *mut FILE;
+}
+extern "C" {
+    #[doc = " lex out file"]
+    pub static mut ub_c_out: *mut FILE;
+}
+extern "C" {
+    #[doc = " the yacc lex generated parse function"]
+    pub fn ub_c_parse() -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " the lexer function"]
+    pub fn ub_c_lex() -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " wrap function"]
+    pub fn ub_c_wrap() -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " parsing helpers: print error with file and line numbers"]
+    pub fn ub_c_error(msg: *const ::std::os::raw::c_char);
+}
+extern "C" {
+    #[doc = " parsing helpers: print error with file and line numbers"]
+    pub fn ub_c_error_msg(fmt: *const ::std::os::raw::c_char, ...);
+}
+extern "C" {
+    #[doc = " debug option for unit tests."]
+    pub static mut fake_dsa: ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " debug option for unit tests."]
+    pub static mut fake_sha1: ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " see if interface is https, its port number == the https port number"]
+    pub fn if_is_https(
+        ifname: *const ::std::os::raw::c_char,
+        port: *const ::std::os::raw::c_char,
+        https_port: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Return true if the config contains settings that enable https.\n @param cfg: config information.\n @return true if https ports are used for server."]
+    pub fn cfg_has_https(cfg: *mut config_file) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " see if interface is PROXYv2, its port number == the proxy port number"]
+    pub fn if_is_pp2(
+        ifname: *const ::std::os::raw::c_char,
+        port: *const ::std::os::raw::c_char,
+        proxy_protocol_port: *mut config_strlist,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " see if interface is DNSCRYPT, its port number == the dnscrypt port number"]
+    pub fn if_is_dnscrypt(
+        ifname: *const ::std::os::raw::c_char,
+        port: *const ::std::os::raw::c_char,
+        dnscrypt_port: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+#[doc = " Region allocated message reply"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct dns_msg {
+    #[doc = " query info"]
+    pub qinfo: query_info,
+    #[doc = " reply info - ptr to packed repinfo structure"]
+    pub rep: *mut reply_info,
+}
+#[doc = " The rbnode_type struct definition."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct rbnode_type {
+    #[doc = " parent in rbtree, RBTREE_NULL for root"]
+    pub parent: *mut rbnode_type,
+    #[doc = " left node (smaller items)"]
+    pub left: *mut rbnode_type,
+    #[doc = " right node (larger items)"]
+    pub right: *mut rbnode_type,
+    #[doc = " pointer to sorting key"]
+    pub key: *const ::std::os::raw::c_void,
+    #[doc = " colour of this node"]
+    pub color: u8,
+}
+extern "C" {
+    #[doc = " the global empty node"]
+    pub static mut rbtree_null_node: rbnode_type;
+}
+#[doc = " definition for tree struct"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct rbtree_type {
+    #[doc = " The root of the red-black tree"]
+    pub root: *mut rbnode_type,
+    #[doc = " The number of the nodes in the tree"]
+    pub count: usize,
+    #[doc = " Key compare function. <0,0,>0 like strcmp.\n Return 0 on two NULL ptrs."]
+    pub cmp: ::std::option::Option<
+        unsafe extern "C" fn(
+            arg1: *const ::std::os::raw::c_void,
+            arg2: *const ::std::os::raw::c_void,
+        ) -> ::std::os::raw::c_int,
+    >,
+}
+extern "C" {
+    #[doc = " Create new tree (malloced) with given key compare function.\n @param cmpf: compare function (like strcmp) takes pointers to two keys.\n @return: new tree, empty."]
+    pub fn rbtree_create(
+        cmpf: ::std::option::Option<
+            unsafe extern "C" fn(
+                arg1: *const ::std::os::raw::c_void,
+                arg2: *const ::std::os::raw::c_void,
+            ) -> ::std::os::raw::c_int,
+        >,
+    ) -> *mut rbtree_type;
+}
+extern "C" {
+    #[doc = " Init a new tree (malloced by caller) with given key compare function.\n @param rbtree: uninitialised memory for new tree, returned empty.\n @param cmpf: compare function (like strcmp) takes pointers to two keys."]
+    pub fn rbtree_init(
+        rbtree: *mut rbtree_type,
+        cmpf: ::std::option::Option<
+            unsafe extern "C" fn(
+                arg1: *const ::std::os::raw::c_void,
+                arg2: *const ::std::os::raw::c_void,
+            ) -> ::std::os::raw::c_int,
+        >,
+    );
+}
+extern "C" {
+    #[doc = " Insert data into the tree.\n @param rbtree: tree to insert to.\n @param data: element to insert.\n @return: data ptr or NULL if key already present."]
+    pub fn rbtree_insert(rbtree: *mut rbtree_type, data: *mut rbnode_type) -> *mut rbnode_type;
+}
+extern "C" {
+    #[doc = " Delete element from tree.\n @param rbtree: tree to delete from.\n @param key: key of item to delete.\n @return: node that is now unlinked from the tree. User to delete it.\n returns 0 if node not present"]
+    pub fn rbtree_delete(
+        rbtree: *mut rbtree_type,
+        key: *const ::std::os::raw::c_void,
+    ) -> *mut rbnode_type;
+}
+extern "C" {
+    #[doc = " Find key in tree. Returns NULL if not found.\n @param rbtree: tree to find in.\n @param key: key that must match.\n @return: node that fits or NULL."]
+    pub fn rbtree_search(
+        rbtree: *mut rbtree_type,
+        key: *const ::std::os::raw::c_void,
+    ) -> *mut rbnode_type;
+}
+extern "C" {
+    #[doc = " Find, but match does not have to be exact.\n @param rbtree: tree to find in.\n @param key: key to find position of.\n @param result: set to the exact node if present, otherwise to element that\n   precedes the position of key in the tree. NULL if no smaller element.\n @return: true if exact match in result. Else result points to <= element,\n or NULL if key is smaller than the smallest key."]
+    pub fn rbtree_find_less_equal(
+        rbtree: *mut rbtree_type,
+        key: *const ::std::os::raw::c_void,
+        result: *mut *mut rbnode_type,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Returns first (smallest) node in the tree\n @param rbtree: tree\n @return: smallest element or NULL if tree empty."]
+    pub fn rbtree_first(rbtree: *mut rbtree_type) -> *mut rbnode_type;
+}
+extern "C" {
+    #[doc = " Returns last (largest) node in the tree\n @param rbtree: tree\n @return: largest element or NULL if tree empty."]
+    pub fn rbtree_last(rbtree: *mut rbtree_type) -> *mut rbnode_type;
+}
+extern "C" {
+    #[doc = " Returns next larger node in the tree\n @param rbtree: tree\n @return: next larger element or NULL if no larger in tree."]
+    pub fn rbtree_next(rbtree: *mut rbnode_type) -> *mut rbnode_type;
+}
+extern "C" {
+    #[doc = " Returns previous smaller node in the tree\n @param rbtree: tree\n @return: previous smaller element or NULL if no previous in tree."]
+    pub fn rbtree_previous(rbtree: *mut rbnode_type) -> *mut rbnode_type;
+}
+extern "C" {
+    #[doc = " Call function for all elements in the redblack tree, such that\n leaf elements are called before parent elements. So that all\n elements can be safely free()d.\n Note that your function must not remove the nodes from the tree.\n Since that may trigger rebalances of the rbtree.\n @param tree: the tree\n @param func: function called with element and user arg.\n \tThe function must not alter the rbtree.\n @param arg: user argument."]
+    pub fn traverse_postorder(
+        tree: *mut rbtree_type,
+        func: ::std::option::Option<
+            unsafe extern "C" fn(arg1: *mut rbnode_type, arg2: *mut ::std::os::raw::c_void),
+        >,
+        arg: *mut ::std::os::raw::c_void,
+    );
+}
+#[doc = " Tree of domain names.  Sorted first by class then by name.\n This is not sorted canonically, but fast.\n This can be looked up to obtain a closest encloser parent name.\n\n The tree itself is a rbtree_type.\n This is the element node put as first entry in the client structure."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct name_tree_node {
+    #[doc = " rbtree node, key is this struct : dclass and name"]
+    pub node: rbnode_type,
+    #[doc = " parent in tree"]
+    pub parent: *mut name_tree_node,
+    #[doc = " name in uncompressed wireformat"]
+    pub name: *mut u8,
+    #[doc = " length of name"]
+    pub len: usize,
+    #[doc = " labels in name"]
+    pub labs: ::std::os::raw::c_int,
+    #[doc = " the class of the name (host order)"]
+    pub dclass: u16,
+}
+#[doc = " Tree of IP addresses.  Sorted first by protocol, then by bits.\n This can be looked up to obtain the enclosing subnet.\n\n The tree itself is a rbtree_type.\n This is the element node put as first entry in the client structure."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct addr_tree_node {
+    #[doc = " rbtree node, key is this struct : proto and subnet"]
+    pub node: rbnode_type,
+    #[doc = " parent in tree"]
+    pub parent: *mut addr_tree_node,
+    #[doc = " address"]
+    pub addr: sockaddr_storage,
+    #[doc = " length of addr"]
+    pub addrlen: socklen_t,
+    #[doc = " netblock size"]
+    pub net: ::std::os::raw::c_int,
 }
 #[doc = " Views storage, shared."]
 #[repr(C)]
@@ -2022,6 +4532,50 @@ extern "C" {
     #[doc = " Copy contents of the from buffer to the result buffer and then flips\n the result buffer. Data will be silently truncated if the result buffer is\n too small.\n \\param[out] *result resulting buffer which is copied to.\n \\param[in] *from what to copy to result."]
     pub fn sldns_buffer_copy(result: *mut sldns_buffer, from: *mut sldns_buffer);
 }
+#[doc = " unset type, used for unset tag_action elements"]
+pub const localzone_type_local_zone_unset: localzone_type = 0;
+#[doc = " drop query"]
+pub const localzone_type_local_zone_deny: localzone_type = 1;
+#[doc = " answer with error"]
+pub const localzone_type_local_zone_refuse: localzone_type = 2;
+#[doc = " answer nxdomain or nodata"]
+pub const localzone_type_local_zone_static: localzone_type = 3;
+#[doc = " resolve normally"]
+pub const localzone_type_local_zone_transparent: localzone_type = 4;
+#[doc = " do not block types at localdata names"]
+pub const localzone_type_local_zone_typetransparent: localzone_type = 5;
+#[doc = " answer with data at zone apex"]
+pub const localzone_type_local_zone_redirect: localzone_type = 6;
+#[doc = " remove default AS112 blocking contents for zone\n nodefault is used in config not during service."]
+pub const localzone_type_local_zone_nodefault: localzone_type = 7;
+#[doc = " log client address, but no block (transparent)"]
+pub const localzone_type_local_zone_inform: localzone_type = 8;
+#[doc = " log client address, and block (drop)"]
+pub const localzone_type_local_zone_inform_deny: localzone_type = 9;
+#[doc = " log client address, and direct"]
+pub const localzone_type_local_zone_inform_redirect: localzone_type = 10;
+#[doc = " resolve normally, even when there is local data"]
+pub const localzone_type_local_zone_always_transparent: localzone_type = 11;
+#[doc = " resolve normally, even when there is local data but return NODATA for A queries"]
+pub const localzone_type_local_zone_block_a: localzone_type = 12;
+#[doc = " answer with error, even when there is local data"]
+pub const localzone_type_local_zone_always_refuse: localzone_type = 13;
+#[doc = " answer with nxdomain, even when there is local data"]
+pub const localzone_type_local_zone_always_nxdomain: localzone_type = 14;
+#[doc = " answer with noerror/nodata, even when there is local data"]
+pub const localzone_type_local_zone_always_nodata: localzone_type = 15;
+#[doc = " drop query, even when there is local data"]
+pub const localzone_type_local_zone_always_deny: localzone_type = 16;
+#[doc = " answer with 0.0.0.0 or ::0 or noerror/nodata, even when there is\n local data"]
+pub const localzone_type_local_zone_always_null: localzone_type = 17;
+#[doc = " answer not from the view, but global or no-answer"]
+pub const localzone_type_local_zone_noview: localzone_type = 18;
+#[doc = " truncate the response; client should retry via tcp"]
+pub const localzone_type_local_zone_truncate: localzone_type = 19;
+#[doc = " Invalid type, cannot be used to generate answer"]
+pub const localzone_type_local_zone_invalid: localzone_type = 20;
+#[doc = " Local zone type\n This type determines processing for queries that did not match\n local-data directly."]
+pub type localzone_type = ::std::os::raw::c_uint;
 #[doc = " Authoritative local zones storage, shared."]
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -2030,6 +4584,56 @@ pub struct local_zones {
     pub lock: lock_rw_type,
     #[doc = " rbtree of struct local_zone"]
     pub ztree: rbtree_type,
+}
+#[doc = " Local zone. A locally served authoritative zone."]
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct local_zone {
+    #[doc = " rbtree node, key is name and class"]
+    pub node: rbnode_type,
+    #[doc = " parent zone, if any."]
+    pub parent: *mut local_zone,
+    #[doc = " zone name, in uncompressed wireformat"]
+    pub name: *mut u8,
+    #[doc = " length of zone name"]
+    pub namelen: usize,
+    #[doc = " number of labels in zone name"]
+    pub namelabs: ::std::os::raw::c_int,
+    #[doc = " the class of this zone.\n uses 'dclass' to not conflict with c++ keyword class."]
+    pub dclass: u16,
+    #[doc = " lock on the data in the structure\n For the node, parent, name, namelen, namelabs, dclass, you\n need to also hold the zones_tree lock to change them (or to\n delete this zone)"]
+    pub lock: lock_rw_type,
+    #[doc = " how to process zone"]
+    pub type_: localzone_type,
+    #[doc = " tag bitlist"]
+    pub taglist: *mut u8,
+    #[doc = " length of the taglist (in bytes)"]
+    pub taglen: usize,
+    #[doc = " netblock addr_tree with struct local_zone_override information\n or NULL if there are no override elements"]
+    pub override_tree: *mut rbtree_type,
+    #[doc = " in this region the zone's data is allocated.\n the struct local_zone itself is malloced."]
+    pub region: *mut regional,
+    #[doc = " local data for this zone\n rbtree of struct local_data"]
+    pub data: rbtree_type,
+    #[doc = " if data contains zone apex SOA data, this is a ptr to it."]
+    pub soa: *mut ub_packed_rrset_key,
+    #[doc = " if data contains zone apex SOA data, this is a ptr to an\n artificial negative SOA rrset (TTL is the minimum of the TTL and the\n SOA.MINIMUM)."]
+    pub soa_negative: *mut ub_packed_rrset_key,
+}
+#[doc = " Local data. One domain name, and the RRs to go with it."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct local_data {
+    #[doc = " rbtree node, key is name only"]
+    pub node: rbnode_type,
+    #[doc = " domain name"]
+    pub name: *mut u8,
+    #[doc = " length of name"]
+    pub namelen: usize,
+    #[doc = " number of labels in name"]
+    pub namelabs: ::std::os::raw::c_int,
+    #[doc = " the data rrsets, with different types, linked list.\n If this list is NULL, the node is an empty non-terminal."]
+    pub rrsets: *mut local_rrset,
 }
 #[doc = " A local data RRset"]
 #[repr(C)]
@@ -2040,46 +4644,4118 @@ pub struct local_rrset {
     #[doc = " RRset data item"]
     pub rrset: *mut ub_packed_rrset_key,
 }
+#[doc = " Local zone override information"]
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
-pub struct serviced_query {
+pub struct local_zone_override {
+    #[doc = " node in addrtree"]
+    pub node: addr_tree_node,
+    #[doc = " override for local zone type"]
+    pub type_: localzone_type,
+}
+extern "C" {
+    #[doc = " Create local zones storage\n @return new struct or NULL on error."]
+    pub fn local_zones_create() -> *mut local_zones;
+}
+extern "C" {
+    #[doc = " Delete local zones storage\n @param zones: to delete."]
+    pub fn local_zones_delete(zones: *mut local_zones);
+}
+extern "C" {
+    #[doc = " Apply config settings; setup the local authoritative data.\n Takes care of locking.\n @param zones: is set up.\n @param cfg: config data.\n @return false on error."]
+    pub fn local_zones_apply_cfg(
+        zones: *mut local_zones,
+        cfg: *mut config_file,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Compare two local_zone entries in rbtree. Sort hierarchical but not\n canonical\n @param z1: zone 1\n @param z2: zone 2\n @return: -1, 0, +1 comparison value."]
+    pub fn local_zone_cmp(
+        z1: *const ::std::os::raw::c_void,
+        z2: *const ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Compare two local_data entries in rbtree. Sort canonical.\n @param d1: data 1\n @param d2: data 2\n @return: -1, 0, +1 comparison value."]
+    pub fn local_data_cmp(
+        d1: *const ::std::os::raw::c_void,
+        d2: *const ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Delete one zone\n @param z: to delete."]
+    pub fn local_zone_delete(z: *mut local_zone);
+}
+extern "C" {
+    #[doc = " Lookup zone that contains the given name, class and taglist.\n User must lock the tree or result zone.\n @param zones: the zones tree\n @param name: dname to lookup\n @param len: length of name.\n @param labs: labelcount of name.\n @param dclass: class to lookup.\n @param dtype: type to lookup, if type DS a zone higher is used for zonecuts.\n @param taglist: taglist to lookup.\n @param taglen: length of taglist.\n @param ignoretags: lookup zone by name and class, regardless the\n local-zone's tags.\n @return closest local_zone or NULL if no covering zone is found."]
+    pub fn local_zones_tags_lookup(
+        zones: *mut local_zones,
+        name: *mut u8,
+        len: usize,
+        labs: ::std::os::raw::c_int,
+        dclass: u16,
+        dtype: u16,
+        taglist: *mut u8,
+        taglen: usize,
+        ignoretags: ::std::os::raw::c_int,
+    ) -> *mut local_zone;
+}
+extern "C" {
+    #[doc = " Lookup zone that contains the given name, class.\n User must lock the tree or result zone.\n @param zones: the zones tree\n @param name: dname to lookup\n @param len: length of name.\n @param labs: labelcount of name.\n @param dclass: class to lookup.\n @param dtype: type of the record, if type DS then a zone higher up is found\n   pass 0 to just plain find a zone for a name.\n @return closest local_zone or NULL if no covering zone is found."]
+    pub fn local_zones_lookup(
+        zones: *mut local_zones,
+        name: *mut u8,
+        len: usize,
+        labs: ::std::os::raw::c_int,
+        dclass: u16,
+        dtype: u16,
+    ) -> *mut local_zone;
+}
+extern "C" {
+    #[doc = " Debug helper. Print all zones\n Takes care of locking.\n @param zones: the zones tree"]
+    pub fn local_zones_print(zones: *mut local_zones);
+}
+extern "C" {
+    #[doc = " Answer authoritatively for local zones.\n Takes care of locking.\n @param zones: the stored zones (shared, read only).\n @param env: the module environment.\n @param qinfo: query info (parsed).\n @param edns: edns info (parsed).\n @param buf: buffer with query ID and flags, also for reply.\n @param temp: temporary storage region.\n @param repinfo: source address for checks. may be NULL.\n @param taglist: taglist for checks. May be NULL.\n @param taglen: length of the taglist.\n @param tagactions: local zone actions for tags. May be NULL.\n @param tagactionssize: length of the tagactions.\n @param tag_datas: array per tag of strlist with rdata strings. or NULL.\n @param tag_datas_size: size of tag_datas array.\n @param tagname: array of tag name strings (for debug output).\n @param num_tags: number of items in tagname array.\n @param view: answer using this view. May be NULL.\n @return true if answer is in buffer. false if query is not answered\n by authority data. If the reply should be dropped altogether, the return\n value is true, but the buffer is cleared (empty).\n It can also return true if a non-exact alias answer is found.  In this\n case qinfo->local_alias points to the corresponding alias RRset but the\n answer is NOT encoded in buffer.  It's the caller's responsibility to\n complete the alias chain (if needed) and encode the final set of answer.\n Data pointed to by qinfo->local_alias is allocated in 'temp' or refers to\n configuration data.  So the caller will need to make a deep copy of it\n if it needs to keep it beyond the lifetime of 'temp' or a dynamic update\n to local zone data."]
+    pub fn local_zones_answer(
+        zones: *mut local_zones,
+        env: *mut module_env,
+        qinfo: *mut query_info,
+        edns: *mut edns_data,
+        buf: *mut sldns_buffer,
+        temp: *mut regional,
+        repinfo: *mut comm_reply,
+        taglist: *mut u8,
+        taglen: usize,
+        tagactions: *mut u8,
+        tagactionssize: usize,
+        tag_datas: *mut *mut config_strlist,
+        tag_datas_size: usize,
+        tagname: *mut *mut ::std::os::raw::c_char,
+        num_tags: ::std::os::raw::c_int,
+        view: *mut view,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Answer using the local zone only (not local data used).\n @param z: zone for query.\n @param env: module environment.\n @param qinfo: query.\n @param edns: edns from query.\n @param repinfo: source address for checks. may be NULL.\n @param buf: buffer for answer.\n @param temp: temp region for encoding.\n @param ld: local data, if NULL, no such name exists in localdata.\n @param lz_type: type of the local zone.\n @return 1 if a reply is to be sent, 0 if not."]
+    pub fn local_zones_zone_answer(
+        z: *mut local_zone,
+        env: *mut module_env,
+        qinfo: *mut query_info,
+        edns: *mut edns_data,
+        repinfo: *mut comm_reply,
+        buf: *mut sldns_buffer,
+        temp: *mut regional,
+        ld: *mut local_data,
+        lz_type: localzone_type,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Parse the string into localzone type.\n\n @param str: string to parse\n @param t: local zone type returned here.\n @return 0 on parse error."]
+    pub fn local_zone_str2type(
+        str_: *const ::std::os::raw::c_char,
+        t: *mut localzone_type,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Print localzone type to a string.  Pointer to a constant string.\n\n @param t: local zone type.\n @return constant string that describes type."]
+    pub fn local_zone_type2str(t: localzone_type) -> *const ::std::os::raw::c_char;
+}
+extern "C" {
+    #[doc = " Find zone that with exactly given name, class.\n User must lock the tree or result zone.\n @param zones: the zones tree\n @param name: dname to lookup\n @param len: length of name.\n @param labs: labelcount of name.\n @param dclass: class to lookup.\n @return the exact local_zone or NULL."]
+    pub fn local_zones_find(
+        zones: *mut local_zones,
+        name: *mut u8,
+        len: usize,
+        labs: ::std::os::raw::c_int,
+        dclass: u16,
+    ) -> *mut local_zone;
+}
+extern "C" {
+    #[doc = " Find zone that with exactly or smaller name/class\n User must lock the tree or result zone.\n @param zones: the zones tree\n @param name: dname to lookup\n @param len: length of name.\n @param labs: labelcount of name.\n @param dclass: class to lookup.\n @param exact: 1 on return is this is an exact match.\n @return the exact or smaller local_zone or NULL."]
+    pub fn local_zones_find_le(
+        zones: *mut local_zones,
+        name: *mut u8,
+        len: usize,
+        labs: ::std::os::raw::c_int,
+        dclass: u16,
+        exact: *mut ::std::os::raw::c_int,
+    ) -> *mut local_zone;
+}
+extern "C" {
+    #[doc = " Add a new zone. Caller must hold the zones lock.\n Adjusts the other zones as well (parent pointers) after insertion.\n The zone must NOT exist (returns NULL and logs error).\n @param zones: the zones tree\n @param name: dname to add\n @param len: length of name.\n @param labs: labelcount of name.\n @param dclass: class to add.\n @param tp: type.\n @return local_zone or NULL on error, caller must printout memory error."]
+    pub fn local_zones_add_zone(
+        zones: *mut local_zones,
+        name: *mut u8,
+        len: usize,
+        labs: ::std::os::raw::c_int,
+        dclass: u16,
+        tp: localzone_type,
+    ) -> *mut local_zone;
+}
+extern "C" {
+    #[doc = " Delete a zone. Caller must hold the zones lock.\n Adjusts the other zones as well (parent pointers) after insertion.\n @param zones: the zones tree\n @param zone: the zone to delete from tree. Also deletes zone from memory."]
+    pub fn local_zones_del_zone(zones: *mut local_zones, zone: *mut local_zone);
+}
+extern "C" {
+    #[doc = " Add RR data into the localzone data.\n Looks up the zone, if no covering zone, a transparent zone with the\n name of the RR is created.\n @param zones: the zones tree. Not locked by caller.\n @param rr: string with on RR.\n @return false on failure."]
+    pub fn local_zones_add_RR(
+        zones: *mut local_zones,
+        rr: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Remove data from domain name in the tree.\n All types are removed. No effect if zone or name does not exist.\n @param zones: zones tree.\n @param name: dname to remove\n @param len: length of name.\n @param labs: labelcount of name.\n @param dclass: class to remove."]
+    pub fn local_zones_del_data(
+        zones: *mut local_zones,
+        name: *mut u8,
+        len: usize,
+        labs: ::std::os::raw::c_int,
+        dclass: u16,
+    );
+}
+extern "C" {
+    #[doc = " Form wireformat from text format domain name.\n @param str: the domain name in text \"www.example.com\"\n @param res: resulting wireformat is stored here with malloc.\n @param len: length of resulting wireformat.\n @param labs: number of labels in resulting wireformat.\n @return false on error, syntax or memory. Also logged."]
+    pub fn parse_dname(
+        str_: *const ::std::os::raw::c_char,
+        res: *mut *mut u8,
+        len: *mut usize,
+        labs: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Find local data tag string match for the given type (in qinfo) in the list.\n If found, 'r' will be filled with corresponding rrset information.\n @param qinfo: contains name, type, and class for the data\n @param list: stores local tag data to be searched\n @param r: rrset key to be filled for matched data\n @param temp: region to allocate rrset in 'r'\n @return 1 if a match is found and rrset is built; otherwise 0 including\n errors."]
+    pub fn local_data_find_tag_datas(
+        qinfo: *const query_info,
+        list: *mut config_strlist,
+        r: *mut ub_packed_rrset_key,
+        temp: *mut regional,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " See if two sets of tag lists (in the form of bitmap) have the same tag that\n has an action.  If so, '*tag' will be set to the found tag index, and the\n corresponding action will be returned in the form of local zone type.\n Otherwise the passed type (lzt) will be returned as the default action.\n Pointers except tagactions must not be NULL.\n @param taglist: 1st list of tags\n @param taglen: size of taglist in bytes\n @param taglist2: 2nd list of tags\n @param taglen2: size of taglist2 in bytes\n @param tagactions: local data actions for tags. May be NULL.\n @param tagactionssize: length of the tagactions.\n @param lzt: default action (local zone type) if no tag action is found.\n @param tag: see above.\n @param tagname: array of tag name strings (for debug output).\n @param num_tags: number of items in tagname array.\n @return found tag action or the default action."]
+    pub fn local_data_find_tag_action(
+        taglist: *const u8,
+        taglen: usize,
+        taglist2: *const u8,
+        taglen2: usize,
+        tagactions: *const u8,
+        tagactionssize: usize,
+        lzt: localzone_type,
+        tag: *mut ::std::os::raw::c_int,
+        tagname: *const *mut ::std::os::raw::c_char,
+        num_tags: ::std::os::raw::c_int,
+    ) -> localzone_type;
+}
+extern "C" {
+    #[doc = " Enter defaults to local zone.\n @param zones: to add defaults to\n @param cfg: containing list of zones to exclude from default set.\n @return 1 on success; 0 otherwise."]
+    pub fn local_zone_enter_defaults(
+        zones: *mut local_zones,
+        cfg: *mut config_file,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Parses resource record string into wire format, also returning its field values.\n @param str: input resource record\n @param nm: domain name field\n @param type: record type field\n @param dclass: record class field\n @param ttl: ttl field\n @param rr: buffer for the parsed rr in wire format\n @param len: buffer length\n @param rdata: rdata field\n @param rdata_len: rdata field length\n @return 1 on success; 0 otherwise."]
+    pub fn rrstr_get_rr_content(
+        str_: *const ::std::os::raw::c_char,
+        nm: *mut *mut u8,
+        type_: *mut u16,
+        dclass: *mut u16,
+        ttl: *mut time_t,
+        rr: *mut u8,
+        len: usize,
+        rdata: *mut *mut u8,
+        rdata_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Insert specified rdata into the specified resource record.\n @param region: allocator\n @param pd: data portion of the destination resource record\n @param rdata: source rdata\n @param rdata_len: source rdata length\n @param ttl: time to live\n @param rrstr: resource record in text form (for logging)\n @return 1 on success; 0 otherwise."]
+    pub fn rrset_insert_rr(
+        region: *mut regional,
+        pd: *mut packed_rrset_data,
+        rdata: *mut u8,
+        rdata_len: usize,
+        ttl: time_t,
+        rrstr: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Remove RR from rrset that is created using localzone's rrset_insert_rr.\n @param pd: the RRset containing the RR to remove\n @param index: index of RR to remove\n @return: 1 on success; 0 otherwise."]
+    pub fn local_rrset_remove_rr(pd: *mut packed_rrset_data, index: usize)
+        -> ::std::os::raw::c_int;
+}
+#[doc = " no respip action"]
+pub const respip_action_respip_none: respip_action = 0;
+#[doc = " don't answer"]
+pub const respip_action_respip_deny: respip_action = 1;
+#[doc = " redirect as per provided data"]
+pub const respip_action_respip_redirect: respip_action = 6;
+#[doc = " log query source and answer query"]
+pub const respip_action_respip_inform: respip_action = 8;
+#[doc = " log query source and don't answer query"]
+pub const respip_action_respip_inform_deny: respip_action = 9;
+#[doc = " log query source and redirect"]
+pub const respip_action_respip_inform_redirect: respip_action = 10;
+#[doc = " resolve normally, even when there is response-ip data"]
+pub const respip_action_respip_always_transparent: respip_action = 11;
+#[doc = " answer with 'refused' response"]
+pub const respip_action_respip_always_refuse: respip_action = 13;
+#[doc = " answer with 'no such domain' response"]
+pub const respip_action_respip_always_nxdomain: respip_action = 14;
+#[doc = " answer with nodata response"]
+pub const respip_action_respip_always_nodata: respip_action = 15;
+#[doc = " answer with nodata response"]
+pub const respip_action_respip_always_deny: respip_action = 16;
+#[doc = " RPZ: truncate answer in order to force switch to tcp"]
+pub const respip_action_respip_truncate: respip_action = 19;
+#[doc = " serves response data (if any), else, drops queries."]
+pub const respip_action_respip_refuse: respip_action = 2;
+#[doc = " serves response data, else, nodata answer."]
+pub const respip_action_respip_static: respip_action = 3;
+#[doc = " gives response data (if any), else nodata answer."]
+pub const respip_action_respip_transparent: respip_action = 4;
+#[doc = " gives response data (if any), else nodata answer."]
+pub const respip_action_respip_typetransparent: respip_action = 5;
+#[doc = " type invalid"]
+pub const respip_action_respip_invalid: respip_action = 20;
+#[doc = " Valid response ip actions for the IP-response-driven-action feature;\n defined here instead of in the respip module to enable sharing of enum\n values with the localzone_type enum.\n Note that these values except 'none' are the same as localzone types of\n the 'same semantics'.  It's intentional as we use these values via\n access-control-tags, which can be shared for both response ip actions and\n local zones."]
+pub type respip_action = ::std::os::raw::c_uint;
+extern "C" {
+    #[doc = " Get local data from local zone and encode answer.\n @param z: local zone to use\n @param env: module env\n @param qinfo: qinfo\n @param edns: edns data, for message encoding\n @param repinfo: reply info, for message encoding\n @param buf: commpoint buffer\n @param temp: scratchpad region\n @param labs: number of labels in qname\n @param ldp: where to store local data\n @param lz_type: type of local zone\n @param tag: matching tag index\n @param tag_datas: alc specific tag data list\n @param tag_datas_size: size of tag_datas\n @param tagname: list of names of tags, for logging purpose\n @param num_tags: number of tags\n @return 1 on success"]
+    pub fn local_data_answer(
+        z: *mut local_zone,
+        env: *mut module_env,
+        qinfo: *mut query_info,
+        edns: *mut edns_data,
+        repinfo: *mut comm_reply,
+        buf: *mut sldns_buffer,
+        temp: *mut regional,
+        labs: ::std::os::raw::c_int,
+        ldp: *mut *mut local_data,
+        lz_type: localzone_type,
+        tag: ::std::os::raw::c_int,
+        tag_datas: *mut *mut config_strlist,
+        tag_datas_size: usize,
+        tagname: *mut *mut ::std::os::raw::c_char,
+        num_tags: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Add RR to local zone.\n @param z: local zone to add RR to\n @param nm: dname of RR\n @param nmlen: length of nm\n @param nmlabs: number of labels of nm\n @param rrtype: RR type\n @param rrclass: RR class\n @param ttl: TTL of RR to add\n @param rdata: RDATA of RR to add\n @param rdata_len: length of rdata\n @param rrstr: RR in string format, for logging\n @return: 1 on success"]
+    pub fn local_zone_enter_rr(
+        z: *mut local_zone,
+        nm: *mut u8,
+        nmlen: usize,
+        nmlabs: ::std::os::raw::c_int,
+        rrtype: u16,
+        rrclass: u16,
+        ttl: time_t,
+        rdata: *mut u8,
+        rdata_len: usize,
+        rrstr: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Find a data node by exact name for a local zone\n @param z: local_zone containing data tree\n @param nm: name of local-data element to find\n @param nmlen: length of nm\n @param nmlabs: labs of nm\n @return local_data on exact match, NULL otherwise."]
+    pub fn local_zone_find_data(
+        z: *mut local_zone,
+        nm: *mut u8,
+        nmlen: usize,
+        nmlabs: ::std::os::raw::c_int,
+    ) -> *mut local_data;
+}
+#[doc = " Stack of modules."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct module_stack {
+    #[doc = " the number of modules"]
+    pub num: ::std::os::raw::c_int,
+    #[doc = " the module callbacks, array of num_modules length (ref only)"]
+    pub mod_: *mut *mut module_func_block,
+}
+extern "C" {
+    #[doc = " Init a stack of modules\n @param stack: initialised as empty."]
+    pub fn modstack_init(stack: *mut module_stack);
+}
+extern "C" {
+    #[doc = " Read config file module settings and set up the modfunc block\n @param stack: the stack of modules (empty before call).\n @param module_conf: string what modules to insert.\n @return false on error"]
+    pub fn modstack_config(
+        stack: *mut module_stack,
+        module_conf: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Get funcblock for module name\n @param str: string with module name. Advanced to next value on success.\n\tThe string is assumed whitespace separated list of module names.\n @return funcblock or NULL on error."]
+    pub fn module_factory(str_: *mut *const ::std::os::raw::c_char) -> *mut module_func_block;
+}
+extern "C" {
+    #[doc = " Get list of modules available.\n @return list of modules available. Static strings, ends with NULL."]
+    pub fn module_list_avail() -> *mut *const ::std::os::raw::c_char;
+}
+extern "C" {
+    #[doc = " Setup modules. Assigns ids and calls module_init.\n @param stack: if not empty beforehand, it will be desetup()ed.\n\tIt is then modstack_configged().\n @param module_conf: string what modules to insert.\n @param env: module environment which is inited by the modules.\n\tenvironment should have a superalloc, cfg,\n\tenv.need_to_validate is set by the modules.\n @return on false a module init failed."]
+    pub fn modstack_setup(
+        stack: *mut module_stack,
+        module_conf: *const ::std::os::raw::c_char,
+        env: *mut module_env,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Desetup the modules, deinit, delete.\n @param stack: made empty.\n @param env: module env for module deinit() calls."]
+    pub fn modstack_desetup(stack: *mut module_stack, env: *mut module_env);
+}
+extern "C" {
+    #[doc = " Find index of module by name.\n @param stack: to look in\n @param name: the name to look for\n @return -1 on failure, otherwise index number."]
+    pub fn modstack_find(
+        stack: *mut module_stack,
+        name: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " fetch memory for a module by name, returns 0 if module not there"]
+    pub fn mod_get_mem(env: *mut module_env, name: *const ::std::os::raw::c_char) -> usize;
+}
+#[doc = " Authoritative zones, shared."]
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct auth_zones {
+    #[doc = " lock on the authzone trees"]
+    pub lock: lock_rw_type,
+    #[doc = " rbtree of struct auth_zone"]
+    pub ztree: rbtree_type,
+    #[doc = " rbtree of struct auth_xfer"]
+    pub xtree: rbtree_type,
+    #[doc = " do we have downstream enabled"]
+    pub have_downstream: ::std::os::raw::c_int,
+    #[doc = " number of queries upstream"]
+    pub num_query_up: usize,
+    #[doc = " number of queries downstream"]
+    pub num_query_down: usize,
+    #[doc = " first auth zone containing rpz item in linked list"]
+    pub rpz_first: *mut auth_zone,
+    #[doc = " rw lock for rpz linked list, needed when iterating or editing linked\n list."]
+    pub rpz_lock: lock_rw_type,
+}
+#[doc = " Auth zone.  Authoritative data, that is fetched from instead of sending\n packets to the internet."]
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct auth_zone {
+    #[doc = " rbtree node, key is name and class"]
+    pub node: rbnode_type,
+    #[doc = " zone name, in uncompressed wireformat"]
+    pub name: *mut u8,
+    #[doc = " length of zone name"]
+    pub namelen: usize,
+    #[doc = " number of labels in zone name"]
+    pub namelabs: ::std::os::raw::c_int,
+    #[doc = " the class of this zone, in host byteorder.\n uses 'dclass' to not conflict with c++ keyword class."]
+    pub dclass: u16,
+    #[doc = " lock on the data in the structure\n For the node, parent, name, namelen, namelabs, dclass, you\n need to also hold the zones_tree lock to change them (or to\n delete this zone)"]
+    pub lock: lock_rw_type,
+    #[doc = " auth data for this zone\n rbtree of struct auth_data"]
+    pub data: rbtree_type,
+    #[doc = " zonefile name (or NULL for no zonefile)"]
+    pub zonefile: *mut ::std::os::raw::c_char,
+    #[doc = " fallback to the internet on failure or ttl-expiry of auth zone"]
+    pub fallback_enabled: ::std::os::raw::c_int,
+    #[doc = " the zone has expired (enabled by the xfer worker), fallback\n happens if that option is enabled."]
+    pub zone_expired: ::std::os::raw::c_int,
+    #[doc = " zone is a slave zone (it has masters)"]
+    pub zone_is_slave: ::std::os::raw::c_int,
+    #[doc = " for downstream: this zone answers queries towards the downstream\n clients"]
+    pub for_downstream: ::std::os::raw::c_int,
+    #[doc = " for upstream: this zone answers queries that unbound intends to\n send upstream."]
+    pub for_upstream: ::std::os::raw::c_int,
+    #[doc = " check ZONEMD records"]
+    pub zonemd_check: ::std::os::raw::c_int,
+    #[doc = " reject absence of ZONEMD records"]
+    pub zonemd_reject_absence: ::std::os::raw::c_int,
+    #[doc = " RPZ zones"]
+    pub rpz: *mut rpz,
+    #[doc = " store the env (worker thread specific) for the zonemd callbacks\n from the mesh with the results of the lookup, if nonNULL, some\n worker has already picked up the zonemd verification task and\n this worker does not have to do it as well."]
+    pub zonemd_callback_env: *mut module_env,
+    #[doc = " for the zonemd callback, the type of data looked up"]
+    pub zonemd_callback_qtype: u16,
+    #[doc = " zone has been deleted"]
+    pub zone_deleted: ::std::os::raw::c_int,
+    #[doc = " deletelist pointer, unused normally except during delete"]
+    pub delete_next: *mut auth_zone,
+    #[doc = " next auth zone containing RPZ data, or NULL"]
+    pub rpz_az_next: *mut auth_zone,
+    #[doc = " previous auth zone containing RPZ data, or NULL"]
+    pub rpz_az_prev: *mut auth_zone,
+}
+#[doc = " Auth data. One domain name, and the RRs to go with it."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct auth_data {
+    #[doc = " rbtree node, key is name only"]
+    pub node: rbnode_type,
+    #[doc = " domain name"]
+    pub name: *mut u8,
+    #[doc = " length of name"]
+    pub namelen: usize,
+    #[doc = " number of labels in name"]
+    pub namelabs: ::std::os::raw::c_int,
+    #[doc = " the data rrsets, with different types, linked list.\n if the list if NULL the node would be an empty non-terminal,\n but in this data structure such nodes that represent an empty\n non-terminal are not needed; they just don't exist."]
+    pub rrsets: *mut auth_rrset,
+}
+#[doc = " A auth data RRset"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct auth_rrset {
+    #[doc = " next in list"]
+    pub next: *mut auth_rrset,
+    #[doc = " RR type in host byteorder"]
+    pub type_: u16,
+    #[doc = " RRset data item"]
+    pub data: *mut packed_rrset_data,
+}
+#[doc = " Authoritative zone transfer structure.\n Create and destroy needs the auth_zones* biglock.\n The structure consists of different tasks.  Each can be unowned (-1) or\n owner by a worker (worker-num).  A worker can pick up a task and then do\n it.  This means the events (timeouts, sockets) are for that worker.\n\n (move this to tasks).\n They don't have locks themselves, the worker (that owns it) uses it,\n also as part of callbacks, hence it has separate zonename pointers for\n lookup in the main zonetree.  If the zone has no transfers, this\n structure is not created."]
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct auth_xfer {
+    #[doc = " rbtree node, key is name and class"]
+    pub node: rbnode_type,
+    #[doc = " lock on this structure, and on the workernum elements of the\n tasks.  First hold the tree-lock in auth_zones, find the auth_xfer,\n lock this lock.  Then a worker can reassign itself to fill up\n one of the tasks.\n Once it has the task assigned to it, the worker can access the\n other elements of the task structure without a lock, because that\n is necessary for the eventloop and callbacks from that."]
+    pub lock: lock_basic_type,
+    #[doc = " zone name, in uncompressed wireformat"]
+    pub name: *mut u8,
+    #[doc = " length of zone name"]
+    pub namelen: usize,
+    #[doc = " number of labels in zone name"]
+    pub namelabs: ::std::os::raw::c_int,
+    #[doc = " the class of this zone, in host byteorder.\n uses 'dclass' to not conflict with c++ keyword class."]
+    pub dclass: u16,
+    #[doc = " task to wait for next-probe-timeout,\n once timeouted, see if a SOA probe is needed, or already\n in progress"]
+    pub task_nextprobe: *mut auth_nextprobe,
+    #[doc = " task for SOA probe.  Check if the zone can be updated"]
+    pub task_probe: *mut auth_probe,
+    #[doc = " Task for transfer.  Transferring and updating the zone.  This\n includes trying (potentially) several upstream masters.  Downloading\n and storing the zone"]
+    pub task_transfer: *mut auth_transfer,
+    #[doc = " a notify was received, but a zone transfer or probe was already\n acted on.\n However, the zone transfer could signal a newer serial number.\n The serial number of that notify is saved below.  The transfer and\n probe tasks should check this once done to see if they need to\n restart the transfer task for the newer notify serial.\n Hold the lock to access this member (and the serial)."]
+    pub notify_received: ::std::os::raw::c_int,
+    #[doc = " true if the notify_received has a serial number"]
+    pub notify_has_serial: ::std::os::raw::c_int,
+    #[doc = " serial number of the notify"]
+    pub notify_serial: u32,
+    #[doc = " the list of masters for checking notifies.  This list is\n empty on start, and a copy of the list from the probe_task when\n it is done looking them up."]
+    pub allow_notify_list: *mut auth_master,
+    #[doc = " is the zone currently considered expired? after expiry also older\n serial numbers are allowed (not just newer)"]
+    pub zone_expired: ::std::os::raw::c_int,
+    #[doc = " do we have a zone (if 0, no zone data at all)"]
+    pub have_zone: ::std::os::raw::c_int,
+    #[doc = " current serial (from SOA), if we have no zone, 0"]
+    pub serial: u32,
+    #[doc = " retry time (from SOA), time to wait with next_probe\n if no master responds"]
+    pub retry: time_t,
+    #[doc = " refresh time (from SOA), time to wait with next_probe\n if everything is fine"]
+    pub refresh: time_t,
+    #[doc = " expiry time (from SOA), time until zone data is not considered\n valid any more, if no master responds within this time, either\n with the current zone or a new zone."]
+    pub expiry: time_t,
+    #[doc = " zone lease start time (start+expiry is expiration time).\n this is renewed every SOA probe and transfer.  On zone load\n from zonefile it is also set (with probe set soon to check)"]
+    pub lease_time: time_t,
+}
+#[doc = " The next probe task.\n This task consists of waiting for the probetimeout.  It is a task because\n it needs an event in the eventtable.  Once the timeout has passed, that\n worker can (potentially) become the auth_probe worker, or if another worker\n is already doing that, do nothing.  Tasks becomes unowned.\n The probe worker, if it detects nothing has to be done picks up this task,\n if unowned."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct auth_nextprobe {
+    pub worker: *mut worker,
+    pub env: *mut module_env,
+    #[doc = " increasing backoff for failures"]
+    pub backoff: time_t,
+    #[doc = " Timeout for next probe (for SOA)"]
+    pub next_probe: time_t,
+    #[doc = " timeout callback for next_probe or expiry(if that is sooner).\n it is on the worker's event_base"]
+    pub timer: *mut comm_timer,
+}
+#[doc = " The probe task.\n Send a SOA UDP query to see if the zone needs to be updated (or similar,\n potential, HTTP probe query) and check serial number.\n If yes, start the auth_transfer task.  If no, make sure auth_nextprobe\n timeout wait task is running.\n Needs to be a task, because the UDP query needs an event entry.\n This task could also be started by eg. a NOTIFY being received, even though\n another worker is performing the nextprobe task (and that worker keeps\n waiting uninterrupted)."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct auth_probe {
+    pub worker: *mut worker,
+    pub env: *mut module_env,
+    #[doc = " list of upstream masters for this zone, from config"]
+    pub masters: *mut auth_master,
+    #[doc = " for the hostname lookups, which master is current"]
+    pub lookup_target: *mut auth_master,
+    #[doc = " are we looking up A or AAAA, first A, then AAAA (if ip6 enabled)"]
+    pub lookup_aaaa: ::std::os::raw::c_int,
+    #[doc = " we only want to do lookups for making config work (for notify),\n don't proceed with UDP SOA probe queries"]
+    pub only_lookup: ::std::os::raw::c_int,
+    #[doc = " we have seen a new lease this scan, because one of the masters\n replied with the current SOA serial version"]
+    pub have_new_lease: ::std::os::raw::c_int,
+    #[doc = " once notified, or the timeout has been reached. a scan starts. */\n/** the scan specific target (notify source), or NULL if none"]
+    pub scan_specific: *mut auth_master,
+    #[doc = " scan tries all the upstream masters. the scan current target.\n or NULL if not working on sequential scan"]
+    pub scan_target: *mut auth_master,
+    #[doc = " if not NULL, the specific addr for the current master"]
+    pub scan_addr: *mut auth_addr,
+    #[doc = " dns id of packet in flight"]
+    pub id: u16,
+    #[doc = " the SOA probe udp event.\n on the workers event base."]
+    pub cp: *mut comm_point,
+    #[doc = " is the cp for ip6 or ip4"]
+    pub cp_is_ip6: ::std::os::raw::c_int,
+    #[doc = " timeout for packets.\n on the workers event base."]
+    pub timer: *mut comm_timer,
+    #[doc = " timeout in msec"]
+    pub timeout: ::std::os::raw::c_int,
+}
+#[doc = " The transfer task.\n Once done, make sure the nextprobe waiting task is running, whether done\n with failure or success.  If failure, use shorter timeout for wait time."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct auth_transfer {
+    pub worker: *mut worker,
+    pub env: *mut module_env,
+    #[doc = " xfer data that has been transferred, the data is applied\n once the transfer has completed correctly"]
+    pub chunks_first: *mut auth_chunk,
+    #[doc = " last element in chunks list (to append new data at the end)"]
+    pub chunks_last: *mut auth_chunk,
+    #[doc = " list of upstream masters for this zone, from config"]
+    pub masters: *mut auth_master,
+    #[doc = " for the hostname lookups, which master is current"]
+    pub lookup_target: *mut auth_master,
+    #[doc = " are we looking up A or AAAA, first A, then AAAA (if ip6 enabled)"]
+    pub lookup_aaaa: ::std::os::raw::c_int,
+    #[doc = " once notified, or the timeout has been reached. a scan starts. */\n/** the scan specific target (notify source), or NULL if none"]
+    pub scan_specific: *mut auth_master,
+    #[doc = " scan tries all the upstream masters. the scan current target.\n or NULL if not working on sequential scan"]
+    pub scan_target: *mut auth_master,
+    #[doc = " what address we are scanning for the master, or NULL if the\n master is in IP format itself"]
+    pub scan_addr: *mut auth_addr,
+    #[doc = " the zone transfer in progress (or NULL if in scan).  It is\n from this master"]
+    pub master: *mut auth_master,
+    #[doc = " failed ixfr transfer, retry with axfr (to the current master),\n the IXFR was 'REFUSED', 'SERVFAIL', 'NOTIMPL' or the contents of\n the IXFR did not apply cleanly (out of sync, delete of nonexistent\n data or add of duplicate data).  Flag is cleared once the retry\n with axfr is done."]
+    pub ixfr_fail: ::std::os::raw::c_int,
+    #[doc = " we saw an ixfr-indicating timeout, count of them"]
+    pub ixfr_possible_timeout_count: ::std::os::raw::c_int,
+    #[doc = " we are doing IXFR right now"]
+    pub on_ixfr: ::std::os::raw::c_int,
+    #[doc = " did we detect the current AXFR/IXFR serial number yet, 0 not yet,\n 1 we saw the first, 2 we saw the second, 3 must be last SOA in xfr"]
+    pub got_xfr_serial: ::std::os::raw::c_int,
+    #[doc = " number of RRs scanned for AXFR/IXFR detection"]
+    pub rr_scan_num: usize,
+    #[doc = " we are doing an IXFR but we detected an AXFR contents"]
+    pub on_ixfr_is_axfr: ::std::os::raw::c_int,
+    #[doc = " the serial number for the current AXFR/IXFR incoming reply,\n for IXFR, the outermost SOA records serial"]
+    pub incoming_xfr_serial: u32,
+    #[doc = " dns id of AXFR query"]
+    pub id: u16,
+    #[doc = " the transfer (TCP) to the master.\n on the workers event base."]
+    pub cp: *mut comm_point,
+    #[doc = " timeout for the transfer.\n on the workers event base."]
+    pub timer: *mut comm_timer,
+}
+#[doc = " list of addresses"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct auth_addr {
+    #[doc = " next in list"]
+    pub next: *mut auth_addr,
+    #[doc = " IP address"]
+    pub addr: sockaddr_storage,
+    #[doc = " addr length"]
+    pub addrlen: socklen_t,
+}
+#[doc = " auth zone master upstream, and the config settings for it"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct auth_master {
+    #[doc = " next master in list"]
+    pub next: *mut auth_master,
+    #[doc = " master IP address (and port), or hostname, string"]
+    pub host: *mut ::std::os::raw::c_char,
+    #[doc = " for http, filename"]
+    pub file: *mut ::std::os::raw::c_char,
+    #[doc = " use HTTP for this master"]
+    pub http: ::std::os::raw::c_int,
+    #[doc = " use IXFR for this master"]
+    pub ixfr: ::std::os::raw::c_int,
+    #[doc = " this is an allow notify member, the master can send notifies\n to us, but we don't send SOA probes, or zone transfer from it"]
+    pub allow_notify: ::std::os::raw::c_int,
+    #[doc = " use ssl for channel"]
+    pub ssl: ::std::os::raw::c_int,
+    #[doc = " the port number (for urls)"]
+    pub port: ::std::os::raw::c_int,
+    #[doc = " if the host is a hostname, the list of resolved addrs, if any"]
+    pub list: *mut auth_addr,
+}
+#[doc = " auth zone master zone transfer data chunk"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct auth_chunk {
+    #[doc = " next chunk in list"]
+    pub next: *mut auth_chunk,
+    #[doc = " the data from this chunk, this is what was received.\n for an IXFR that means results from comm_net tcp actions,\n packets. also for an AXFR. For HTTP a zonefile chunk."]
+    pub data: *mut u8,
+    #[doc = " length of allocated data"]
+    pub len: usize,
+}
+extern "C" {
+    #[doc = " Create auth zones structure"]
+    pub fn auth_zones_create() -> *mut auth_zones;
+}
+extern "C" {
+    #[doc = " Apply configuration to auth zones.  Reads zonefiles.\n @param az: auth zones structure\n @param cfg: config to apply.\n @param setup: if true, also sets up values in the auth zones structure\n @param is_rpz: set to 1 if at least one RPZ zone is configured.\n @param env: environment for offline verification.\n @param mods: modules in environment.\n @return false on failure."]
+    pub fn auth_zones_apply_cfg(
+        az: *mut auth_zones,
+        cfg: *mut config_file,
+        setup: ::std::os::raw::c_int,
+        is_rpz: *mut ::std::os::raw::c_int,
+        env: *mut module_env,
+        mods: *mut module_stack,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " initial pick up of worker timeouts, ties events to worker event loop\n @param az: auth zones structure\n @param env: worker env, of first worker that receives the events (if any)\n \tin its eventloop."]
+    pub fn auth_xfer_pickup_initial(az: *mut auth_zones, env: *mut module_env);
+}
+extern "C" {
+    #[doc = " Cleanup auth zones.  This removes all events from event bases.\n Stops the xfr tasks.  But leaves zone data.\n @param az: auth zones structure."]
+    pub fn auth_zones_cleanup(az: *mut auth_zones);
+}
+extern "C" {
+    #[doc = " Delete auth zones structure"]
+    pub fn auth_zones_delete(az: *mut auth_zones);
+}
+extern "C" {
+    #[doc = " Write auth zone data to file, in zonefile format."]
+    pub fn auth_zone_write_file(
+        z: *mut auth_zone,
+        fname: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Use auth zones to lookup the answer to a query.\n The query is from the iterator.  And the auth zones attempts to provide\n the answer instead of going to the internet.\n\n @param az: auth zones structure.\n @param qinfo: query info to lookup.\n @param region: region to use to allocate the reply in.\n @param msg: reply is stored here (if one).\n @param fallback: if true, fallback to making a query to the internet.\n @param dp_nm: name of delegation point to look for.  This zone is used\n\tto answer the query.\n\tIf the dp_nm is not found, fallback is set to true and false returned.\n @param dp_nmlen: length of dp_nm.\n @return 0: failure (an error of some sort, like servfail).\n         if 0 and fallback is true, fallback to the internet.\n         if 0 and fallback is false, like getting servfail.\n         If true, an answer is available."]
+    pub fn auth_zones_lookup(
+        az: *mut auth_zones,
+        qinfo: *mut query_info,
+        region: *mut regional,
+        msg: *mut *mut dns_msg,
+        fallback: *mut ::std::os::raw::c_int,
+        dp_nm: *mut u8,
+        dp_nmlen: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Answer query from auth zone.  Create authoritative answer.\n @param az: auth zones structure.\n @param env: the module environment.\n @param qinfo: query info (parsed).\n @param edns: edns info (parsed).\n @param buf: buffer with query ID and flags, also for reply.\n @param repinfo: reply information for a communication point.\n @param temp: temporary storage region.\n @return false if not answered"]
+    pub fn auth_zones_answer(
+        az: *mut auth_zones,
+        env: *mut module_env,
+        qinfo: *mut query_info,
+        edns: *mut edns_data,
+        repinfo: *mut comm_reply,
+        buf: *mut sldns_buffer,
+        temp: *mut regional,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Find the auth zone that is above the given qname.\n Return NULL when there is no auth_zone above the give name, otherwise\n returns the closest auth_zone above the qname that pertains to it.\n @param az: auth zones structure.\n @param name: query to look up for.\n @param name_len: length of name.\n @param dclass: class of zone to find.\n @return NULL or auth_zone that pertains to the query."]
+    pub fn auth_zones_find_zone(
+        az: *mut auth_zones,
+        name: *mut u8,
+        name_len: usize,
+        dclass: u16,
+    ) -> *mut auth_zone;
+}
+extern "C" {
+    #[doc = " find an auth zone by name (exact match by name or NULL returned)"]
+    pub fn auth_zone_find(
+        az: *mut auth_zones,
+        nm: *mut u8,
+        nmlen: usize,
+        dclass: u16,
+    ) -> *mut auth_zone;
+}
+extern "C" {
+    #[doc = " find an xfer zone by name (exact match by name or NULL returned)"]
+    pub fn auth_xfer_find(
+        az: *mut auth_zones,
+        nm: *mut u8,
+        nmlen: usize,
+        dclass: u16,
+    ) -> *mut auth_xfer;
+}
+extern "C" {
+    #[doc = " create an auth zone. returns wrlocked zone. caller must have wrlock\n on az. returns NULL on malloc failure"]
+    pub fn auth_zone_create(
+        az: *mut auth_zones,
+        nm: *mut u8,
+        nmlen: usize,
+        dclass: u16,
+    ) -> *mut auth_zone;
+}
+extern "C" {
+    #[doc = " set auth zone zonefile string. caller must have lock on zone"]
+    pub fn auth_zone_set_zonefile(
+        z: *mut auth_zone,
+        zonefile: *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " set auth zone fallback. caller must have lock on zone.\n fallbackstr is \"yes\" or \"no\". false on parse failure."]
+    pub fn auth_zone_set_fallback(
+        z: *mut auth_zone,
+        fallbackstr: *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " see if the auth zone for the name can fallback\n @param az: auth zones\n @param nm: name of delegation point.\n @param nmlen: length of nm.\n @param dclass: class of zone to look for.\n @return true if fallback_enabled is true. false if not.\n if the zone does not exist, fallback is true (more lenient)\n also true if zone does not do upstream requests."]
+    pub fn auth_zones_can_fallback(
+        az: *mut auth_zones,
+        nm: *mut u8,
+        nmlen: usize,
+        dclass: u16,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " process notify for auth zones.\n first checks the access list.  Then processes the notify. This starts\n the probe sequence or it notes the serial number (if any)\n @param az: auth zones structure.\n @param env: module env of the worker that is handling the notify. it will\n \tpick up the task probe (or transfer), unless already in progress by\n \tanother worker.\n @param nm: name of the zone.  Uncompressed. from query.\n @param nmlen: length of name.\n @param dclass: class of zone.\n @param addr: source address of notify\n @param addrlen: length of addr.\n @param has_serial: if true, the notify has a serial attached.\n @param serial: the serial number, if has_serial is true.\n @param refused: is set to true on failure to note refused access.\n @return fail on failures (refused is false) and when access is\n \tdenied (refused is true).  True when processed."]
+    pub fn auth_zones_notify(
+        az: *mut auth_zones,
+        env: *mut module_env,
+        nm: *mut u8,
+        nmlen: usize,
+        dclass: u16,
+        addr: *mut sockaddr_storage,
+        addrlen: socklen_t,
+        has_serial: ::std::os::raw::c_int,
+        serial: u32,
+        refused: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " process notify packet and read serial number from SOA.\n returns 0 if no soa record in the notify"]
+    pub fn auth_zone_parse_notify_serial(
+        pkt: *mut sldns_buffer,
+        serial: *mut u32,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " for the zone and if not already going, starts the probe sequence.\n false if zone cannot be found.  This is like a notify arrived and was\n accepted for that zone."]
+    pub fn auth_zones_startprobesequence(
+        az: *mut auth_zones,
+        env: *mut module_env,
+        nm: *mut u8,
+        nmlen: usize,
+        dclass: u16,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " read auth zone from zonefile. caller must lock zone. false on failure"]
+    pub fn auth_zone_read_zonefile(
+        z: *mut auth_zone,
+        cfg: *mut config_file,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " find the apex SOA RRset, if it exists. NULL if no SOA RRset."]
+    pub fn auth_zone_get_soa_rrset(z: *mut auth_zone) -> *mut auth_rrset;
+}
+extern "C" {
+    #[doc = " find serial number of zone or false if none (no SOA record)"]
+    pub fn auth_zone_get_serial(z: *mut auth_zone, serial: *mut u32) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Find auth_zone SOA and populate the values in xfr(soa values)."]
+    pub fn xfr_find_soa(z: *mut auth_zone, xfr: *mut auth_xfer) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " compare auth_zones for sorted rbtree"]
+    pub fn auth_zone_cmp(
+        z1: *const ::std::os::raw::c_void,
+        z2: *const ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " compare auth_data for sorted rbtree"]
+    pub fn auth_data_cmp(
+        z1: *const ::std::os::raw::c_void,
+        z2: *const ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " compare auth_xfer for sorted rbtree"]
+    pub fn auth_xfer_cmp(
+        z1: *const ::std::os::raw::c_void,
+        z2: *const ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Create auth_xfer structure.\n Caller must have wrlock on az. Returns locked xfer zone.\n @param az: zones structure.\n @param z: zone with name and class\n @return xfer zone or NULL"]
+    pub fn auth_xfer_create(az: *mut auth_zones, z: *mut auth_zone) -> *mut auth_xfer;
+}
+extern "C" {
+    #[doc = " Set masters in auth xfer structure from config.\n @param list: pointer to start of list.  The malloced list is returned here.\n @param c: the config items to copy over.\n @param with_http: if true, http urls are also included, before the masters.\n @return false on failure."]
+    pub fn xfer_set_masters(
+        list: *mut *mut auth_master,
+        c: *mut config_auth,
+        with_http: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " xfer nextprobe timeout callback, this is part of task_nextprobe"]
+    pub fn auth_xfer_timer(arg: *mut ::std::os::raw::c_void);
+}
+extern "C" {
+    #[doc = " callback for commpoint udp replies to task_probe"]
+    pub fn auth_xfer_probe_udp_callback(
+        c: *mut comm_point,
+        arg: *mut ::std::os::raw::c_void,
+        err: ::std::os::raw::c_int,
+        repinfo: *mut comm_reply,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " callback for task_transfer tcp connections"]
+    pub fn auth_xfer_transfer_tcp_callback(
+        c: *mut comm_point,
+        arg: *mut ::std::os::raw::c_void,
+        err: ::std::os::raw::c_int,
+        repinfo: *mut comm_reply,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " callback for task_transfer http connections"]
+    pub fn auth_xfer_transfer_http_callback(
+        c: *mut comm_point,
+        arg: *mut ::std::os::raw::c_void,
+        err: ::std::os::raw::c_int,
+        repinfo: *mut comm_reply,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " xfer probe timeout callback, part of task_probe"]
+    pub fn auth_xfer_probe_timer_callback(arg: *mut ::std::os::raw::c_void);
+}
+extern "C" {
+    #[doc = " xfer transfer timeout callback, part of task_transfer"]
+    pub fn auth_xfer_transfer_timer_callback(arg: *mut ::std::os::raw::c_void);
+}
+extern "C" {
+    #[doc = " mesh callback for task_probe on lookup of host names"]
+    pub fn auth_xfer_probe_lookup_callback(
+        arg: *mut ::std::os::raw::c_void,
+        rcode: ::std::os::raw::c_int,
+        buf: *mut sldns_buffer,
+        sec: sec_status,
+        why_bogus: *mut ::std::os::raw::c_char,
+        was_ratelimited: ::std::os::raw::c_int,
+    );
+}
+extern "C" {
+    #[doc = " mesh callback for task_transfer on lookup of host names"]
+    pub fn auth_xfer_transfer_lookup_callback(
+        arg: *mut ::std::os::raw::c_void,
+        rcode: ::std::os::raw::c_int,
+        buf: *mut sldns_buffer,
+        sec: sec_status,
+        why_bogus: *mut ::std::os::raw::c_char,
+        was_ratelimited: ::std::os::raw::c_int,
+    );
+}
+extern "C" {
+    pub fn compare_serial(a: u32, b: u32) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Generate ZONEMD digest for the auth zone.\n @param z: the auth zone to digest.\n \tomits zonemd at apex and its RRSIG from the digest.\n @param scheme: the collation scheme to use.  Numbers as defined for ZONEMD.\n @param hashalgo: the hash algo, from the registry defined for ZONEMD type.\n @param hash: the result buffer.\n @param buflen: size of the result buffer, must be large enough. or the\n \troutine fails.\n @param resultlen: size of the hash in the result buffer of the result.\n @param region: temp region for allocs during canonicalisation.\n @param buf: temp buffer during canonicalisation.\n @param reason: failure reason, returns a string, NULL on success.\n @return false on failure."]
+    pub fn auth_zone_generate_zonemd_hash(
+        z: *mut auth_zone,
+        scheme: ::std::os::raw::c_int,
+        hashalgo: ::std::os::raw::c_int,
+        hash: *mut u8,
+        buflen: usize,
+        resultlen: *mut usize,
+        region: *mut regional,
+        buf: *mut sldns_buffer,
+        reason: *mut *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " returns true if a zonemd hash algo is supported"]
+    pub fn zonemd_hashalgo_supported(hashalgo: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " returns true if a zonemd scheme is supported"]
+    pub fn zonemd_scheme_supported(scheme: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Check ZONEMD digest for the auth zone.\n @param z: auth zone to digest.\n @param scheme: zonemd scheme.\n @param hashalgo: zonemd hash algorithm.\n @param hash: the hash to check.\n @param hashlen: length of hash buffer.\n @param region: temp region for allocs during canonicalisation.\n @param buf: temp buffer during canonicalisation.\n @param reason: string returned with failure reason.\n \tIf the hash cannot be checked, but it is allowed, for unknown\n \talgorithms, the routine returns success, and the reason is nonNULL,\n \twith the allowance reason.\n @return false on failure."]
+    pub fn auth_zone_generate_zonemd_check(
+        z: *mut auth_zone,
+        scheme: ::std::os::raw::c_int,
+        hashalgo: ::std::os::raw::c_int,
+        hash: *mut u8,
+        hashlen: usize,
+        region: *mut regional,
+        buf: *mut sldns_buffer,
+        reason: *mut *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Perform ZONEMD checks and verification for the auth zone.\n This includes DNSSEC verification if applicable.\n @param z: auth zone to check.  Caller holds lock. wrlock.\n @param env: with temp region, buffer and config.\n @param mods: module stack for validator env.\n @param result: if not NULL, result string strdupped in here.\n @param offline: if true, there is no spawned lookup when online is needed.\n \tThose zones are skipped for ZONEMD checking.\n @param only_online: if true, only for ZONEMD that need online lookup\n \tof DNSKEY chain of trust are processed."]
+    pub fn auth_zone_verify_zonemd(
+        z: *mut auth_zone,
+        env: *mut module_env,
+        mods: *mut module_stack,
+        result: *mut *mut ::std::os::raw::c_char,
+        offline: ::std::os::raw::c_int,
+        only_online: ::std::os::raw::c_int,
+    );
+}
+extern "C" {
+    #[doc = " mesh callback for zonemd on lookup of dnskey"]
+    pub fn auth_zonemd_dnskey_lookup_callback(
+        arg: *mut ::std::os::raw::c_void,
+        rcode: ::std::os::raw::c_int,
+        buf: *mut sldns_buffer,
+        sec: sec_status,
+        why_bogus: *mut ::std::os::raw::c_char,
+        was_ratelimited: ::std::os::raw::c_int,
+    );
+}
+extern "C" {
+    #[doc = " Check the ZONEMD records that need online DNSSEC chain lookups,\n for them spawn the lookup process to get it checked out.\n Attaches the lookup process to the worker event base and mesh state.\n @param az: auth zones, every zones is checked.\n @param env: env of the worker where the task is attached."]
+    pub fn auth_zones_pickup_zonemd_verify(az: *mut auth_zones, env: *mut module_env);
+}
+#[doc = " Bucket of time history information"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct th_buck {
+    #[doc = " lower bound"]
+    pub lower: timeval,
+    #[doc = " upper bound"]
+    pub upper: timeval,
+    #[doc = " number of items"]
+    pub count: usize,
+}
+#[doc = " Keep histogram of time values."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct timehist {
+    #[doc = " number of buckets"]
+    pub num: usize,
+    #[doc = " bucket array"]
+    pub buckets: *mut th_buck,
+}
+extern "C" {
+    #[doc = " Setup a histogram, default\n @return histogram or NULL on malloc failure."]
+    pub fn timehist_setup() -> *mut timehist;
+}
+extern "C" {
+    #[doc = " Delete histogram\n @param hist: to delete"]
+    pub fn timehist_delete(hist: *mut timehist);
+}
+extern "C" {
+    #[doc = " Clear histogram\n @param hist: to clear all data from"]
+    pub fn timehist_clear(hist: *mut timehist);
+}
+extern "C" {
+    #[doc = " Add time value to histogram.\n @param hist: histogram\n @param tv: time value"]
+    pub fn timehist_insert(hist: *mut timehist, tv: *mut timeval);
+}
+extern "C" {
+    #[doc = " Find time value for given quartile, such as 0.25, 0.50, 0.75.\n The looks up the value for the i-th element in the sorted list of time\n values, as approximated using the histogram.\n @param hist: histogram. Interpolated information is used from it.\n @param q: quartile, 0.50 results in the median. Must be >0 and <1.\n @return: the time in seconds for that percentage."]
+    pub fn timehist_quartile(hist: *mut timehist, q: f64) -> f64;
+}
+extern "C" {
+    #[doc = " Printout histogram\n @param hist: histogram"]
+    pub fn timehist_print(hist: *mut timehist);
+}
+extern "C" {
+    #[doc = " Log histogram, print it to the logfile.\n @param hist: histogram\n @param name: the name of the value column"]
+    pub fn timehist_log(hist: *mut timehist, name: *const ::std::os::raw::c_char);
+}
+extern "C" {
+    #[doc = " Export histogram to an array.\n @param hist: histogram\n @param array: the array to export to.\n @param sz: number of items in array."]
+    pub fn timehist_export(hist: *mut timehist, array: *mut ::std::os::raw::c_longlong, sz: usize);
+}
+extern "C" {
+    #[doc = " Import histogram from an array.\n @param hist: histogram\n @param array: the array to import from.\n @param sz: number of items in array."]
+    pub fn timehist_import(hist: *mut timehist, array: *mut ::std::os::raw::c_longlong, sz: usize);
+}
+#[doc = " The validation context is created to hold the resolver status,\n validation keys and a small cache (containing messages, rrsets,\n roundtrip times, trusted keys, lameness information).\n\n Its contents are internally defined."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct ub_ctx {
     _unused: [u8; 0],
 }
-#[doc = " The outbound list. This structure is part of the module specific query\n state."]
+#[doc = " The validation and resolution results.\n Allocated by the resolver, and need to be freed by the application\n with ub_resolve_free()."]
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
-pub struct outbound_list {
-    #[doc = " The linked list of outbound query entries."]
-    pub first: *mut outbound_entry,
+pub struct ub_result {
+    #[doc = " The original question, name text string."]
+    pub qname: *mut ::std::os::raw::c_char,
+    #[doc = " the type asked for"]
+    pub qtype: ::std::os::raw::c_int,
+    #[doc = " the class asked for"]
+    pub qclass: ::std::os::raw::c_int,
+    #[doc = " a list of network order DNS rdata items, terminated with a\n NULL pointer, so that data[0] is the first result entry,\n data[1] the second, and the last entry is NULL.\n If there was no data, data[0] is NULL."]
+    pub data: *mut *mut ::std::os::raw::c_char,
+    #[doc = " the length in bytes of the data items, len[i] for data[i]"]
+    pub len: *mut ::std::os::raw::c_int,
+    #[doc = " canonical name for the result (the final cname).\n zero terminated string.\n May be NULL if no canonical name exists."]
+    pub canonname: *mut ::std::os::raw::c_char,
+    #[doc = " DNS RCODE for the result. May contain additional error code if\n there was no data due to an error. 0 (NOERROR) if okay."]
+    pub rcode: ::std::os::raw::c_int,
+    #[doc = " The DNS answer packet. Network formatted. Can contain DNSSEC types."]
+    pub answer_packet: *mut ::std::os::raw::c_void,
+    #[doc = " length of the answer packet in octets."]
+    pub answer_len: ::std::os::raw::c_int,
+    #[doc = " If there is any data, this is true.\n If false, there was no data (nxdomain may be true, rcode can be set)."]
+    pub havedata: ::std::os::raw::c_int,
+    #[doc = " If there was no data, and the domain did not exist, this is true.\n If it is false, and there was no data, then the domain name\n is purported to exist, but the requested data type is not available."]
+    pub nxdomain: ::std::os::raw::c_int,
+    #[doc = " True, if the result is validated securely.\n False, if validation failed or domain queried has no security info.\n\n It is possible to get a result with no data (havedata is false),\n and secure is true. This means that the non-existence of the data\n was cryptographically proven (with signatures)."]
+    pub secure: ::std::os::raw::c_int,
+    #[doc = " If the result was not secure (secure==0), and this result is due\n to a security failure, bogus is true.\n This means the data has been actively tampered with, signatures\n failed, expected signatures were not present, timestamps on\n signatures were out of date and so on.\n\n If !secure and !bogus, this can happen if the data is not secure\n because security is disabled for that domain name.\n This means the data is from a domain where data is not signed."]
+    pub bogus: ::std::os::raw::c_int,
+    #[doc = " If the result is bogus this contains a string (zero terminated)\n that describes the failure.  There may be other errors as well\n as the one described, the description may not be perfectly accurate.\n Is NULL if the result is not bogus."]
+    pub why_bogus: *mut ::std::os::raw::c_char,
+    #[doc = " If the query or one of its subqueries was ratelimited.  Useful if\n ratelimiting is enabled and answer to the client is SERVFAIL as a\n result."]
+    pub was_ratelimited: ::std::os::raw::c_int,
+    #[doc = " TTL for the result, in seconds.  If the security is bogus, then\n you also cannot trust this value."]
+    pub ttl: ::std::os::raw::c_int,
 }
-#[doc = " Outbound list entry. A serviced query sent by a module processing the\n query from the qstate. Double linked list to aid removal."]
+#[doc = " Callback for results of async queries.\n The readable function definition looks like:\n void my_callback(void* my_arg, int err, struct ub_result* result);\n It is called with\n\tvoid* my_arg: your pointer to a (struct of) data of your choice,\n\t\tor NULL.\n\tint err: if 0 all is OK, otherwise an error occurred and no results\n\t     are forthcoming.\n\tstruct result: pointer to more detailed result structure.\n\t\tThis structure is allocated on the heap and needs to be\n\t\tfreed with ub_resolve_free(result);"]
+pub type ub_callback_type = ::std::option::Option<
+    unsafe extern "C" fn(
+        arg1: *mut ::std::os::raw::c_void,
+        arg2: ::std::os::raw::c_int,
+        arg3: *mut ub_result,
+    ),
+>;
+#[doc = " no error"]
+pub const ub_ctx_err_UB_NOERROR: ub_ctx_err = 0;
+#[doc = " socket operation. Set to -1, so that if an error from _fd() is\n passed (-1) it gives a socket error."]
+pub const ub_ctx_err_UB_SOCKET: ub_ctx_err = -1;
+#[doc = " alloc failure"]
+pub const ub_ctx_err_UB_NOMEM: ub_ctx_err = -2;
+#[doc = " syntax error"]
+pub const ub_ctx_err_UB_SYNTAX: ub_ctx_err = -3;
+#[doc = " DNS service failed"]
+pub const ub_ctx_err_UB_SERVFAIL: ub_ctx_err = -4;
+#[doc = " fork() failed"]
+pub const ub_ctx_err_UB_FORKFAIL: ub_ctx_err = -5;
+#[doc = " cfg change after finalize()"]
+pub const ub_ctx_err_UB_AFTERFINAL: ub_ctx_err = -6;
+#[doc = " initialization failed (bad settings)"]
+pub const ub_ctx_err_UB_INITFAIL: ub_ctx_err = -7;
+#[doc = " error in pipe communication with async bg worker"]
+pub const ub_ctx_err_UB_PIPE: ub_ctx_err = -8;
+#[doc = " error reading from file (resolv.conf)"]
+pub const ub_ctx_err_UB_READFILE: ub_ctx_err = -9;
+#[doc = " error async_id does not exist or result already been delivered"]
+pub const ub_ctx_err_UB_NOID: ub_ctx_err = -10;
+#[doc = " The error constants"]
+pub type ub_ctx_err = ::std::os::raw::c_int;
+extern "C" {
+    #[doc = " Create a resolving and validation context.\n The information from /etc/resolv.conf and /etc/hosts is not utilised by\n default. Use ub_ctx_resolvconf and ub_ctx_hosts to read them.\n @return a new context. default initialisation.\n \treturns NULL on error."]
+    pub fn ub_ctx_create() -> *mut ub_ctx;
+}
+extern "C" {
+    #[doc = " Destroy a validation context and free all its resources.\n Outstanding async queries are killed and callbacks are not called for them.\n @param ctx: context to delete."]
+    pub fn ub_ctx_delete(ctx: *mut ub_ctx);
+}
+extern "C" {
+    #[doc = " Set an option for the context.\n @param ctx: context.\n @param opt: option name from the unbound.conf config file format.\n\t(not all settings applicable). The name includes the trailing ':'\n\tfor example ub_ctx_set_option(ctx, \"logfile:\", \"mylog.txt\");\n \tThis is a power-users interface that lets you specify all sorts\n \tof options.\n \tFor some specific options, such as adding trust anchors, special\n \troutines exist.\n @param val: value of the option.\n @return: 0 if OK, else error."]
+    pub fn ub_ctx_set_option(
+        ctx: *mut ub_ctx,
+        opt: *const ::std::os::raw::c_char,
+        val: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Get an option from the context.\n @param ctx: context.\n @param opt: option name from the unbound.conf config file format.\n\t(not all settings applicable). The name excludes the trailing ':'\n\tfor example ub_ctx_get_option(ctx, \"logfile\", &result);\n \tThis is a power-users interface that lets you specify all sorts\n \tof options.\n @param str: the string is malloced and returned here. NULL on error.\n \tThe caller must free() the string.  In cases with multiple\n \tentries (auto-trust-anchor-file), a newline delimited list is\n \treturned in the string.\n @return 0 if OK else an error code (malloc failure, syntax error)."]
+    pub fn ub_ctx_get_option(
+        ctx: *mut ub_ctx,
+        opt: *const ::std::os::raw::c_char,
+        str_: *mut *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " setup configuration for the given context.\n @param ctx: context.\n @param fname: unbound config file (not all settings applicable).\n \tThis is a power-users interface that lets you specify all sorts\n \tof options.\n \tFor some specific options, such as adding trust anchors, special\n \troutines exist.\n @return: 0 if OK, else error."]
+    pub fn ub_ctx_config(
+        ctx: *mut ub_ctx,
+        fname: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Set machine to forward DNS queries to, the caching resolver to use.\n IP4 or IP6 address. Forwards all DNS requests to that machine, which\n is expected to run a recursive resolver. If the proxy is not\n DNSSEC-capable, validation may fail. Can be called several times, in\n that case the addresses are used as backup servers.\n\n To read the list of nameservers from /etc/resolv.conf (from DHCP or so),\n use the call ub_ctx_resolvconf.\n\n @param ctx: context.\n\tAt this time it is only possible to set configuration before the\n\tfirst resolve is done.\n @param addr: address, IP4 or IP6 in string format.\n \tIf the addr is NULL, forwarding is disabled.\n @return 0 if OK, else error."]
+    pub fn ub_ctx_set_fwd(
+        ctx: *mut ub_ctx,
+        addr: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Use DNS over TLS to send queries to machines set with ub_ctx_set_fwd().\n\n @param ctx: context.\n\tAt this time it is only possible to set configuration before the\n\tfirst resolve is done.\n @param tls: enable or disable DNS over TLS\n @return 0 if OK, else error."]
+    pub fn ub_ctx_set_tls(ctx: *mut ub_ctx, tls: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Add a stub zone, with given address to send to.  This is for custom\n root hints or pointing to a local authoritative dns server.\n For dns resolvers and the 'DHCP DNS' ip address, use ub_ctx_set_fwd.\n This is similar to a stub-zone entry in unbound.conf.\n\n @param ctx: context.\n\tIt is only possible to set configuration before the\n\tfirst resolve is done.\n @param zone: name of the zone, string.\n @param addr: address, IP4 or IP6 in string format.\n \tThe addr is added to the list of stub-addresses if the entry exists.\n \tIf the addr is NULL the stub entry is removed.\n @param isprime: set to true to set stub-prime to yes for the stub.\n \tFor local authoritative servers, people usually set it to false,\n \tFor root hints it should be set to true.\n @return 0 if OK, else error."]
+    pub fn ub_ctx_set_stub(
+        ctx: *mut ub_ctx,
+        zone: *const ::std::os::raw::c_char,
+        addr: *const ::std::os::raw::c_char,
+        isprime: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Read list of nameservers to use from the filename given.\n Usually \"/etc/resolv.conf\". Uses those nameservers as caching proxies.\n If they do not support DNSSEC, validation may fail.\n\n Only nameservers are picked up, the searchdomain, ndots and other\n settings from resolv.conf(5) are ignored.\n\n @param ctx: context.\n\tAt this time it is only possible to set configuration before the\n\tfirst resolve is done.\n @param fname: file name string. If NULL \"/etc/resolv.conf\" is used.\n @return 0 if OK, else error."]
+    pub fn ub_ctx_resolvconf(
+        ctx: *mut ub_ctx,
+        fname: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Read list of hosts from the filename given.\n Usually \"/etc/hosts\".\n These addresses are not flagged as DNSSEC secure when queried for.\n\n @param ctx: context.\n\tAt this time it is only possible to set configuration before the\n\tfirst resolve is done.\n @param fname: file name string. If NULL \"/etc/hosts\" is used.\n @return 0 if OK, else error."]
+    pub fn ub_ctx_hosts(
+        ctx: *mut ub_ctx,
+        fname: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Add a trust anchor to the given context.\n The trust anchor is a string, on one line, that holds a valid DNSKEY or\n DS RR.\n @param ctx: context.\n\tAt this time it is only possible to add trusted keys before the\n\tfirst resolve is done.\n @param ta: string, with zone-format RR on one line.\n \t[domainname] [TTL optional] [type] [class optional] [rdata contents]\n @return 0 if OK, else error."]
+    pub fn ub_ctx_add_ta(
+        ctx: *mut ub_ctx,
+        ta: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Add trust anchors to the given context.\n Pass name of a file with DS and DNSKEY records (like from dig or drill).\n @param ctx: context.\n\tAt this time it is only possible to add trusted keys before the\n\tfirst resolve is done.\n @param fname: filename of file with keyfile with trust anchors.\n @return 0 if OK, else error."]
+    pub fn ub_ctx_add_ta_file(
+        ctx: *mut ub_ctx,
+        fname: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Add trust anchor to the given context that is tracked with RFC5011\n automated trust anchor maintenance.  The file is written to when the\n trust anchor is changed.\n Pass the name of a file that was output from eg. unbound-anchor,\n or you can start it by providing a trusted DNSKEY or DS record on one\n line in the file.\n @param ctx: context.\n\tAt this time it is only possible to add trusted keys before the\n\tfirst resolve is done.\n @param fname: filename of file with trust anchor.\n @return 0 if OK, else error."]
+    pub fn ub_ctx_add_ta_autr(
+        ctx: *mut ub_ctx,
+        fname: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Add trust anchors to the given context.\n Pass the name of a bind-style config file with trusted-keys{}.\n @param ctx: context.\n\tAt this time it is only possible to add trusted keys before the\n\tfirst resolve is done.\n @param fname: filename of file with bind-style config entries with trust\n \tanchors.\n @return 0 if OK, else error."]
+    pub fn ub_ctx_trustedkeys(
+        ctx: *mut ub_ctx,
+        fname: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Set debug output (and error output) to the specified stream.\n Pass NULL to disable. Default is stderr.\n @param ctx: context.\n @param out: FILE* out file stream to log to.\n \tType void* to avoid stdio dependency of this header file.\n @return 0 if OK, else error."]
+    pub fn ub_ctx_debugout(
+        ctx: *mut ub_ctx,
+        out: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Set debug verbosity for the context\n Output is directed to stderr.\n @param ctx: context.\n @param d: debug level, 0 is off, 1 is very minimal, 2 is detailed,\n\tand 3 is lots.\n @return 0 if OK, else error."]
+    pub fn ub_ctx_debuglevel(ctx: *mut ub_ctx, d: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Set a context behaviour for asynchronous action.\n @param ctx: context.\n @param dothread: if true, enables threading and a call to resolve_async()\n\tcreates a thread to handle work in the background.\n\tIf false, a process is forked to handle work in the background.\n\tChanges to this setting after async() calls have been made have\n\tno effect (delete and re-create the context to change).\n @return 0 if OK, else error."]
+    pub fn ub_ctx_async(ctx: *mut ub_ctx, dothread: ::std::os::raw::c_int)
+        -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Poll a context to see if it has any new results\n Do not poll in a loop, instead extract the fd below to poll for readiness,\n and then check, or wait using the wait routine.\n @param ctx: context.\n @return: 0 if nothing to read, or nonzero if a result is available.\n \tIf nonzero, call ctx_process() to do callbacks."]
+    pub fn ub_poll(ctx: *mut ub_ctx) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Wait for a context to finish with results. Calls ub_process() after\n the wait for you. After the wait, there are no more outstanding\n asynchronous queries.\n @param ctx: context.\n @return: 0 if OK, else error."]
+    pub fn ub_wait(ctx: *mut ub_ctx) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Get file descriptor. Wait for it to become readable, at this point\n answers are returned from the asynchronous validating resolver.\n Then call the ub_process to continue processing.\n This routine works immediately after context creation, the fd\n does not change.\n @param ctx: context.\n @return: -1 on error, or file descriptor to use select(2) with."]
+    pub fn ub_fd(ctx: *mut ub_ctx) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Call this routine to continue processing results from the validating\n resolver (when the fd becomes readable).\n Will perform necessary callbacks.\n @param ctx: context\n @return: 0 if OK, else error."]
+    pub fn ub_process(ctx: *mut ub_ctx) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Perform resolution and validation of the target name.\n @param ctx: context.\n\tThe context is finalized, and can no longer accept config changes.\n @param name: domain name in text format (a zero terminated text string).\n @param rrtype: type of RR in host order, 1 is A (address).\n @param rrclass: class of RR in host order, 1 is IN (for internet).\n @param result: the result data is returned in a newly allocated result\n \tstructure. May be NULL on return, return value is set to an error\n \tin that case (out of memory).\n @return 0 if OK, else error."]
+    pub fn ub_resolve(
+        ctx: *mut ub_ctx,
+        name: *const ::std::os::raw::c_char,
+        rrtype: ::std::os::raw::c_int,
+        rrclass: ::std::os::raw::c_int,
+        result: *mut *mut ub_result,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Perform resolution and validation of the target name.\n Asynchronous, after a while, the callback will be called with your\n data and the result.\n @param ctx: context.\n\tIf no thread or process has been created yet to perform the\n\twork in the background, it is created now.\n\tThe context is finalized, and can no longer accept config changes.\n @param name: domain name in text format (a string).\n @param rrtype: type of RR in host order, 1 is A.\n @param rrclass: class of RR in host order, 1 is IN (for internet).\n @param mydata: this data is your own data (you can pass NULL),\n \tand is passed on to the callback function.\n @param callback: this is called on completion of the resolution.\n \tIt is called as:\n \tvoid callback(void* mydata, int err, struct ub_result* result)\n \twith mydata: the same as passed here, you may pass NULL,\n \twith err: is 0 when a result has been found.\n \twith result: a newly allocated result structure.\n\t\tThe result may be NULL, in that case err is set.\n\n \tIf an error happens during processing, your callback will be called\n \twith error set to a nonzero value (and result==NULL).\n @param async_id: if you pass a non-NULL value, an identifier number is\n\treturned for the query as it is in progress. It can be used to\n\tcancel the query.\n @return 0 if OK, else error."]
+    pub fn ub_resolve_async(
+        ctx: *mut ub_ctx,
+        name: *const ::std::os::raw::c_char,
+        rrtype: ::std::os::raw::c_int,
+        rrclass: ::std::os::raw::c_int,
+        mydata: *mut ::std::os::raw::c_void,
+        callback: ub_callback_type,
+        async_id: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Cancel an async query in progress.\n Its callback will not be called.\n\n @param ctx: context.\n @param async_id: which query to cancel.\n @return 0 if OK, else error.\n This routine can return an error if the async_id passed does not exist\n or has already been delivered. If another thread is processing results\n at the same time, the result may be delivered at the same time and the\n cancel fails with an error.  Also the cancel can fail due to a system\n error, no memory or socket failures."]
+    pub fn ub_cancel(ctx: *mut ub_ctx, async_id: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Free storage associated with a result structure.\n @param result: to free"]
+    pub fn ub_resolve_free(result: *mut ub_result);
+}
+extern "C" {
+    #[doc = " Convert error value to a human readable string.\n @param err: error code from one of the libunbound functions.\n \tThe error codes are from the type enum ub_ctx_err.\n @return pointer to constant text string, zero terminated."]
+    pub fn ub_strerror(err: ::std::os::raw::c_int) -> *const ::std::os::raw::c_char;
+}
+extern "C" {
+    #[doc = " Debug routine.  Print the local zone information to debug output.\n @param ctx: context.  Is finalized by the routine.\n @return 0 if OK, else error."]
+    pub fn ub_ctx_print_local_zones(ctx: *mut ub_ctx) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Add a new zone with the zonetype to the local authority info of the\n library.\n @param ctx: context.  Is finalized by the routine.\n @param zone_name: name of the zone in text, \"example.com\"\n\tIf it already exists, the type is updated.\n @param zone_type: type of the zone (like for unbound.conf) in text.\n @return 0 if OK, else error."]
+    pub fn ub_ctx_zone_add(
+        ctx: *mut ub_ctx,
+        zone_name: *const ::std::os::raw::c_char,
+        zone_type: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Remove zone from local authority info of the library.\n @param ctx: context.  Is finalized by the routine.\n @param zone_name: name of the zone in text, \"example.com\"\n\tIf it does not exist, nothing happens.\n @return 0 if OK, else error."]
+    pub fn ub_ctx_zone_remove(
+        ctx: *mut ub_ctx,
+        zone_name: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Add localdata to the library local authority info.\n Similar to local-data config statement.\n @param ctx: context.  Is finalized by the routine.\n @param data: the resource record in text format, for example\n\t\"www.example.com IN A 127.0.0.1\"\n @return 0 if OK, else error."]
+    pub fn ub_ctx_data_add(
+        ctx: *mut ub_ctx,
+        data: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Remove localdata from the library local authority info.\n @param ctx: context.  Is finalized by the routine.\n @param data: the name to delete all data from, like \"www.example.com\".\n @return 0 if OK, else error."]
+    pub fn ub_ctx_data_remove(
+        ctx: *mut ub_ctx,
+        data: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Get a version string from the libunbound implementation.\n @return a static constant string with the version number."]
+    pub fn ub_version() -> *const ::std::os::raw::c_char;
+}
+#[doc = " Some global statistics that are not in struct stats_info,\n this struct is shared on a shm segment (shm-key in unbound.conf)"]
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
-pub struct outbound_entry {
+pub struct ub_shm_stat_info {
+    pub num_threads: ::std::os::raw::c_int,
+    pub time: ub_shm_stat_info__bindgen_ty_1,
+    pub mem: ub_shm_stat_info__bindgen_ty_2,
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct ub_shm_stat_info__bindgen_ty_1 {
+    pub now_sec: ::std::os::raw::c_longlong,
+    pub now_usec: ::std::os::raw::c_longlong,
+    pub up_sec: ::std::os::raw::c_longlong,
+    pub up_usec: ::std::os::raw::c_longlong,
+    pub elapsed_sec: ::std::os::raw::c_longlong,
+    pub elapsed_usec: ::std::os::raw::c_longlong,
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct ub_shm_stat_info__bindgen_ty_2 {
+    pub msg: ::std::os::raw::c_longlong,
+    pub rrset: ::std::os::raw::c_longlong,
+    pub val: ::std::os::raw::c_longlong,
+    pub iter: ::std::os::raw::c_longlong,
+    pub subnet: ::std::os::raw::c_longlong,
+    pub ipsecmod: ::std::os::raw::c_longlong,
+    pub respip: ::std::os::raw::c_longlong,
+    pub dnscrypt_shared_secret: ::std::os::raw::c_longlong,
+    pub dnscrypt_nonce: ::std::os::raw::c_longlong,
+    pub dynlib: ::std::os::raw::c_longlong,
+}
+#[doc = " per worker statistics."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct ub_server_stats {
+    #[doc = " number of queries from clients received."]
+    pub num_queries: ::std::os::raw::c_longlong,
+    #[doc = " number of queries that have been dropped/ratelimited by ip."]
+    pub num_queries_ip_ratelimited: ::std::os::raw::c_longlong,
+    #[doc = " number of queries with a valid DNS Cookie."]
+    pub num_queries_cookie_valid: ::std::os::raw::c_longlong,
+    #[doc = " number of queries with only the client part of the DNS Cookie."]
+    pub num_queries_cookie_client: ::std::os::raw::c_longlong,
+    #[doc = " number of queries with invalid DNS Cookie."]
+    pub num_queries_cookie_invalid: ::std::os::raw::c_longlong,
+    #[doc = " number of queries that had a cache-miss."]
+    pub num_queries_missed_cache: ::std::os::raw::c_longlong,
+    #[doc = " number of prefetch queries - cachehits with prefetch"]
+    pub num_queries_prefetch: ::std::os::raw::c_longlong,
+    #[doc = " number of queries which are too late to process"]
+    pub num_queries_timed_out: ::std::os::raw::c_longlong,
+    #[doc = " the longest wait time in the queue"]
+    pub max_query_time_us: ::std::os::raw::c_longlong,
+    #[doc = " Sum of the querylistsize of the worker for\n every query that missed cache. To calculate average."]
+    pub sum_query_list_size: ::std::os::raw::c_longlong,
+    #[doc = " max value of query list size reached."]
+    pub max_query_list_size: ::std::os::raw::c_longlong,
+    #[doc = " Extended stats below (bool)"]
+    pub extended: ::std::os::raw::c_int,
+    #[doc = " qtype stats"]
+    pub qtype: [::std::os::raw::c_longlong; 256usize],
+    #[doc = " bigger qtype values not in array"]
+    pub qtype_big: ::std::os::raw::c_longlong,
+    #[doc = " qclass stats"]
+    pub qclass: [::std::os::raw::c_longlong; 256usize],
+    #[doc = " bigger qclass values not in array"]
+    pub qclass_big: ::std::os::raw::c_longlong,
+    #[doc = " query opcodes"]
+    pub qopcode: [::std::os::raw::c_longlong; 16usize],
+    #[doc = " number of queries over TCP"]
+    pub qtcp: ::std::os::raw::c_longlong,
+    #[doc = " number of outgoing queries over TCP"]
+    pub qtcp_outgoing: ::std::os::raw::c_longlong,
+    #[doc = " number of outgoing queries over UDP"]
+    pub qudp_outgoing: ::std::os::raw::c_longlong,
+    #[doc = " number of queries over (DNS over) TLS"]
+    pub qtls: ::std::os::raw::c_longlong,
+    #[doc = " number of queries over (DNS over) HTTPS"]
+    pub qhttps: ::std::os::raw::c_longlong,
+    #[doc = " number of queries over IPv6"]
+    pub qipv6: ::std::os::raw::c_longlong,
+    #[doc = " number of queries with QR bit"]
+    pub qbit_QR: ::std::os::raw::c_longlong,
+    #[doc = " number of queries with AA bit"]
+    pub qbit_AA: ::std::os::raw::c_longlong,
+    #[doc = " number of queries with TC bit"]
+    pub qbit_TC: ::std::os::raw::c_longlong,
+    #[doc = " number of queries with RD bit"]
+    pub qbit_RD: ::std::os::raw::c_longlong,
+    #[doc = " number of queries with RA bit"]
+    pub qbit_RA: ::std::os::raw::c_longlong,
+    #[doc = " number of queries with Z bit"]
+    pub qbit_Z: ::std::os::raw::c_longlong,
+    #[doc = " number of queries with AD bit"]
+    pub qbit_AD: ::std::os::raw::c_longlong,
+    #[doc = " number of queries with CD bit"]
+    pub qbit_CD: ::std::os::raw::c_longlong,
+    #[doc = " number of queries with EDNS OPT record"]
+    pub qEDNS: ::std::os::raw::c_longlong,
+    #[doc = " number of queries with EDNS with DO flag"]
+    pub qEDNS_DO: ::std::os::raw::c_longlong,
+    #[doc = " answer rcodes"]
+    pub ans_rcode: [::std::os::raw::c_longlong; 16usize],
+    #[doc = " answers with pseudo rcode 'nodata'"]
+    pub ans_rcode_nodata: ::std::os::raw::c_longlong,
+    #[doc = " answers that were secure (AD)"]
+    pub ans_secure: ::std::os::raw::c_longlong,
+    #[doc = " answers that were bogus (withheld as SERVFAIL)"]
+    pub ans_bogus: ::std::os::raw::c_longlong,
+    #[doc = " rrsets marked bogus by validator"]
+    pub rrset_bogus: ::std::os::raw::c_longlong,
+    #[doc = " number of queries that have been ratelimited by domain recursion."]
+    pub queries_ratelimited: ::std::os::raw::c_longlong,
+    #[doc = " unwanted traffic received on server-facing ports"]
+    pub unwanted_replies: ::std::os::raw::c_longlong,
+    #[doc = " unwanted traffic received on client-facing ports"]
+    pub unwanted_queries: ::std::os::raw::c_longlong,
+    #[doc = " usage of tcp accept list"]
+    pub tcp_accept_usage: ::std::os::raw::c_longlong,
+    #[doc = " expired answers served from cache"]
+    pub ans_expired: ::std::os::raw::c_longlong,
+    #[doc = " histogram data exported to array\n if the array is the same size, no data is lost, and\n if all histograms are same size (is so by default) then\n adding up works well."]
+    pub hist: [::std::os::raw::c_longlong; 40usize],
+    #[doc = " number of message cache entries"]
+    pub msg_cache_count: ::std::os::raw::c_longlong,
+    #[doc = " number of rrset cache entries"]
+    pub rrset_cache_count: ::std::os::raw::c_longlong,
+    #[doc = " number of infra cache entries"]
+    pub infra_cache_count: ::std::os::raw::c_longlong,
+    #[doc = " number of key cache entries"]
+    pub key_cache_count: ::std::os::raw::c_longlong,
+    #[doc = " maximum number of collisions in the msg cache"]
+    pub msg_cache_max_collisions: ::std::os::raw::c_longlong,
+    #[doc = " maximum number of collisions in the rrset cache"]
+    pub rrset_cache_max_collisions: ::std::os::raw::c_longlong,
+    #[doc = " number of queries that used dnscrypt"]
+    pub num_query_dnscrypt_crypted: ::std::os::raw::c_longlong,
+    #[doc = " number of queries that queried dnscrypt certificates"]
+    pub num_query_dnscrypt_cert: ::std::os::raw::c_longlong,
+    #[doc = " number of queries in clear text and not asking for the certificates"]
+    pub num_query_dnscrypt_cleartext: ::std::os::raw::c_longlong,
+    #[doc = " number of malformed encrypted queries"]
+    pub num_query_dnscrypt_crypted_malformed: ::std::os::raw::c_longlong,
+    #[doc = " number of queries which did not have a shared secret in cache"]
+    pub num_query_dnscrypt_secret_missed_cache: ::std::os::raw::c_longlong,
+    #[doc = " number of dnscrypt shared secret cache entries"]
+    pub shared_secret_cache_count: ::std::os::raw::c_longlong,
+    #[doc = " number of queries which are replays"]
+    pub num_query_dnscrypt_replay: ::std::os::raw::c_longlong,
+    #[doc = " number of dnscrypt nonces cache entries"]
+    pub nonce_cache_count: ::std::os::raw::c_longlong,
+    #[doc = " number of queries for unbound's auth_zones, upstream query"]
+    pub num_query_authzone_up: ::std::os::raw::c_longlong,
+    #[doc = " number of queries for unbound's auth_zones, downstream answers"]
+    pub num_query_authzone_down: ::std::os::raw::c_longlong,
+    #[doc = " number of times neg cache records were used to generate NOERROR\n responses."]
+    pub num_neg_cache_noerror: ::std::os::raw::c_longlong,
+    #[doc = " number of times neg cache records were used to generate NXDOMAIN\n responses."]
+    pub num_neg_cache_nxdomain: ::std::os::raw::c_longlong,
+    #[doc = " number of queries answered from edns-subnet specific data"]
+    pub num_query_subnet: ::std::os::raw::c_longlong,
+    #[doc = " number of queries answered from edns-subnet specific data, and\n the answer was from the edns-subnet cache."]
+    pub num_query_subnet_cache: ::std::os::raw::c_longlong,
+    #[doc = " number of queries served from cachedb"]
+    pub num_query_cachedb: ::std::os::raw::c_longlong,
+    #[doc = " number of bytes in the stream wait buffers"]
+    pub mem_stream_wait: ::std::os::raw::c_longlong,
+    #[doc = " number of bytes in the HTTP2 query buffers"]
+    pub mem_http2_query_buffer: ::std::os::raw::c_longlong,
+    #[doc = " number of bytes in the HTTP2 response buffers"]
+    pub mem_http2_response_buffer: ::std::os::raw::c_longlong,
+    #[doc = " number of TLS connection resume"]
+    pub qtls_resume: ::std::os::raw::c_longlong,
+    #[doc = " RPZ action stats"]
+    pub rpz_action: [::std::os::raw::c_longlong; 10usize],
+}
+#[doc = " Statistics to send over the control pipe when asked\n This struct is made to be memcopied, sent in binary.\n shm mapped with (number+1) at num_threads+1, with first as total"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct ub_stats_info {
+    #[doc = " the thread stats"]
+    pub svr: ub_server_stats,
+    #[doc = " mesh stats: current number of states"]
+    pub mesh_num_states: ::std::os::raw::c_longlong,
+    #[doc = " mesh stats: current number of reply (user) states"]
+    pub mesh_num_reply_states: ::std::os::raw::c_longlong,
+    #[doc = " mesh stats: number of reply states overwritten with a new one"]
+    pub mesh_jostled: ::std::os::raw::c_longlong,
+    #[doc = " mesh stats: number of incoming queries dropped"]
+    pub mesh_dropped: ::std::os::raw::c_longlong,
+    #[doc = " mesh stats: replies sent"]
+    pub mesh_replies_sent: ::std::os::raw::c_longlong,
+    #[doc = " mesh stats: sum of waiting times for the replies"]
+    pub mesh_replies_sum_wait_sec: ::std::os::raw::c_longlong,
+    #[doc = " mesh stats: sum of waiting times for the replies"]
+    pub mesh_replies_sum_wait_usec: ::std::os::raw::c_longlong,
+    #[doc = " mesh stats: median of waiting times for replies (in sec)"]
+    pub mesh_time_median: f64,
+}
+extern "C" {
+    #[doc = " Initialize server stats to 0.\n @param stats: what to init (this is alloced by the caller).\n @param cfg: with extended statistics option."]
+    pub fn server_stats_init(stats: *mut ub_server_stats, cfg: *mut config_file);
+}
+extern "C" {
+    #[doc = " add query if it missed the cache"]
+    pub fn server_stats_querymiss(stats: *mut ub_server_stats, worker: *mut worker);
+}
+extern "C" {
+    #[doc = " add query if was cached and also resulted in a prefetch"]
+    pub fn server_stats_prefetch(stats: *mut ub_server_stats, worker: *mut worker);
+}
+extern "C" {
+    #[doc = " display the stats to the log"]
+    pub fn server_stats_log(
+        stats: *mut ub_server_stats,
+        worker: *mut worker,
+        threadnum: ::std::os::raw::c_int,
+    );
+}
+extern "C" {
+    #[doc = " Obtain the stats info for a given thread. Uses pipe to communicate.\n @param worker: the worker that is executing (the first worker).\n @param who: on who to get the statistics info.\n @param s: the stats block to fill in.\n @param reset: if stats can be reset."]
+    pub fn server_stats_obtain(
+        worker: *mut worker,
+        who: *mut worker,
+        s: *mut ub_stats_info,
+        reset: ::std::os::raw::c_int,
+    );
+}
+extern "C" {
+    #[doc = " Compile stats into structure for this thread worker.\n Also clears the statistics counters (if that is set by config file).\n @param worker: the worker to compile stats for, also the executing worker.\n @param s: stats block.\n @param reset: if true, depending on config stats are reset.\n \tif false, statistics are not reset."]
+    pub fn server_stats_compile(
+        worker: *mut worker,
+        s: *mut ub_stats_info,
+        reset: ::std::os::raw::c_int,
+    );
+}
+extern "C" {
+    #[doc = " Send stats over comm tube in reply to query cmd\n @param worker: this worker.\n @param reset: if true, depending on config stats are reset.\n \tif false, statistics are not reset."]
+    pub fn server_stats_reply(worker: *mut worker, reset: ::std::os::raw::c_int);
+}
+extern "C" {
+    #[doc = " Addup stat blocks.\n @param total: sum of the two entries.\n @param a: to add to it."]
+    pub fn server_stats_add(total: *mut ub_stats_info, a: *mut ub_stats_info);
+}
+extern "C" {
+    #[doc = " Add stats for this query\n @param stats: the stats\n @param c: commpoint with type and buffer.\n @param qtype: query type\n @param qclass: query class\n @param edns: edns record\n @param repinfo: reply info with remote address"]
+    pub fn server_stats_insquery(
+        stats: *mut ub_server_stats,
+        c: *mut comm_point,
+        qtype: u16,
+        qclass: u16,
+        edns: *mut edns_data,
+        repinfo: *mut comm_reply,
+    );
+}
+extern "C" {
+    #[doc = " Add rcode for this query.\n @param stats: the stats\n @param buf: buffer with rcode. If buffer is length0: not counted."]
+    pub fn server_stats_insrcode(stats: *mut ub_server_stats, buf: *mut sldns_buffer);
+}
+extern "C" {
+    #[doc = " Add DNS Cookie stats for this query\n @param stats: the stats\n @param edns: edns record"]
+    pub fn server_stats_downstream_cookie(stats: *mut ub_server_stats, edns: *mut edns_data);
+}
+#[doc = " Conceptual set of IP addresses for response AAAA or A records that should\n trigger special actions."]
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct respip_set {
+    pub region: *mut regional,
+    pub ip_tree: rbtree_type,
+    pub lock: lock_rw_type,
+    pub tagname: *const *mut ::std::os::raw::c_char,
+    pub num_tags: ::std::os::raw::c_int,
+}
+#[doc = " An address span with response control information"]
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct resp_addr {
+    #[doc = " node in address tree"]
+    pub node: addr_tree_node,
+    #[doc = " lock on the node item"]
+    pub lock: lock_rw_type,
+    #[doc = " tag bitlist"]
+    pub taglist: *mut u8,
+    #[doc = " length of the taglist (in bytes)"]
+    pub taglen: usize,
+    #[doc = " action for this address span"]
+    pub action: respip_action,
+    #[doc = " \"local data\" for this node"]
+    pub data: *mut ub_packed_rrset_key,
+}
+#[doc = " Client-specific attributes that can affect IP-based actions.\n This is essentially a subset of acl_addr (except for respip_set) but\n defined as a separate structure to avoid dependency on the daemon-specific\n structure.\n respip_set is supposed to refer to the response-ip set for the global view."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct respip_client_info {
+    pub taglist: *mut u8,
+    pub taglen: usize,
+    pub tag_actions: *mut u8,
+    pub tag_actions_size: usize,
+    pub tag_datas: *mut *mut config_strlist,
+    pub tag_datas_size: usize,
+    pub view: *mut view,
+    pub respip_set: *mut respip_set,
+}
+#[doc = " Data items representing the result of response-ip processing.\n Note: this structure currently only define a few members, but exists\n as a separate struct mainly for the convenience of custom extensions."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct respip_action_info {
+    pub action: respip_action,
+    pub rpz_used: ::std::os::raw::c_int,
+    pub rpz_log: ::std::os::raw::c_int,
+    pub rpz_disabled: ::std::os::raw::c_int,
+    pub log_name: *mut ::std::os::raw::c_char,
+    pub rpz_cname_override: ::std::os::raw::c_int,
+    pub addrinfo: *mut respip_addr_info,
+}
+extern "C" {
+    #[doc = " Create response IP set.\n @return new struct or NULL on error."]
+    pub fn respip_set_create() -> *mut respip_set;
+}
+extern "C" {
+    #[doc = " Delete response IP set.\n @param set: to delete."]
+    pub fn respip_set_delete(set: *mut respip_set);
+}
+extern "C" {
+    #[doc = " Apply response-ip config settings to the global (default) view.\n It assumes exclusive access to set (no internal locks).\n @param set: processed global respip config data\n @param cfg: config data.\n @return 1 on success, 0 on error."]
+    pub fn respip_global_apply_cfg(
+        set: *mut respip_set,
+        cfg: *mut config_file,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Apply response-ip config settings in named views.\n @param vs: view structures with processed config data\n @param cfg: config data.\n @param have_view_respip_cfg: set to true if any named view has respip\n \tconfiguration; otherwise set to false\n @return 1 on success, 0 on error."]
+    pub fn respip_views_apply_cfg(
+        vs: *mut views,
+        cfg: *mut config_file,
+        have_view_respip_cfg: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Merge two replies to build a complete CNAME chain.\n It appends the content of 'tgt_rep' to 'base_rep', assuming (but not\n checking) the former ends with a CNAME and the latter resolves its target.\n A merged new reply will be built using 'region' and *new_repp will point\n to the new one on success.\n If the target reply would also be subject to a response-ip action for\n 'cinfo', this function uses 'base_rep' as the merged reply, ignoring\n 'tgt_rep'.  This is for avoiding cases like a CNAME loop or failure of\n applying an action to an address.\n RRSIGs in 'tgt_rep' will be excluded in the merged reply, as the resulting\n reply is assumed to be faked due to a response-ip action and can't be\n considered secure in terms of DNSSEC.\n The caller must ensure that neither 'base_rep' nor 'tgt_rep' can be modified\n until this function returns.\n @param base_rep: the reply info containing an incomplete CNAME.\n @param qinfo: query info corresponding to 'base_rep'.\n @param tgt_rep: the reply info that completes the CNAME chain.\n @param cinfo: client info corresponding to 'base_rep'.\n @param must_validate: whether 'tgt_rep' must be DNSSEC-validated.\n @param new_repp: pointer placeholder for the merged reply.  will be intact\n   on error.\n @param region: allocator to build *new_repp.\n @param az: auth zones containing RPZ information.\n @return 1 on success, 0 on error."]
+    pub fn respip_merge_cname(
+        base_rep: *mut reply_info,
+        qinfo: *const query_info,
+        tgt_rep: *const reply_info,
+        cinfo: *const respip_client_info,
+        must_validate: ::std::os::raw::c_int,
+        new_repp: *mut *mut reply_info,
+        region: *mut regional,
+        az: *mut auth_zones,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " See if any IP-based action should apply to any IP address of AAAA/A answer\n record in the reply.  If so, apply the action.  In some cases it rewrites\n the reply rrsets, in which case *new_repp will point to the updated reply\n info.  Depending on the action, some of the rrsets in 'rep' will be\n shallow-copied into '*new_repp'; the caller must ensure that the rrsets\n in 'rep' are valid throughout the lifetime of *new_repp, and it must\n provide appropriate mutex if the rrsets can be shared by multiple threads.\n @param qinfo: query info corresponding to the reply.\n @param cinfo: client-specific info to identify the best matching action.\n   can be NULL.\n @param rep: original reply info.  must not be NULL.\n @param new_repp: can be set to the rewritten reply info (intact on failure).\n @param actinfo: result of response-ip processing\n @param alias_rrset: must not be NULL.\n @param search_only: if true, only check if an action would apply.  actionp\n   will be set (or intact) accordingly but the modified reply won't be built.\n @param az: auth zones containing RPZ information.\n @param region: allocator to build *new_repp.\n @param rpz_passthru: keeps track of query state can have passthru that\n   stops further rpz processing. Or NULL for cached answer processing.\n @return 1 on success, 0 on error."]
+    pub fn respip_rewrite_reply(
+        qinfo: *const query_info,
+        cinfo: *const respip_client_info,
+        rep: *const reply_info,
+        new_repp: *mut *mut reply_info,
+        actinfo: *mut respip_action_info,
+        alias_rrset: *mut *mut ub_packed_rrset_key,
+        search_only: ::std::os::raw::c_int,
+        region: *mut regional,
+        az: *mut auth_zones,
+        rpz_passthru: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Get the response-ip function block.\n @return: function block with function pointers to response-ip methods."]
+    pub fn respip_get_funcblock() -> *mut module_func_block;
+}
+extern "C" {
+    #[doc = " response-ip init"]
+    pub fn respip_init(env: *mut module_env, id: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " response-ip deinit"]
+    pub fn respip_deinit(env: *mut module_env, id: ::std::os::raw::c_int);
+}
+extern "C" {
+    #[doc = " response-ip operate on a query"]
+    pub fn respip_operate(
+        qstate: *mut module_qstate,
+        event: module_ev,
+        id: ::std::os::raw::c_int,
+        outbound: *mut outbound_entry,
+    );
+}
+extern "C" {
+    #[doc = " inform response-ip super"]
+    pub fn respip_inform_super(
+        qstate: *mut module_qstate,
+        id: ::std::os::raw::c_int,
+        super_: *mut module_qstate,
+    );
+}
+extern "C" {
+    #[doc = " response-ip cleanup query state"]
+    pub fn respip_clear(qstate: *mut module_qstate, id: ::std::os::raw::c_int);
+}
+extern "C" {
+    #[doc = " returns address of the IP address tree of the specified respip set;\n returns NULL for NULL input; exists for test purposes only"]
+    pub fn respip_set_get_tree(set: *mut respip_set) -> *mut rbtree_type;
+}
+extern "C" {
+    #[doc = " returns respip action for the specified node in the respip address\n returns respip_none for NULL input; exists for test purposes only"]
+    pub fn resp_addr_get_action(addr: *const resp_addr) -> respip_action;
+}
+extern "C" {
+    #[doc = " returns rrset portion of the specified node in the respip address\n tree; returns NULL for NULL input; exists for test purposes only"]
+    pub fn resp_addr_get_rrset(addr: *mut resp_addr) -> *mut ub_packed_rrset_key;
+}
+extern "C" {
+    #[doc = " response-ip alloc size routine"]
+    pub fn respip_get_mem(env: *mut module_env, id: ::std::os::raw::c_int) -> usize;
+}
+extern "C" {
+    #[doc = " respip set emptiness test\n @param set respip set to test\n @return 0 if the specified set exists (non-NULL) and is non-empty;\n\totherwise returns 1"]
+    pub fn respip_set_is_empty(set: *const respip_set) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " print log information for a query subject to an inform or inform-deny\n response-ip action.\n @param respip_actinfo: response-ip information that causes the action\n @param qname: query name in the context, will be ignored if local_alias is\n   non-NULL.\n @param qtype: query type, in host byte order.\n @param qclass: query class, in host byte order.\n @param local_alias: set to a local alias if the query matches an alias in\n  a local zone.  In this case its owner name will be considered the actual\n  query name.\n @param addr: the client's source address and port.\n @param addrlen: the client's source address length."]
+    pub fn respip_inform_print(
+        respip_actinfo: *mut respip_action_info,
+        qname: *mut u8,
+        qtype: u16,
+        qclass: u16,
+        local_alias: *mut local_rrset,
+        addr: *mut sockaddr_storage,
+        addrlen: socklen_t,
+    );
+}
+extern "C" {
+    #[doc = " Find resp_addr in tree, create and add to tree if it does not exist.\n @param set: struct containing the tree and region to alloc new node on.\n \tshould hold write lock.\n @param addr: address to look up.\n @param addrlen: length of addr.\n @param net: netblock to lookup.\n @param create: create node if it does not exist when 1.\n @param ipstr: human redable ip string, for logging.\n @return newly created of found node, not holding lock."]
+    pub fn respip_sockaddr_find_or_create(
+        set: *mut respip_set,
+        addr: *mut sockaddr_storage,
+        addrlen: socklen_t,
+        net: ::std::os::raw::c_int,
+        create: ::std::os::raw::c_int,
+        ipstr: *const ::std::os::raw::c_char,
+    ) -> *mut resp_addr;
+}
+extern "C" {
+    #[doc = " Add RR to resp_addr's RRset. Create RRset if not existing.\n @param region: region to alloc RR(set).\n @param raddr: resp_addr containing RRset. Must hold write lock.\n @param rrtype: RR type.\n @param rrclass: RR class.\n @param ttl: TTL.\n @param rdata: RDATA.\n @param rdata_len: length of rdata.\n @param rrstr: RR as string, for logging\n @param netblockstr: netblock as string, for logging\n @return 0 on error"]
+    pub fn respip_enter_rr(
+        region: *mut regional,
+        raddr: *mut resp_addr,
+        rrtype: u16,
+        rrclass: u16,
+        ttl: time_t,
+        rdata: *mut u8,
+        rdata_len: usize,
+        rrstr: *const ::std::os::raw::c_char,
+        netblockstr: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Delete resp_addr node from tree.\n @param set: struct containing tree. Must hold write lock.\n @param node: node to delete. Not locked."]
+    pub fn respip_sockaddr_delete(set: *mut respip_set, node: *mut resp_addr);
+}
+extern "C" {
+    pub fn respip_copy_rrset(
+        key: *const ub_packed_rrset_key,
+        region: *mut regional,
+    ) -> *mut ub_packed_rrset_key;
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct iter_qstate {
+    _unused: [u8; 0],
+}
+pub const rpz_trigger_RPZ_QNAME_TRIGGER: rpz_trigger = 0;
+pub const rpz_trigger_RPZ_CLIENT_IP_TRIGGER: rpz_trigger = 1;
+pub const rpz_trigger_RPZ_RESPONSE_IP_TRIGGER: rpz_trigger = 2;
+pub const rpz_trigger_RPZ_NSDNAME_TRIGGER: rpz_trigger = 3;
+pub const rpz_trigger_RPZ_NSIP_TRIGGER: rpz_trigger = 4;
+pub const rpz_trigger_RPZ_INVALID_TRIGGER: rpz_trigger = 5;
+#[doc = " RPZ triggers, only the QNAME trigger is currently supported in Unbound."]
+pub type rpz_trigger = ::std::os::raw::c_uint;
+pub const rpz_action_RPZ_NXDOMAIN_ACTION: rpz_action = 0;
+pub const rpz_action_RPZ_NODATA_ACTION: rpz_action = 1;
+pub const rpz_action_RPZ_PASSTHRU_ACTION: rpz_action = 2;
+pub const rpz_action_RPZ_DROP_ACTION: rpz_action = 3;
+pub const rpz_action_RPZ_TCP_ONLY_ACTION: rpz_action = 4;
+pub const rpz_action_RPZ_INVALID_ACTION: rpz_action = 5;
+pub const rpz_action_RPZ_LOCAL_DATA_ACTION: rpz_action = 6;
+pub const rpz_action_RPZ_DISABLED_ACTION: rpz_action = 7;
+pub const rpz_action_RPZ_NO_OVERRIDE_ACTION: rpz_action = 8;
+pub const rpz_action_RPZ_CNAME_OVERRIDE_ACTION: rpz_action = 9;
+#[doc = " RPZ actions."]
+pub type rpz_action = ::std::os::raw::c_uint;
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct clientip_synthesized_rrset {
+    pub region: *mut regional,
+    pub entries: rbtree_type,
+    #[doc = " lock on the entries tree"]
+    pub lock: lock_rw_type,
+}
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct clientip_synthesized_rr {
+    #[doc = " node in address tree"]
+    pub node: addr_tree_node,
+    #[doc = " lock on the node item"]
+    pub lock: lock_rw_type,
+    #[doc = " action for this address span"]
+    pub action: rpz_action,
+    #[doc = " \"local data\" for this node"]
+    pub data: *mut local_rrset,
+}
+#[doc = " RPZ containing policies. Pointed to from corresponding auth-zone. Part of a\n linked list to keep configuration order. Iterating or changing the linked\n list requires the rpz_lock from struct auth_zones. Changing items in this\n struct require the lock from struct auth_zone."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct rpz {
+    pub local_zones: *mut local_zones,
+    pub respip_set: *mut respip_set,
+    pub client_set: *mut clientip_synthesized_rrset,
+    pub ns_set: *mut clientip_synthesized_rrset,
+    pub nsdname_zones: *mut local_zones,
+    pub taglist: *mut u8,
+    pub taglistlen: usize,
+    pub action_override: rpz_action,
+    pub cname_override: *mut ub_packed_rrset_key,
+    pub log: ::std::os::raw::c_int,
+    pub log_name: *mut ::std::os::raw::c_char,
+    #[doc = " signal NXDOMAIN blocked with unset RA flag"]
+    pub signal_nxdomain_ra: ::std::os::raw::c_int,
+    pub region: *mut regional,
+    pub disabled: ::std::os::raw::c_int,
+}
+extern "C" {
+    #[doc = " Create policy from RR and add to this RPZ.\n @param r: the rpz to add the policy to.\n @param azname: dname of the auth-zone\n @param aznamelen: the length of the auth-zone name\n @param dname: dname of the RR\n @param dnamelen: length of the dname\n @param rr_type: RR type of the RR\n @param rr_class: RR class of the RR\n @param rr_ttl: TTL of the RR\n @param rdatawl: rdata of the RR, prepended with the rdata size\n @param rdatalen: length if the RR, including the prepended rdata size\n @param rr: the complete RR, for logging purposes\n @param rr_len: the length of the complete RR\n @return: 0 on error"]
+    pub fn rpz_insert_rr(
+        r: *mut rpz,
+        azname: *mut u8,
+        aznamelen: usize,
+        dname: *mut u8,
+        dnamelen: usize,
+        rr_type: u16,
+        rr_class: u16,
+        rr_ttl: u32,
+        rdatawl: *mut u8,
+        rdatalen: usize,
+        rr: *mut u8,
+        rr_len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Delete policy matching RR, used for IXFR.\n @param r: the rpz to add the policy to.\n @param azname: dname of the auth-zone\n @param aznamelen: the length of the auth-zone name\n @param dname: dname of the RR\n @param dnamelen: length of the dname\n @param rr_type: RR type of the RR\n @param rr_class: RR class of the RR\n @param rdatawl: rdata of the RR, prepended with the rdata size\n @param rdatalen: length if the RR, including the prepended rdata size"]
+    pub fn rpz_remove_rr(
+        r: *mut rpz,
+        azname: *mut u8,
+        aznamelen: usize,
+        dname: *mut u8,
+        dnamelen: usize,
+        rr_type: u16,
+        rr_class: u16,
+        rdatawl: *mut u8,
+        rdatalen: usize,
+    );
+}
+extern "C" {
+    #[doc = " Walk over the RPZ zones to find and apply a QNAME trigger policy.\n @param az: auth_zones struct, containing first RPZ item and RPZ lock\n @param env: module env\n @param qinfo: qinfo containing qname and qtype\n @param edns: edns data\n @param buf: buffer to write answer to\n @param temp: scratchpad\n @param repinfo: reply info\n @param taglist: taglist to lookup.\n @param taglen: length of taglist.\n @param stats: worker stats struct\n @param passthru: returns if the query can passthru further rpz processing.\n @return: 1 if client answer is ready, 0 to continue resolving"]
+    pub fn rpz_callback_from_worker_request(
+        az: *mut auth_zones,
+        env: *mut module_env,
+        qinfo: *mut query_info,
+        edns: *mut edns_data,
+        buf: *mut sldns_buffer,
+        temp: *mut regional,
+        repinfo: *mut comm_reply,
+        taglist: *mut u8,
+        taglen: usize,
+        stats: *mut ub_server_stats,
+        passthru: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Callback to process when the iterator module is about to send queries.\n Checks for nsip and nsdname triggers.\n @param qstate: the query state.\n @param iq: iterator module query state.\n @return NULL if nothing is done. Or a new message with the contents from\n \tthe rpz, based on the delegation point. It is allocated in the\n \tqstate region."]
+    pub fn rpz_callback_from_iterator_module(
+        qstate: *mut module_qstate,
+        iq: *mut iter_qstate,
+    ) -> *mut dns_msg;
+}
+extern "C" {
+    #[doc = " Callback to process when the iterator module has followed a cname.\n There can be a qname trigger for the new query name.\n @param qstate: the query state.\n @param iq: iterator module query state.\n @return NULL if nothing is done. Or a new message with the contents from\n \tthe rpz, based on the iq.qchase. It is allocated in the qstate region."]
+    pub fn rpz_callback_from_iterator_cname(
+        qstate: *mut module_qstate,
+        iq: *mut iter_qstate,
+    ) -> *mut dns_msg;
+}
+extern "C" {
+    #[doc = " Delete RPZ\n @param r: RPZ struct to delete"]
+    pub fn rpz_delete(r: *mut rpz);
+}
+extern "C" {
+    #[doc = " Clear local-zones and respip data in RPZ, used after reloading file or\n AXFR/HTTP transfer.\n @param r: RPZ to use"]
+    pub fn rpz_clear(r: *mut rpz) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Create RPZ. RPZ must be added to linked list after creation.\n @return: the newly created RPZ"]
+    pub fn rpz_create(p: *mut config_auth) -> *mut rpz;
+}
+extern "C" {
+    #[doc = " Change config on rpz, after reload.\n @param r: the rpz structure.\n @param p: the config that was read.\n @return false on failure."]
+    pub fn rpz_config(r: *mut rpz, p: *mut config_auth) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " String for RPZ action enum\n @param a: RPZ action to get string for\n @return: string for RPZ action"]
+    pub fn rpz_action_to_string(a: rpz_action) -> *const ::std::os::raw::c_char;
+}
+extern "C" {
+    pub fn respip_action_to_rpz_action(a: respip_action) -> rpz_action;
+}
+extern "C" {
+    #[doc = " Prepare RPZ after processing feed content.\n @param r: RPZ to use"]
+    pub fn rpz_finish_config(r: *mut rpz);
+}
+extern "C" {
+    #[doc = " Classify respip action for RPZ action\n @param a: RPZ action\n @return: the respip action"]
+    pub fn rpz_action_to_respip_action(a: rpz_action) -> respip_action;
+}
+extern "C" {
+    #[doc = " Enable RPZ\n @param r: RPZ struct to enable"]
+    pub fn rpz_enable(r: *mut rpz);
+}
+extern "C" {
+    #[doc = " Disable RPZ\n @param r: RPZ struct to disable"]
+    pub fn rpz_disable(r: *mut rpz);
+}
+#[doc = " Mesh of query states"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct mesh_area {
+    #[doc = " active module stack"]
+    pub mods: module_stack,
+    #[doc = " environment for new states"]
+    pub env: *mut module_env,
+    #[doc = " set of runnable queries (mesh_state.run_node)"]
+    pub run: rbtree_type,
+    #[doc = " rbtree of all current queries (mesh_state.node)"]
+    pub all: rbtree_type,
+    #[doc = " count of the total number of mesh_reply entries"]
+    pub num_reply_addrs: usize,
+    #[doc = " count of the number of mesh_states that have mesh_replies\n Because a state can send results to multiple reply addresses,\n this number must be equal or lower than num_reply_addrs."]
+    pub num_reply_states: usize,
+    #[doc = " number of mesh_states that have no mesh_replies, and also\n an empty set of super-states, thus are 'toplevel' or detached\n internal opportunistic queries"]
+    pub num_detached_states: usize,
+    #[doc = " number of reply states in the forever list"]
+    pub num_forever_states: usize,
+    #[doc = " max total number of reply states to have"]
+    pub max_reply_states: usize,
+    #[doc = " max forever number of reply states to have"]
+    pub max_forever_states: usize,
+    #[doc = " stats, cumulative number of reply states jostled out"]
+    pub stats_jostled: usize,
+    #[doc = " stats, cumulative number of incoming client msgs dropped"]
+    pub stats_dropped: usize,
+    #[doc = " stats, number of expired replies sent"]
+    pub ans_expired: usize,
+    #[doc = " stats, number of cached replies from cachedb"]
+    pub ans_cachedb: usize,
+    #[doc = " number of replies sent"]
+    pub replies_sent: usize,
+    #[doc = " sum of waiting times for the replies"]
+    pub replies_sum_wait: timeval,
+    #[doc = " histogram of time values"]
+    pub histogram: *mut timehist,
+    #[doc = " (extended stats) secure replies"]
+    pub ans_secure: usize,
+    #[doc = " (extended stats) bogus replies"]
+    pub ans_bogus: usize,
+    #[doc = " (extended stats) rcodes in replies"]
+    pub ans_rcode: [usize; 16usize],
+    #[doc = " (extended stats) rcode nodata in replies"]
+    pub ans_nodata: usize,
+    #[doc = " (extended stats) type of applied RPZ action"]
+    pub rpz_action: [usize; 10usize],
+    #[doc = " backup of query if other operations recurse and need the\n network buffers"]
+    pub qbuf_bak: *mut sldns_buffer,
+    #[doc = " double linked list of the run-to-completion query states.\n These are query states with a reply"]
+    pub forever_first: *mut mesh_state,
+    #[doc = " last entry in run forever list"]
+    pub forever_last: *mut mesh_state,
+    #[doc = " double linked list of the query states that can be jostled out\n by new queries if too old.  These are query states with a reply"]
+    pub jostle_first: *mut mesh_state,
+    #[doc = " last entry in jostle list - this is the entry that is newest"]
+    pub jostle_last: *mut mesh_state,
+    #[doc = " timeout for jostling. if age is lower, it does not get jostled."]
+    pub jostle_max: timeval,
+    #[doc = " If we need to use response ip (value passed from daemon)"]
+    pub use_response_ip: ::std::os::raw::c_int,
+    #[doc = " If we need to use RPZ (value passed from daemon)"]
+    pub use_rpz: ::std::os::raw::c_int,
+}
+#[doc = " A mesh query state\n Unique per qname, qtype, qclass (from the qstate).\n And RD / CD flag; in case a client turns it off.\n And priming queries are different from ordinary queries (because of hints).\n\n The entire structure is allocated in a region, this region is the qstate\n region. All parts (rbtree nodes etc) are also allocated in the region."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct mesh_state {
+    #[doc = " node in mesh_area all tree, key is this struct. Must be first."]
+    pub node: rbnode_type,
+    #[doc = " node in mesh_area runnable tree, key is this struct"]
+    pub run_node: rbnode_type,
+    #[doc = " the query state. Note that the qinfo and query_flags\n may not change."]
+    pub s: module_qstate,
+    #[doc = " the list of replies to clients for the results"]
+    pub reply_list: *mut mesh_reply,
+    #[doc = " the list of callbacks for the results"]
+    pub cb_list: *mut mesh_cb,
+    #[doc = " set of superstates (that want this state's result)\n contains struct mesh_state_ref*"]
+    pub super_set: rbtree_type,
+    #[doc = " set of substates (that this state needs to continue)\n contains struct mesh_state_ref*"]
+    pub sub_set: rbtree_type,
+    #[doc = " number of activations for the mesh state"]
+    pub num_activated: usize,
+    #[doc = " previous in linked list for reply states"]
+    pub prev: *mut mesh_state,
+    #[doc = " next in linked list for reply states"]
+    pub next: *mut mesh_state,
+    pub list_select: mesh_state_mesh_list_select,
+    #[doc = " pointer to this state for uniqueness or NULL"]
+    pub unique: *mut mesh_state,
+    #[doc = " true if replies have been sent out (at end for alignment)"]
+    pub replies_sent: u8,
+}
+pub const mesh_state_mesh_list_select_mesh_no_list: mesh_state_mesh_list_select = 0;
+pub const mesh_state_mesh_list_select_mesh_forever_list: mesh_state_mesh_list_select = 1;
+pub const mesh_state_mesh_list_select_mesh_jostle_list: mesh_state_mesh_list_select = 2;
+#[doc = " if this state is in the forever list, jostle list, or neither"]
+pub type mesh_state_mesh_list_select = ::std::os::raw::c_uint;
+#[doc = " Rbtree reference to a mesh_state.\n Used in super_set and sub_set."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct mesh_state_ref {
+    #[doc = " node in rbtree for set, key is this structure"]
+    pub node: rbnode_type,
+    #[doc = " the mesh state"]
+    pub s: *mut mesh_state,
+}
+#[doc = " Reply to a client"]
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct mesh_reply {
+    #[doc = " next in reply list"]
+    pub next: *mut mesh_reply,
+    #[doc = " the query reply destination, packet buffer and where to send."]
+    pub query_reply: comm_reply,
+    #[doc = " edns data from query"]
+    pub edns: edns_data,
+    #[doc = " the time when request was entered"]
+    pub start_time: timeval,
+    #[doc = " id of query, in network byteorder."]
+    pub qid: u16,
+    #[doc = " flags of query, for reply flags"]
+    pub qflags: u16,
+    #[doc = " qname from this query. len same as mesh qinfo."]
+    pub qname: *mut u8,
+    #[doc = " same as that in query_info."]
+    pub local_alias: *mut local_rrset,
+    #[doc = " send query to this http2 stream, if set"]
+    pub h2_stream: *mut http2_stream,
+}
+#[doc = " Mesh result callback func.\n called as func(cb_arg, rcode, buffer_with_reply, security, why_bogus,\n\t\twas_ratelimited);"]
+pub type mesh_cb_func_type = ::std::option::Option<
+    unsafe extern "C" fn(
+        cb_arg: *mut ::std::os::raw::c_void,
+        rcode: ::std::os::raw::c_int,
+        arg1: *mut sldns_buffer,
+        arg2: sec_status,
+        why_bogus: *mut ::std::os::raw::c_char,
+        was_ratelimited: ::std::os::raw::c_int,
+    ),
+>;
+#[doc = " Callback to result routine"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct mesh_cb {
     #[doc = " next in list"]
-    pub next: *mut outbound_entry,
-    #[doc = " prev in list"]
-    pub prev: *mut outbound_entry,
-    #[doc = " The query that was sent out"]
-    pub qsent: *mut serviced_query,
-    #[doc = " the module query state that sent it"]
-    pub qstate: *mut module_qstate,
+    pub next: *mut mesh_cb,
+    #[doc = " edns data from query"]
+    pub edns: edns_data,
+    #[doc = " id of query, in network byteorder."]
+    pub qid: u16,
+    #[doc = " flags of query, for reply flags"]
+    pub qflags: u16,
+    #[doc = " buffer for reply"]
+    pub buf: *mut sldns_buffer,
+    #[doc = " callback routine for results. if rcode != 0 buf has message.\n called as cb(cb_arg, rcode, buf, sec_state, why_bogus, was_ratelimited);"]
+    pub cb: mesh_cb_func_type,
+    #[doc = " user arg for callback"]
+    pub cb_arg: *mut ::std::os::raw::c_void,
 }
 extern "C" {
-    #[doc = " Init the user allocated outbound list structure\n @param list: the list structure."]
-    pub fn outbound_list_init(list: *mut outbound_list);
+    #[doc = " Allocate mesh, to empty.\n @param stack: module stack to activate, copied (as readonly reference).\n @param env: environment for new queries.\n @return mesh: the new mesh or NULL on error."]
+    pub fn mesh_create(stack: *mut module_stack, env: *mut module_env) -> *mut mesh_area;
 }
 extern "C" {
-    #[doc = " Clear the user owner outbound list structure.\n Deletes serviced queries.\n @param list: the list structure. It is cleared, but the list struct itself\n \tis callers responsibility to delete."]
-    pub fn outbound_list_clear(list: *mut outbound_list);
+    #[doc = " Delete mesh, and all query states and replies in it.\n @param mesh: the mesh to delete."]
+    pub fn mesh_delete(mesh: *mut mesh_area);
 }
 extern "C" {
-    #[doc = " Insert new entry into the list. Caller must allocate the entry with malloc.\n qstate and qsent are set by caller.\n @param list: the list to add to.\n @param e: entry to add, it is only half initialised at call start, fully\n\tinitialised at call end."]
-    pub fn outbound_list_insert(list: *mut outbound_list, e: *mut outbound_entry);
+    #[doc = " New query incoming from clients. Create new query state if needed, and\n add mesh_reply to it. Returns error to client on malloc failures.\n Will run the mesh area queries to process if a new query state is created.\n\n @param mesh: the mesh.\n @param qinfo: query from client.\n @param cinfo: additional information associated with the query client.\n \t'cinfo' itself is ephemeral but data pointed to by its members\n      can be assumed to be valid and unchanged until the query processing is\n      completed.\n @param qflags: flags from client query.\n @param edns: edns data from client query.\n @param rep: where to reply to.\n @param qid: query id to reply with.\n @param rpz_passthru: if true, the rpz passthru was previously found and\n \tfurther rpz processing is stopped."]
+    pub fn mesh_new_client(
+        mesh: *mut mesh_area,
+        qinfo: *mut query_info,
+        cinfo: *mut respip_client_info,
+        qflags: u16,
+        edns: *mut edns_data,
+        rep: *mut comm_reply,
+        qid: u16,
+        rpz_passthru: ::std::os::raw::c_int,
+    );
 }
 extern "C" {
-    #[doc = " Remove an entry from the list, and deletes it.\n Deletes serviced query in the entry.\n @param list: the list to remove from.\n @param e: the entry to remove."]
-    pub fn outbound_list_remove(list: *mut outbound_list, e: *mut outbound_entry);
+    #[doc = " New query with callback. Create new query state if needed, and\n add mesh_cb to it.\n Will run the mesh area queries to process if a new query state is created.\n\n @param mesh: the mesh.\n @param qinfo: query from client.\n @param qflags: flags from client query.\n @param edns: edns data from client query.\n @param buf: buffer for reply contents.\n @param qid: query id to reply with.\n @param cb: callback function.\n @param cb_arg: callback user arg.\n @param rpz_passthru: if true, the rpz passthru was previously found and\n \tfurther rpz processing is stopped.\n @return 0 on error."]
+    pub fn mesh_new_callback(
+        mesh: *mut mesh_area,
+        qinfo: *mut query_info,
+        qflags: u16,
+        edns: *mut edns_data,
+        buf: *mut sldns_buffer,
+        qid: u16,
+        cb: mesh_cb_func_type,
+        cb_arg: *mut ::std::os::raw::c_void,
+        rpz_passthru: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " New prefetch message. Create new query state if needed.\n Will run the mesh area queries to process if a new query state is created.\n\n @param mesh: the mesh.\n @param qinfo: query from client.\n @param qflags: flags from client query.\n @param leeway: TTL leeway what to expire earlier for this update.\n @param rpz_passthru: if true, the rpz passthru was previously found and\n \tfurther rpz processing is stopped.\n @param addr: sockaddr_storage for the client; to be used with subnet.\n @param opt_list: edns opt_list from the client; to be used when subnet is\n\tenabled."]
+    pub fn mesh_new_prefetch(
+        mesh: *mut mesh_area,
+        qinfo: *mut query_info,
+        qflags: u16,
+        leeway: time_t,
+        rpz_passthru: ::std::os::raw::c_int,
+        addr: *mut sockaddr_storage,
+        opt_list: *mut edns_option,
+    );
+}
+extern "C" {
+    #[doc = " Handle new event from the wire. A serviced query has returned.\n The query state will be made runnable, and the mesh_area will process\n query states until processing is complete.\n\n @param mesh: the query mesh.\n @param e: outbound entry, with query state to run and reply pointer.\n @param reply: the comm point reply info.\n @param what: NETEVENT_* error code (if not 0, what is wrong, TIMEOUT)."]
+    pub fn mesh_report_reply(
+        mesh: *mut mesh_area,
+        e: *mut outbound_entry,
+        reply: *mut comm_reply,
+        what: ::std::os::raw::c_int,
+    );
+}
+extern "C" {
+    #[doc = " Detach-subqueries.\n Remove all sub-query references from this query state.\n Keeps super-references of those sub-queries correct.\n Updates stat items in mesh_area structure.\n @param qstate: used to find mesh state."]
+    pub fn mesh_detach_subs(qstate: *mut module_qstate);
+}
+extern "C" {
+    #[doc = " Attach subquery.\n Creates it if it does not exist already.\n Keeps sub and super references correct.\n Performs a cycle detection - for double check - and fails if there is one.\n Also fails if the sub-sub-references become too large.\n Updates stat items in mesh_area structure.\n Pass if it is priming query or not.\n return:\n \to if error (malloc) happened.\n \to need to initialise the new state (module init; it is a new state).\n \t  so that the next run of the query with this module is successful.\n \to no init needed, attachment successful.\n\n @param qstate: the state to find mesh state, and that wants to receive\n \tthe results from the new subquery.\n @param qinfo: what to query for (copied).\n @param qflags: what flags to use (RD / CD flag or not).\n @param prime: if it is a (stub) priming query.\n @param valrec: if it is a validation recursion query (lookup of key, DS).\n @param newq: If the new subquery needs initialisation, it is returned,\n \totherwise NULL is returned.\n @return: false on error, true if success (and init may be needed)."]
+    pub fn mesh_attach_sub(
+        qstate: *mut module_qstate,
+        qinfo: *mut query_info,
+        qflags: u16,
+        prime: ::std::os::raw::c_int,
+        valrec: ::std::os::raw::c_int,
+        newq: *mut *mut module_qstate,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Add detached query.\n Creates it if it does not exist already.\n Does not make super/sub references.\n Performs a cycle detection - for double check - and fails if there is one.\n Updates stat items in mesh_area structure.\n Pass if it is priming query or not.\n return:\n \to if error (malloc) happened.\n \to need to initialise the new state (module init; it is a new state).\n \t  so that the next run of the query with this module is successful.\n \to no init needed, attachment successful.\n \to added subquery, created if it did not exist already.\n\n @param qstate: the state to find mesh state, and that wants to receive\n \tthe results from the new subquery.\n @param qinfo: what to query for (copied).\n @param qflags: what flags to use (RD / CD flag or not).\n @param prime: if it is a (stub) priming query.\n @param valrec: if it is a validation recursion query (lookup of key, DS).\n @param newq: If the new subquery needs initialisation, it is returned,\n \totherwise NULL is returned.\n @param sub: The added mesh state, created if it did not exist already.\n @return: false on error, true if success (and init may be needed)."]
+    pub fn mesh_add_sub(
+        qstate: *mut module_qstate,
+        qinfo: *mut query_info,
+        qflags: u16,
+        prime: ::std::os::raw::c_int,
+        valrec: ::std::os::raw::c_int,
+        newq: *mut *mut module_qstate,
+        sub: *mut *mut mesh_state,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Query state is done, send messages to reply entries.\n Encode messages using reply entry values and the querystate (with original\n qinfo), using given reply_info.\n Pass errcode != 0 if an error reply is needed.\n If no reply entries, nothing is done.\n Must be called before a module can module_finished or return module_error.\n The module must handle the super query states itself as well.\n\n @param mstate: mesh state that is done. return_rcode and return_msg\n \tare used for replies.\n \treturn_rcode: if not 0 (NOERROR) an error is sent back (and\n \t\treturn_msg is ignored).\n \treturn_msg: reply to encode and send back to clients."]
+    pub fn mesh_query_done(mstate: *mut mesh_state);
+}
+extern "C" {
+    #[doc = " Call inform_super for the super query states that are interested in the\n results from this query state. These can then be changed for error\n or results.\n Called when a module is module_finished or returns module_error.\n The super query states become runnable with event module_event_pass,\n it calls the current module for the super with the inform_super event.\n\n @param mesh: mesh area to add newly runnable modules to.\n @param mstate: the state that has results, used to find mesh state."]
+    pub fn mesh_walk_supers(mesh: *mut mesh_area, mstate: *mut mesh_state);
+}
+extern "C" {
+    #[doc = " Delete mesh state, cleanup and also rbtrees and so on.\n Will detach from all super/subnodes.\n @param qstate: to remove."]
+    pub fn mesh_state_delete(qstate: *mut module_qstate);
+}
+extern "C" {
+    #[doc = " Create and initialize a new mesh state and its query state\n Does not put the mesh state into rbtrees and so on.\n @param env: module environment to set.\n @param qinfo: query info that the mesh is for.\n @param cinfo: control info for the query client (can be NULL).\n @param qflags: flags for query (RD / CD flag).\n @param prime: if true, it is a priming query, set is_priming on mesh state.\n @param valrec: if true, it is a validation recursion query, and sets\n \tis_valrec on the mesh state.\n @return: new mesh state or NULL on allocation error."]
+    pub fn mesh_state_create(
+        env: *mut module_env,
+        qinfo: *mut query_info,
+        cinfo: *mut respip_client_info,
+        qflags: u16,
+        prime: ::std::os::raw::c_int,
+        valrec: ::std::os::raw::c_int,
+    ) -> *mut mesh_state;
+}
+extern "C" {
+    #[doc = " Make a mesh state unique.\n A unique mesh state uses it's unique member to point to itself.\n @param mstate: mesh state to check."]
+    pub fn mesh_state_make_unique(mstate: *mut mesh_state);
+}
+extern "C" {
+    #[doc = " Cleanup a mesh state and its query state. Does not do rbtree or\n reference cleanup.\n @param mstate: mesh state to cleanup. Its pointer may no longer be used\n \tafterwards. Cleanup rbtrees before calling this function."]
+    pub fn mesh_state_cleanup(mstate: *mut mesh_state);
+}
+extern "C" {
+    #[doc = " Delete all mesh states from the mesh.\n @param mesh: the mesh area to clear"]
+    pub fn mesh_delete_all(mesh: *mut mesh_area);
+}
+extern "C" {
+    #[doc = " Find a mesh state in the mesh area. Pass relevant flags.\n\n @param mesh: the mesh area to look in.\n @param cinfo: if non-NULL client specific info that may affect IP-based\n \tactions that apply to the query result.\n @param qinfo: what query\n @param qflags: if RD / CD bit is set or not.\n @param prime: if it is a priming query.\n @param valrec: if it is a validation-recursion query.\n @return: mesh state or NULL if not found."]
+    pub fn mesh_area_find(
+        mesh: *mut mesh_area,
+        cinfo: *mut respip_client_info,
+        qinfo: *mut query_info,
+        qflags: u16,
+        prime: ::std::os::raw::c_int,
+        valrec: ::std::os::raw::c_int,
+    ) -> *mut mesh_state;
+}
+extern "C" {
+    #[doc = " Setup attachment super/sub relation between super and sub mesh state.\n The relation must not be present when calling the function.\n Does not update stat items in mesh_area.\n @param super: super state.\n @param sub: sub state.\n @return: 0 on alloc error."]
+    pub fn mesh_state_attachment(
+        super_: *mut mesh_state,
+        sub: *mut mesh_state,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Create new reply structure and attach it to a mesh state.\n Does not update stat items in mesh area.\n @param s: the mesh state.\n @param edns: edns data for reply (bufsize).\n @param rep: comm point reply info.\n @param qid: ID of reply.\n @param qflags: original query flags.\n @param qinfo: original query info.\n @return: 0 on alloc error."]
+    pub fn mesh_state_add_reply(
+        s: *mut mesh_state,
+        edns: *mut edns_data,
+        rep: *mut comm_reply,
+        qid: u16,
+        qflags: u16,
+        qinfo: *const query_info,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Create new callback structure and attach it to a mesh state.\n Does not update stat items in mesh area.\n @param s: the mesh state.\n @param edns: edns data for reply (bufsize).\n @param buf: buffer for reply\n @param cb: callback to call with results.\n @param cb_arg: callback user arg.\n @param qid: ID of reply.\n @param qflags: original query flags.\n @return: 0 on alloc error."]
+    pub fn mesh_state_add_cb(
+        s: *mut mesh_state,
+        edns: *mut edns_data,
+        buf: *mut sldns_buffer,
+        cb: mesh_cb_func_type,
+        cb_arg: *mut ::std::os::raw::c_void,
+        qid: u16,
+        qflags: u16,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Run the mesh. Run all runnable mesh states. Which can create new\n runnable mesh states. Until completion. Automatically called by\n mesh_report_reply and mesh_new_client as needed.\n @param mesh: mesh area.\n @param mstate: first mesh state to run.\n @param ev: event the mstate. Others get event_pass.\n @param e: if a reply, its outbound entry."]
+    pub fn mesh_run(
+        mesh: *mut mesh_area,
+        mstate: *mut mesh_state,
+        ev: module_ev,
+        e: *mut outbound_entry,
+    );
+}
+extern "C" {
+    #[doc = " Print some stats about the mesh to the log.\n @param mesh: the mesh to print it for.\n @param str: descriptive string to go with it."]
+    pub fn mesh_stats(mesh: *mut mesh_area, str_: *const ::std::os::raw::c_char);
+}
+extern "C" {
+    #[doc = " Clear the stats that the mesh keeps (number of queries serviced)\n @param mesh: the mesh"]
+    pub fn mesh_stats_clear(mesh: *mut mesh_area);
+}
+extern "C" {
+    #[doc = " Print all the states in the mesh to the log.\n @param mesh: the mesh to print all states of."]
+    pub fn mesh_log_list(mesh: *mut mesh_area);
+}
+extern "C" {
+    #[doc = " Calculate memory size in use by mesh and all queries inside it.\n @param mesh: the mesh to examine.\n @return size in bytes."]
+    pub fn mesh_get_mem(mesh: *mut mesh_area) -> usize;
+}
+extern "C" {
+    #[doc = " Find cycle; see if the given mesh is in the targets sub, or sub-sub, ...\n trees.\n If the sub-sub structure is too large, it returns 'a cycle'=2.\n @param qstate: given mesh querystate.\n @param qinfo: query info for dependency.\n @param flags: query flags of dependency.\n @param prime: if dependency is a priming query or not.\n @param valrec: if it is a validation recursion query (lookup of key, DS).\n @return true if the name,type,class exists and the given qstate mesh exists\n \tas a dependency of that name. Thus if qstate becomes dependent on\n \tname,type,class then a cycle is created, this is return value 1.\n \tToo large to search is value 2 (also true)."]
+    pub fn mesh_detect_cycle(
+        qstate: *mut module_qstate,
+        qinfo: *mut query_info,
+        flags: u16,
+        prime: ::std::os::raw::c_int,
+        valrec: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " compare two mesh_states"]
+    pub fn mesh_state_compare(
+        ap: *const ::std::os::raw::c_void,
+        bp: *const ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " compare two mesh references"]
+    pub fn mesh_state_ref_compare(
+        ap: *const ::std::os::raw::c_void,
+        bp: *const ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Make space for another recursion state for a reply in the mesh\n @param mesh: mesh area\n @param qbuf: query buffer to save if recursion is invoked to make space.\n    This buffer is necessary, because the following sequence in calls\n    can result in an overwrite of the incoming query:\n    delete_other_mesh_query - iter_clean - serviced_delete - waiting\n    udp query is sent - on error callback - callback sends SERVFAIL reply\n    over the same network channel, and shared UDP buffer is overwritten.\n    You can pass NULL if there is no buffer that must be backed up.\n @return false if no space is available."]
+    pub fn mesh_make_new_space(
+        mesh: *mut mesh_area,
+        qbuf: *mut sldns_buffer,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Insert mesh state into a double linked list.  Inserted at end.\n @param m: mesh state.\n @param fp: pointer to the first-elem-pointer of the list.\n @param lp: pointer to the last-elem-pointer of the list."]
+    pub fn mesh_list_insert(m: *mut mesh_state, fp: *mut *mut mesh_state, lp: *mut *mut mesh_state);
+}
+extern "C" {
+    #[doc = " Remove mesh state from a double linked list.  Remove from any position.\n @param m: mesh state.\n @param fp: pointer to the first-elem-pointer of the list.\n @param lp: pointer to the last-elem-pointer of the list."]
+    pub fn mesh_list_remove(m: *mut mesh_state, fp: *mut *mut mesh_state, lp: *mut *mut mesh_state);
+}
+extern "C" {
+    #[doc = " Remove mesh reply entry from the reply entry list.  Searches for\n the comm_point pointer.\n @param mesh: to update the counters.\n @param m: the mesh state.\n @param cp: the comm_point to remove from the list."]
+    pub fn mesh_state_remove_reply(mesh: *mut mesh_area, m: *mut mesh_state, cp: *mut comm_point);
+}
+extern "C" {
+    #[doc = " Callback for when the serve expired client timer has run out.  Tries to\n find an expired answer in the cache and reply that to the client.\n @param arg: the argument passed to the callback."]
+    pub fn mesh_serve_expired_callback(arg: *mut ::std::os::raw::c_void);
+}
+extern "C" {
+    #[doc = " Try to get a (expired) cached answer.\n This needs to behave like the worker's answer_from_cache() in order to have\n the same behavior as when replying from cache.\n @param qstate: the module qstate.\n @param lookup_qinfo: the query info to look for in the cache.\n @return dns_msg if a cached answer was found, otherwise NULL."]
+    pub fn mesh_serve_expired_lookup(
+        qstate: *mut module_qstate,
+        lookup_qinfo: *mut query_info,
+    ) -> *mut dns_msg;
+}
+extern "C" {
+    #[doc = " See if the mesh has space for more queries. You can allocate queries\n anyway, but this checks for the allocated space.\n @param mesh: mesh area.\n @return true if the query list is full.\n \tIt checks the number of all queries, not just number of reply states,\n \tthat have a client address. So that spawned queries count too,\n \tthat were created by the iterator, or other modules."]
+    pub fn mesh_jostle_exceeded(mesh: *mut mesh_area) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Give the serve expired responses.\n @param mstate: mesh state for query that has serve_expired_data."]
+    pub fn mesh_respond_serve_expired(mstate: *mut mesh_state);
+}
+#[doc = " Delegation Point.\n For a domain name, the NS rrset, and the A and AAAA records for those."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct delegpt {
+    #[doc = " the domain name of the delegation point."]
+    pub name: *mut u8,
+    #[doc = " length of the delegation point name"]
+    pub namelen: usize,
+    #[doc = " number of labels in delegation point"]
+    pub namelabs: ::std::os::raw::c_int,
+    #[doc = " the nameservers, names from the NS RRset rdata."]
+    pub nslist: *mut delegpt_ns,
+    #[doc = " the target addresses for delegation"]
+    pub target_list: *mut delegpt_addr,
+    #[doc = " the list of usable targets; subset of target_list\n the items in this list are not part of the result list."]
+    pub usable_list: *mut delegpt_addr,
+    #[doc = " the list of returned targets; subset of target_list"]
+    pub result_list: *mut delegpt_addr,
+    #[doc = " if true, the NS RRset was bogus. All info is bad."]
+    pub bogus: ::std::os::raw::c_int,
+    #[doc = " if true, the parent-side NS record has been applied:\n its names have been added and their addresses can follow later.\n Also true if the delegationpoint was created from a delegation\n message and thus contains the parent-side-info already."]
+    pub has_parent_side_NS: u8,
+    #[doc = " for assertions on type of delegpt"]
+    pub dp_type_mlc: u8,
+    #[doc = " use SSL for upstream query"]
+    pub ssl_upstream: u8,
+    #[doc = " use TCP for upstream query"]
+    pub tcp_upstream: u8,
+    #[doc = " delegpt from authoritative zone that is locally hosted"]
+    pub auth_dp: u8,
+    #[doc = " no cache"]
+    pub no_cache: ::std::os::raw::c_int,
+}
+#[doc = " Nameservers for a delegation point."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct delegpt_ns {
+    #[doc = " next in list"]
+    pub next: *mut delegpt_ns,
+    #[doc = " name of nameserver"]
+    pub name: *mut u8,
+    #[doc = " length of name"]
+    pub namelen: usize,
+    #[doc = " number of cache lookups for the name"]
+    pub cache_lookup_count: ::std::os::raw::c_int,
+    #[doc = " If the name has been resolved. false if not queried for yet.\n true if the A, AAAA queries have been generated.\n marked true if those queries fail.\n and marked true if got4 and got6 are both true."]
+    pub resolved: ::std::os::raw::c_int,
+    #[doc = " if the ipv4 address is in the delegpt, 0=not, 1=yes 2=negative,\n negative means it was done, but no content."]
+    pub got4: u8,
+    #[doc = " if the ipv6 address is in the delegpt, 0=not, 1=yes 2=negative"]
+    pub got6: u8,
+    #[doc = " If the name is parent-side only and thus dispreferred.\n Its addresses become dispreferred as well"]
+    pub lame: u8,
+    #[doc = " if the parent-side ipv4 address has been looked up (last resort).\n Also enabled if a parent-side cache entry exists, or a parent-side\n negative-cache entry exists."]
+    pub done_pside4: u8,
+    #[doc = " if the parent-side ipv6 address has been looked up (last resort).\n Also enabled if a parent-side cache entry exists, or a parent-side\n negative-cache entry exists."]
+    pub done_pside6: u8,
+    #[doc = " the TLS authentication name, (if not NULL) to use."]
+    pub tls_auth_name: *mut ::std::os::raw::c_char,
+    #[doc = " the port to use; it should mostly be the default 53 but configured\n  upstreams can provide nondefault ports."]
+    pub port: ::std::os::raw::c_int,
+}
+#[doc = " Address of target nameserver in delegation point."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct delegpt_addr {
+    #[doc = " next delegation point in results"]
+    pub next_result: *mut delegpt_addr,
+    #[doc = " next delegation point in usable list"]
+    pub next_usable: *mut delegpt_addr,
+    #[doc = " next delegation point in all targets list"]
+    pub next_target: *mut delegpt_addr,
+    #[doc = " delegation point address"]
+    pub addr: sockaddr_storage,
+    #[doc = " length of addr"]
+    pub addrlen: socklen_t,
+    #[doc = " number of attempts for this addr"]
+    pub attempts: ::std::os::raw::c_int,
+    #[doc = " rtt stored here in the selection algorithm"]
+    pub sel_rtt: ::std::os::raw::c_int,
+    #[doc = " if true, the A or AAAA RR was bogus, so this address is bad.\n Also check the dp->bogus to see if everything is bogus."]
+    pub bogus: u8,
+    #[doc = " if true, this address is dispreferred: it is a lame IP address"]
+    pub lame: u8,
+    #[doc = " if the address is dnsseclame, but this cannot be cached, this\n option is useful to mark the address dnsseclame.\n This value is not copied in addr-copy and dp-copy."]
+    pub dnsseclame: u8,
+    #[doc = " the TLS authentication name, (if not NULL) to use."]
+    pub tls_auth_name: *mut ::std::os::raw::c_char,
+}
+extern "C" {
+    #[doc = " Create new delegation point.\n @param regional: where to allocate it.\n @return new delegation point or NULL on error."]
+    pub fn delegpt_create(regional: *mut regional) -> *mut delegpt;
+}
+extern "C" {
+    #[doc = " Create a copy of a delegation point.\n @param dp: delegation point to copy.\n @param regional: where to allocate it.\n @return new delegation point or NULL on error."]
+    pub fn delegpt_copy(dp: *mut delegpt, regional: *mut regional) -> *mut delegpt;
+}
+extern "C" {
+    #[doc = " Set name of delegation point.\n @param dp: delegation point.\n @param regional: where to allocate the name copy.\n @param name: name to use.\n @return false on error."]
+    pub fn delegpt_set_name(
+        dp: *mut delegpt,
+        regional: *mut regional,
+        name: *mut u8,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Add a name to the delegation point.\n @param dp: delegation point.\n @param regional: where to allocate the info.\n @param name: domain name in wire format.\n @param lame: name is lame, disprefer it.\n @param tls_auth_name: TLS authentication name (or NULL).\n @param port: port to use for resolved addresses.\n @return false on error."]
+    pub fn delegpt_add_ns(
+        dp: *mut delegpt,
+        regional: *mut regional,
+        name: *mut u8,
+        lame: u8,
+        tls_auth_name: *mut ::std::os::raw::c_char,
+        port: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Add NS rrset; calls add_ns repeatedly.\n @param dp: delegation point.\n @param regional: where to allocate the info.\n @param ns_rrset: NS rrset.\n @param lame: rrset is lame, disprefer it.\n @return 0 on alloc error."]
+    pub fn delegpt_rrset_add_ns(
+        dp: *mut delegpt,
+        regional: *mut regional,
+        ns_rrset: *mut ub_packed_rrset_key,
+        lame: u8,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Add target address to the delegation point.\n @param dp: delegation point.\n @param regional: where to allocate the info.\n @param name: name for which target was found (must be in nslist).\n\tThis name is marked resolved.\n @param namelen: length of name.\n @param addr: the address.\n @param addrlen: the length of addr.\n @param bogus: security status for the address, pass true if bogus.\n @param lame: address is lame.\n @param additions: will be set to 1 if a new address is added\n @return false on error."]
+    pub fn delegpt_add_target(
+        dp: *mut delegpt,
+        regional: *mut regional,
+        name: *mut u8,
+        namelen: usize,
+        addr: *mut sockaddr_storage,
+        addrlen: socklen_t,
+        bogus: u8,
+        lame: u8,
+        additions: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Add A RRset to delegpt.\n @param dp: delegation point.\n @param regional: where to allocate the info.\n @param rrset: RRset A to add.\n @param lame: rrset is lame, disprefer it.\n @param additions: will be set to 1 if a new address is added\n @return 0 on alloc error."]
+    pub fn delegpt_add_rrset_A(
+        dp: *mut delegpt,
+        regional: *mut regional,
+        rrset: *mut ub_packed_rrset_key,
+        lame: u8,
+        additions: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Add AAAA RRset to delegpt.\n @param dp: delegation point.\n @param regional: where to allocate the info.\n @param rrset: RRset AAAA to add.\n @param lame: rrset is lame, disprefer it.\n @param additions: will be set to 1 if a new address is added\n @return 0 on alloc error."]
+    pub fn delegpt_add_rrset_AAAA(
+        dp: *mut delegpt,
+        regional: *mut regional,
+        rrset: *mut ub_packed_rrset_key,
+        lame: u8,
+        additions: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Add any RRset to delegpt.\n Does not check for duplicates added.\n @param dp: delegation point.\n @param regional: where to allocate the info.\n @param rrset: RRset to add, NS, A, AAAA.\n @param lame: rrset is lame, disprefer it.\n @param additions: will be set to 1 if a new address is added\n @return 0 on alloc error."]
+    pub fn delegpt_add_rrset(
+        dp: *mut delegpt,
+        regional: *mut regional,
+        rrset: *mut ub_packed_rrset_key,
+        lame: u8,
+        additions: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Add address to the delegation point. No servername is associated or checked.\n @param dp: delegation point.\n @param regional: where to allocate the info.\n @param addr: the address.\n @param addrlen: the length of addr.\n @param bogus: if address is bogus.\n @param lame: if address is lame.\n @param tls_auth_name: TLS authentication name (or NULL).\n @param port: the port to use; if -1 the port is taken from addr.\n @param additions: will be set to 1 if a new address is added\n @return false on error."]
+    pub fn delegpt_add_addr(
+        dp: *mut delegpt,
+        regional: *mut regional,
+        addr: *mut sockaddr_storage,
+        addrlen: socklen_t,
+        bogus: u8,
+        lame: u8,
+        tls_auth_name: *mut ::std::os::raw::c_char,
+        port: ::std::os::raw::c_int,
+        additions: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Find NS record in name list of delegation point.\n @param dp: delegation point.\n @param name: name of nameserver to look for, uncompressed wireformat.\n @param namelen: length of name.\n @return the ns structure or NULL if not found."]
+    pub fn delegpt_find_ns(dp: *mut delegpt, name: *mut u8, namelen: usize) -> *mut delegpt_ns;
+}
+extern "C" {
+    #[doc = " Find address record in total list of delegation point.\n @param dp: delegation point.\n @param addr: address\n @param addrlen: length of addr\n @return the addr structure or NULL if not found."]
+    pub fn delegpt_find_addr(
+        dp: *mut delegpt,
+        addr: *mut sockaddr_storage,
+        addrlen: socklen_t,
+    ) -> *mut delegpt_addr;
+}
+extern "C" {
+    #[doc = " Print the delegation point to the log. For debugging.\n @param v: verbosity value that is needed to emit to log.\n @param dp: delegation point."]
+    pub fn delegpt_log(v: verbosity_value, dp: *mut delegpt);
+}
+extern "C" {
+    #[doc = " count NS and number missing for logging"]
+    pub fn delegpt_count_ns(dp: *mut delegpt, numns: *mut usize, missing: *mut usize);
+}
+extern "C" {
+    #[doc = " count addresses, and number in result and available lists, for logging"]
+    pub fn delegpt_count_addr(
+        dp: *mut delegpt,
+        numaddr: *mut usize,
+        numres: *mut usize,
+        numavail: *mut usize,
+    );
+}
+extern "C" {
+    #[doc = " Add all usable targets to the result list.\n @param dp: delegation point."]
+    pub fn delegpt_add_unused_targets(dp: *mut delegpt);
+}
+extern "C" {
+    #[doc = " Count number of missing targets. These are ns names with no resolved flag.\n @param dp: delegation point.\n @param alllame: if set, check if all the missing targets are lame.\n @return number of missing targets (or 0)."]
+    pub fn delegpt_count_missing_targets(
+        dp: *mut delegpt,
+        alllame: *mut ::std::os::raw::c_int,
+    ) -> usize;
+}
+extern "C" {
+    #[doc = " count total number of targets in dp"]
+    pub fn delegpt_count_targets(dp: *mut delegpt) -> usize;
+}
+extern "C" {
+    #[doc = " Create new delegation point from a dns message\n\n Note that this method does not actually test to see if the message is an\n actual referral. It really is just checking to see if it can construct a\n delegation point, so the message could be of some other type (some ANSWER\n messages, some CNAME messages, generally.) Note that the resulting\n DelegationPoint will contain targets for all \"relevant\" glue (i.e.,\n address records whose ownernames match the target of one of the NS\n records), so if policy dictates that some glue should be discarded beyond\n that, discard it before calling this method. Note that this method will\n find \"glue\" in either the ADDITIONAL section or the ANSWER section.\n\n @param msg: the dns message, referral.\n @param regional: where to allocate delegation point.\n @return new delegation point or NULL on alloc error, or if the\n         message was not appropriate."]
+    pub fn delegpt_from_message(msg: *mut dns_msg, regional: *mut regional) -> *mut delegpt;
+}
+extern "C" {
+    #[doc = " Mark negative return in delegation point for specific nameserver.\n sets the got4 or got6 to negative, updates the ns->resolved.\n @param ns: the nameserver in the delegpt.\n @param qtype: A or AAAA (host order)."]
+    pub fn delegpt_mark_neg(ns: *mut delegpt_ns, qtype: u16);
+}
+extern "C" {
+    #[doc = " Add negative message to delegation point.\n @param dp: delegation point.\n @param msg: the message added, marks off A or AAAA from an NS entry."]
+    pub fn delegpt_add_neg_msg(dp: *mut delegpt, msg: *mut msgreply_entry);
+}
+extern "C" {
+    #[doc = " Register the fact that there is no ipv6 and thus AAAAs are not going\n to be queried for or be useful.\n @param dp: the delegation point. Updated to reflect no ipv6."]
+    pub fn delegpt_no_ipv6(dp: *mut delegpt);
+}
+extern "C" {
+    #[doc = " Register the fact that there is no ipv4 and thus As are not going\n to be queried for or be useful.\n @param dp: the delegation point. Updated to reflect no ipv4."]
+    pub fn delegpt_no_ipv4(dp: *mut delegpt);
+}
+extern "C" {
+    #[doc = " create malloced delegation point, with the given name\n @param name: uncompressed wireformat of delegpt name.\n @return NULL on alloc failure"]
+    pub fn delegpt_create_mlc(name: *mut u8) -> *mut delegpt;
+}
+extern "C" {
+    #[doc = " free malloced delegation point.\n @param dp: must have been created with delegpt_create_mlc, free'd."]
+    pub fn delegpt_free_mlc(dp: *mut delegpt);
+}
+extern "C" {
+    #[doc = " Set name of delegation point.\n @param dp: delegation point. malloced.\n @param name: name to use.\n @return false on error."]
+    pub fn delegpt_set_name_mlc(dp: *mut delegpt, name: *mut u8) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " add a name to malloced delegation point.\n @param dp: must have been created with delegpt_create_mlc.\n @param name: the name to add.\n @param lame: the name is lame, disprefer.\n @param tls_auth_name: TLS authentication name (or NULL).\n @param port: port to use for resolved addresses.\n @return false on error."]
+    pub fn delegpt_add_ns_mlc(
+        dp: *mut delegpt,
+        name: *mut u8,
+        lame: u8,
+        tls_auth_name: *mut ::std::os::raw::c_char,
+        port: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " add an address to a malloced delegation point.\n @param dp: must have been created with delegpt_create_mlc.\n @param addr: the address.\n @param addrlen: the length of addr.\n @param bogus: if address is bogus.\n @param lame: if address is lame.\n @param tls_auth_name: TLS authentication name (or NULL).\n @param port: the port to use; if -1 the port is taken from addr.\n @return false on error."]
+    pub fn delegpt_add_addr_mlc(
+        dp: *mut delegpt,
+        addr: *mut sockaddr_storage,
+        addrlen: socklen_t,
+        bogus: u8,
+        lame: u8,
+        tls_auth_name: *mut ::std::os::raw::c_char,
+        port: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Add target address to the delegation point.\n @param dp: must have been created with delegpt_create_mlc.\n @param name: name for which target was found (must be in nslist).\n\tThis name is marked resolved.\n @param namelen: length of name.\n @param addr: the address.\n @param addrlen: the length of addr.\n @param bogus: security status for the address, pass true if bogus.\n @param lame: address is lame.\n @return false on error."]
+    pub fn delegpt_add_target_mlc(
+        dp: *mut delegpt,
+        name: *mut u8,
+        namelen: usize,
+        addr: *mut sockaddr_storage,
+        addrlen: socklen_t,
+        bogus: u8,
+        lame: u8,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " get memory in use by dp"]
+    pub fn delegpt_get_mem(dp: *mut delegpt) -> usize;
+}
+extern "C" {
+    #[doc = " See if the addr is on the result list.\n @param dp: delegation point.\n @param find: the pointer is searched for on the result list.\n @return 1 if found, 0 if not found."]
+    pub fn delegpt_addr_on_result_list(
+        dp: *mut delegpt,
+        find: *mut delegpt_addr,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Remove the addr from the usable list.\n @param dp: the delegation point.\n @param del: the addr to remove from the list, the pointer is searched for."]
+    pub fn delegpt_usable_list_remove_addr(dp: *mut delegpt, del: *mut delegpt_addr);
+}
+extern "C" {
+    #[doc = " Add the delegpt_addr back to the result list, if it is not already on\n the result list. Also removes it from the usable list.\n @param dp: delegation point.\n @param a: addr to add, nothing happens if it is already on the result list.\n\tIt is removed from the usable list."]
+    pub fn delegpt_add_to_result_list(dp: *mut delegpt, a: *mut delegpt_addr);
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct iter_env {
+    _unused: [u8; 0],
+}
+#[doc = " Iterator hints structure"]
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct iter_hints {
+    #[doc = " lock on the forwards tree.\n When grabbing both this lock and the anchors.lock, this lock\n is grabbed first."]
+    pub lock: lock_rw_type,
+    #[doc = " Hints are stored in this tree. Sort order is specially chosen.\n first sorted on qclass. Then on dname in nsec-like order, so that\n a lookup on class, name will return an exact match or the closest\n match which gives the ancestor needed.\n contents of type iter_hints_stub. The class IN root is in here.\n uses name_tree_node from dnstree.h."]
+    pub tree: rbtree_type,
+}
+#[doc = " Iterator hints for a particular stub."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct iter_hints_stub {
+    #[doc = " tree sorted by name, class"]
+    pub node: name_tree_node,
+    #[doc = " delegation point with hint information for this stub. malloced."]
+    pub dp: *mut delegpt,
+    #[doc = " does the stub need to forego priming (like on other ports)"]
+    pub noprime: u8,
+}
+extern "C" {
+    #[doc = " Create hints\n @return new hints or NULL on error."]
+    pub fn hints_create() -> *mut iter_hints;
+}
+extern "C" {
+    #[doc = " Delete hints.\n @param hints: to delete."]
+    pub fn hints_delete(hints: *mut iter_hints);
+}
+extern "C" {
+    #[doc = " Process hints config. Sets default values for root hints if no config.\n @param hints: where to store.\n @param cfg: config options.\n @return 0 on error."]
+    pub fn hints_apply_cfg(hints: *mut iter_hints, cfg: *mut config_file) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Find hints for the given class.\n The return value is contents of the hints structure.\n Caller should lock and unlock a readlock on the hints structure if nolock\n is set.\n Otherwise caller should unlock the readlock on the hints structure if a\n value was returned.\n @param hints: hint storage.\n @param qname: the qname that generated the delegation point.\n @param qclass: class for which root hints are requested. host order.\n @param nolock: Skip locking, locking is handled by the caller.\n @return: NULL if no hints, or a ptr to stored hints."]
+    pub fn hints_find(
+        hints: *mut iter_hints,
+        qname: *mut u8,
+        qclass: u16,
+        nolock: ::std::os::raw::c_int,
+    ) -> *mut delegpt;
+}
+extern "C" {
+    #[doc = " Same as hints_lookup, but for the root only.\n @param hints: hint storage.\n @param qclass: class for which root hints are requested. host order.\n @param nolock: Skip locking, locking is handled by the caller.\n @return: NULL if no hints, or a ptr to stored hints."]
+    pub fn hints_find_root(
+        hints: *mut iter_hints,
+        qclass: u16,
+        nolock: ::std::os::raw::c_int,
+    ) -> *mut delegpt;
+}
+extern "C" {
+    #[doc = " Find next root hints (to cycle through all root hints).\n Handles its own locking unless nolock is set. In that case the caller\n should lock and unlock a readlock on the hints structure.\n @param hints: hint storage\n @param qclass: class for which root hints are sought.\n \t0 means give the first available root hints class.\n \tx means, give class x or a higher class if any.\n \treturns the found class in this variable.\n @param nolock: Skip locking, locking is handled by the caller.\n @return true if a root hint class is found.\n \tfalse if not root hint class is found (qclass may have been changed)."]
+    pub fn hints_next_root(
+        hints: *mut iter_hints,
+        qclass: *mut u16,
+        nolock: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Given a qname/qclass combination, and the delegation point from the cache\n for this qname/qclass, determine if this combination indicates that a\n stub hint exists and must be primed.\n The return value is contents of the hints structure.\n Caller should lock and unlock a readlock on the hints structure if nolock\n is set.\n Otherwise caller should unlock the readlock on the hints structure if a\n value was returned.\n\n @param hints: hint storage.\n @param qname: The qname that generated the delegation point.\n @param qclass: The qclass that generated the delegation point.\n @param dp: The cache generated delegation point.\n @param nolock: Skip locking, locking is handled by the caller.\n @return: A priming delegation point if there is a stub hint that must\n         be primed, otherwise null."]
+    pub fn hints_lookup_stub(
+        hints: *mut iter_hints,
+        qname: *mut u8,
+        qclass: u16,
+        dp: *mut delegpt,
+        nolock: ::std::os::raw::c_int,
+    ) -> *mut iter_hints_stub;
+}
+extern "C" {
+    #[doc = " Get memory in use by hints\n Locks and unlocks the structure.\n @param hints: hint storage.\n @return bytes in use"]
+    pub fn hints_get_mem(hints: *mut iter_hints) -> usize;
+}
+extern "C" {
+    #[doc = " Add stub to hints structure. For external use since it recalcs\n the tree parents.\n Handles its own locking unless nolock is set. In that case the caller\n should lock and unlock a writelock on the hints structure.\n @param hints: the hints data structure\n @param c: class of zone\n @param dp: delegation point with name and target nameservers for new\n\thints stub. malloced.\n @param noprime: set noprime option to true or false on new hint stub.\n @param nolock: Skip locking, locking is handled by the caller.\n @return false on failure (out of memory);"]
+    pub fn hints_add_stub(
+        hints: *mut iter_hints,
+        c: u16,
+        dp: *mut delegpt,
+        noprime: ::std::os::raw::c_int,
+        nolock: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Remove stub from hints structure. For external use since it\n recalcs the tree parents.\n Handles its own locking unless nolock is set. In that case the caller\n should lock and unlock a writelock on the hints structure.\n @param hints: the hints data structure\n @param c: class of stub zone\n @param nm: name of stub zone (in uncompressed wireformat).\n @param nolock: Skip locking, locking is handled by the caller."]
+    pub fn hints_delete_stub(
+        hints: *mut iter_hints,
+        c: u16,
+        nm: *mut u8,
+        nolock: ::std::os::raw::c_int,
+    );
+}
+#[doc = " 'untyped' means that the type of this response hasn't been\n assigned."]
+pub const response_type_RESPONSE_TYPE_UNTYPED: response_type = 0;
+#[doc = " 'answer' means that the response terminates the resolution\n process."]
+pub const response_type_RESPONSE_TYPE_ANSWER: response_type = 1;
+#[doc = " 'delegation' means that the response is a delegation."]
+pub const response_type_RESPONSE_TYPE_REFERRAL: response_type = 2;
+#[doc = " 'cname' means that the response is a cname without the final\n answer, and thus must be restarted."]
+pub const response_type_RESPONSE_TYPE_CNAME: response_type = 3;
+#[doc = " 'throwaway' means that this particular response should be\n discarded and the next nameserver should be contacted"]
+pub const response_type_RESPONSE_TYPE_THROWAWAY: response_type = 4;
+#[doc = " 'lame' means that this particular response indicates that\n the nameserver knew nothing about the question."]
+pub const response_type_RESPONSE_TYPE_LAME: response_type = 5;
+#[doc = " Recursion lame means that the nameserver is some sort of\n open recursor, and not authoritative for the question.\n It may know something, but not authoritatively."]
+pub const response_type_RESPONSE_TYPE_REC_LAME: response_type = 6;
+#[doc = " The response type is used to interpret the response."]
+pub type response_type = ::std::os::raw::c_uint;
+extern "C" {
+    #[doc = " Classifies a response message from cache based on the current request.\n Note that this routine assumes that THROWAWAY or LAME responses will not\n occur. Also, it will not detect REFERRAL type messages, since those are\n (currently) automatically classified based on how they came from the\n cache (findDelegation() instead of lookup()).\n\n @param msg: the message from the cache.\n @param request: the request that generated the response.\n @return the response type (CNAME or ANSWER)."]
+    pub fn response_type_from_cache(msg: *mut dns_msg, request: *mut query_info) -> response_type;
+}
+extern "C" {
+    #[doc = " Classifies a response message (from the wire) based on the current\n request.\n\n NOTE: currently this routine uses the AA bit in the response to help\n distinguish between some non-standard referrals and answers. It also\n relies somewhat on the originating zone to be accurate (for lameness\n detection, mostly).\n\n @param rdset: if RD bit was sent in query sent by unbound.\n @param msg: the message from the cache.\n @param request: the request that generated the response.\n @param dp: The delegation point that was being queried\n          when the response was returned.\n @param empty_nodata_found: flag to keep track of empty nodata detection.\n @return the response type (CNAME or ANSWER)."]
+    pub fn response_type_from_server(
+        rdset: ::std::os::raw::c_int,
+        msg: *mut dns_msg,
+        request: *mut query_info,
+        dp: *mut delegpt,
+        empty_nodata_found: *mut ::std::os::raw::c_int,
+    ) -> response_type;
+}
+extern "C" {
+    #[doc = " Process config options and set iterator module state.\n Sets default values if no config is found.\n @param iter_env: iterator module state.\n @param cfg: config options.\n @return 0 on error."]
+    pub fn iter_apply_cfg(iter_env: *mut iter_env, cfg: *mut config_file) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Select a valid, nice target to send query to.\n Sorting and removing unsuitable targets is combined.\n\n @param iter_env: iterator module global state, with ip6 enabled and\n\tdo-not-query-addresses.\n @param env: environment with infra cache (lameness, rtt info).\n @param dp: delegation point with result list.\n @param name: zone name (for lameness check).\n @param namelen: length of name.\n @param qtype: query type that we want to send.\n @param dnssec_lame: set to 1, if a known dnssec-lame server is selected\n\tthese are not preferred, but are used as a last resort.\n @param chase_to_rd: set to 1 if a known recursion lame server is selected\n \tthese are not preferred, but are used as a last resort.\n @param open_target: number of currently outstanding target queries.\n \tIf we wait for these, perhaps more server addresses become available.\n @param blacklist: the IP blacklist to use.\n @param prefetch: if not 0, prefetch is in use for this query.\n \tThis means the query can have different timing, because prefetch is\n \tnot waited upon by the downstream client, and thus a good time to\n \tperform exploration of other targets.\n @return best target or NULL if no target.\n\tif not null, that target is removed from the result list in the dp."]
+    pub fn iter_server_selection(
+        iter_env: *mut iter_env,
+        env: *mut module_env,
+        dp: *mut delegpt,
+        name: *mut u8,
+        namelen: usize,
+        qtype: u16,
+        dnssec_lame: *mut ::std::os::raw::c_int,
+        chase_to_rd: *mut ::std::os::raw::c_int,
+        open_target: ::std::os::raw::c_int,
+        blacklist: *mut sock_list,
+        prefetch: time_t,
+    ) -> *mut delegpt_addr;
+}
+extern "C" {
+    #[doc = " Allocate dns_msg from parsed msg, in regional.\n @param pkt: packet.\n @param msg: parsed message (cleaned and ready for regional allocation).\n @param regional: regional to use for allocation.\n @return newly allocated dns_msg, or NULL on memory error."]
+    pub fn dns_alloc_msg(
+        pkt: *mut sldns_buffer,
+        msg: *mut msg_parse,
+        regional: *mut regional,
+    ) -> *mut dns_msg;
+}
+extern "C" {
+    #[doc = " Copy a dns_msg to this regional.\n @param from: dns message, also in regional.\n @param regional: regional to use for allocation.\n @return newly allocated dns_msg, or NULL on memory error."]
+    pub fn dns_copy_msg(from: *mut dns_msg, regional: *mut regional) -> *mut dns_msg;
+}
+extern "C" {
+    #[doc = " Allocate a dns_msg with malloc/alloc structure and store in dns cache.\n @param env: environment, with alloc structure and dns cache.\n @param qinf: query info, the query for which answer is stored.\n @param rep: reply in dns_msg from dns_alloc_msg for example.\n @param is_referral: If true, then the given message to be stored is a\n\treferral. The cache implementation may use this as a hint.\n @param leeway: prefetch TTL leeway to expire old rrsets quicker.\n @param pside: true if dp is parentside, thus message is 'fresh' and NS\n \tcan be prefetch-updates.\n @param region: to copy modified (cache is better) rrs back to.\n @param flags: with BIT_CD for dns64 AAAA translated queries.\n @param qstarttime: time of query start.\n return void, because we are not interested in alloc errors,\n \tthe iterator and validator can operate on the results in their\n \tscratch space (the qstate.region) and are not dependent on the cache.\n \tIt is useful to log the alloc failure (for the server operator),\n \tbut the query resolution can continue without cache storage."]
+    pub fn iter_dns_store(
+        env: *mut module_env,
+        qinf: *mut query_info,
+        rep: *mut reply_info,
+        is_referral: ::std::os::raw::c_int,
+        leeway: time_t,
+        pside: ::std::os::raw::c_int,
+        region: *mut regional,
+        flags: u16,
+        qstarttime: time_t,
+    );
+}
+extern "C" {
+    #[doc = " Select randomly with n/m probability.\n For shuffle NS records for address fetching.\n @param rnd: random table\n @param n: probability.\n @param m: divisor for probability.\n @return true with n/m probability."]
+    pub fn iter_ns_probability(
+        rnd: *mut ub_randstate,
+        n: ::std::os::raw::c_int,
+        m: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Mark targets that result in a dependency cycle as done, so they\n will not get selected as targets.\n @param qstate: query state.\n @param dp: delegpt to mark ns in."]
+    pub fn iter_mark_cycle_targets(qstate: *mut module_qstate, dp: *mut delegpt);
+}
+extern "C" {
+    #[doc = " Mark targets that result in a dependency cycle as done, so they\n will not get selected as targets.  For the parent-side lookups.\n @param qstate: query state.\n @param dp: delegpt to mark ns in."]
+    pub fn iter_mark_pside_cycle_targets(qstate: *mut module_qstate, dp: *mut delegpt);
+}
+extern "C" {
+    #[doc = " See if delegation is useful or offers immediately no targets for\n further recursion.\n @param qinfo: query name and type\n @param qflags: query flags with RD flag\n @param dp: delegpt to check.\n @param supports_ipv4: if we support ipv4 for lookups to the target.\n \tif not, then the IPv4 addresses are useless.\n @param supports_ipv6: if we support ipv6 for lookups to the target.\n \tif not, then the IPv6 addresses are useless.\n @param use_nat64: if we support NAT64 for lookups to the target.\n\tif yes, IPv4 addresses are useful even if we don't support IPv4.\n @return true if dp is useless."]
+    pub fn iter_dp_is_useless(
+        qinfo: *mut query_info,
+        qflags: u16,
+        dp: *mut delegpt,
+        supports_ipv4: ::std::os::raw::c_int,
+        supports_ipv6: ::std::os::raw::c_int,
+        use_nat64: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " See if qname has DNSSEC needs.  This is true if there is a trust anchor above\n it.  Whether there is an insecure delegation to the data is unknown.\n @param env: environment with anchors.\n @param qinfo: query name and class.\n @return true if trust anchor above qname, false if no anchor or insecure\n point above qname."]
+    pub fn iter_qname_indicates_dnssec(
+        env: *mut module_env,
+        qinfo: *mut query_info,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " See if delegation is expected to have DNSSEC information (RRSIGs) in\n its answers, or not. Inspects delegation point (name), trust anchors,\n and delegation message (DS RRset) to determine this.\n @param env: module env with trust anchors.\n @param dp: delegation point.\n @param msg: delegation message, with DS if a secure referral.\n @param dclass: class of query.\n @return 1 if dnssec is expected, 0 if not or insecure point above qname."]
+    pub fn iter_indicates_dnssec(
+        env: *mut module_env,
+        dp: *mut delegpt,
+        msg: *mut dns_msg,
+        dclass: u16,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " See if a message contains DNSSEC.\n This is examined by looking for RRSIGs. With DNSSEC a valid answer,\n nxdomain, nodata, referral or cname reply has RRSIGs in answer or auth\n sections, sigs on answer data, SOA, DS, or NSEC/NSEC3 records.\n @param msg: message to examine.\n @return true if DNSSEC information was found."]
+    pub fn iter_msg_has_dnssec(msg: *mut dns_msg) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " See if a message is known to be from a certain zone.\n This looks for SOA or NS rrsets, for answers.\n For referrals, when one label is delegated, the zone is detected.\n Does not look at signatures.\n @param msg: the message to inspect.\n @param dp: delegation point with zone name to look for.\n @param type: type of message.\n @param dclass: class of query.\n @return true if message is certain to be from zone in dp->name.\n\tfalse if not sure (empty msg), or not from the zone."]
+    pub fn iter_msg_from_zone(
+        msg: *mut dns_msg,
+        dp: *mut delegpt,
+        type_: response_type,
+        dclass: u16,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Check if two replies are equal\n For fallback procedures\n @param p: reply one. The reply has rrset data pointers in region.\n \tDoes not check rrset-IDs\n @param q: reply two\n @param region: scratch buffer.\n @return if one and two are equal."]
+    pub fn reply_equal(
+        p: *mut reply_info,
+        q: *mut reply_info,
+        region: *mut regional,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Remove unused bits from the reply if possible.\n So that caps-for-id (0x20) fallback is more likely to be successful.\n This removes like, the additional section, and NS record in the authority\n section if those records are gratuitous (not for a referral).\n @param rep: the reply to strip stuff out of."]
+    pub fn caps_strip_reply(rep: *mut reply_info);
+}
+extern "C" {
+    #[doc = " see if reply has a 'useful' rcode for capsforid comparison, so\n not SERVFAIL or REFUSED, and thus NOERROR or NXDOMAIN.\n @param rep: reply to check.\n @return true if the rcode is a bad type of message."]
+    pub fn caps_failed_rcode(rep: *mut reply_info) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Store parent-side rrset in separate rrset cache entries for later\n last-resort * lookups in case the child-side versions of this information\n fails.\n @param env: environment with cache, time, ...\n @param rrset: the rrset to store (copied).\n Failure to store is logged, but otherwise ignored."]
+    pub fn iter_store_parentside_rrset(env: *mut module_env, rrset: *mut ub_packed_rrset_key);
+}
+extern "C" {
+    #[doc = " Store parent-side NS records from a referral message\n @param env: environment with cache, time, ...\n @param rep: response with NS rrset.\n Failure to store is logged, but otherwise ignored."]
+    pub fn iter_store_parentside_NS(env: *mut module_env, rep: *mut reply_info);
+}
+extern "C" {
+    #[doc = " Store parent-side negative element, the parentside rrset does not exist,\n creates an rrset with empty rdata in the rrset cache with PARENTSIDE flag.\n @param env: environment with cache, time, ...\n @param qinfo: the identity of the rrset that is missing.\n @param rep: delegation response or answer response, to glean TTL from.\n (malloc) failure is logged but otherwise ignored."]
+    pub fn iter_store_parentside_neg(
+        env: *mut module_env,
+        qinfo: *mut query_info,
+        rep: *mut reply_info,
+    );
+}
+extern "C" {
+    #[doc = " Add parent NS record if that exists in the cache.  This is both new\n information and acts like a timeout throttle on retries.\n @param env: query env with rrset cache and time.\n @param dp: delegation point to store result in.  Also this dp is used to\n\tsee which NS name is needed.\n @param region: region to alloc result in.\n @param qinfo: pertinent information, the qclass.\n @return false on malloc failure.\n\tif true, the routine worked and if such cached information\n\texisted dp->has_parent_side_NS is set true."]
+    pub fn iter_lookup_parent_NS_from_cache(
+        env: *mut module_env,
+        dp: *mut delegpt,
+        region: *mut regional,
+        qinfo: *mut query_info,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Add parent-side glue if that exists in the cache.  This is both new\n information and acts like a timeout throttle on retries to fetch them.\n @param env: query env with rrset cache and time.\n @param dp: delegation point to store result in.  Also this dp is used to\n\tsee which NS name is needed.\n @param region: region to alloc result in.\n @param qinfo: pertinent information, the qclass.\n @return: true, it worked, no malloc failures, and new addresses (lame)\n\thave been added, giving extra options as query targets."]
+    pub fn iter_lookup_parent_glue_from_cache(
+        env: *mut module_env,
+        dp: *mut delegpt,
+        region: *mut regional,
+        qinfo: *mut query_info,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Lookup next root-hint or root-forward entry.\n @param hints: the hints.\n @param fwd: the forwards.\n @param c: the class to start searching at. 0 means find first one.\n @return false if no classes found, true if found and returned in c."]
+    pub fn iter_get_next_root(
+        hints: *mut iter_hints,
+        fwd: *mut iter_forwards,
+        c: *mut u16,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Remove DS records that are inappropriate before they are cached.\n @param msg: the response to scrub.\n @param ns: RRSET that is the NS record for the referral.\n \tif NULL, then all DS records are removed from the authority section.\n @param z: zone name that the response is from."]
+    pub fn iter_scrub_ds(msg: *mut dns_msg, ns: *mut ub_packed_rrset_key, z: *mut u8);
+}
+extern "C" {
+    #[doc = " Prepare an NXDOMAIN message to be used for a subdomain answer by removing all\n RRs from the ANSWER section.\n @param msg: the response to scrub."]
+    pub fn iter_scrub_nxdomain(msg: *mut dns_msg);
+}
+extern "C" {
+    #[doc = " Remove query attempts from all available ips. For 0x20.\n @param dp: delegpt.\n @param d: decrease.\n @param outbound_msg_retry: number of retries of outgoing queries"]
+    pub fn iter_dec_attempts(
+        dp: *mut delegpt,
+        d: ::std::os::raw::c_int,
+        outbound_msg_retry: ::std::os::raw::c_int,
+    );
+}
+extern "C" {
+    #[doc = " Add retry counts from older delegpt to newer delegpt.\n Does not waste time on timeout'd (or other failing) addresses.\n @param dp: new delegationpoint.\n @param old: old delegationpoint.\n @param outbound_msg_retry: number of retries of outgoing queries"]
+    pub fn iter_merge_retry_counts(
+        dp: *mut delegpt,
+        old: *mut delegpt,
+        outbound_msg_retry: ::std::os::raw::c_int,
+    );
+}
+extern "C" {
+    #[doc = " See if a DS response (type ANSWER) is too low: a nodata answer with\n a SOA record in the authority section at-or-below the qchase.qname.\n Also returns true if we are not sure (i.e. empty message, CNAME nosig).\n @param msg: the response.\n @param dp: the dp name is used to check if the RRSIG gives a clue that\n \tit was originated from the correct nameserver.\n @return true if too low."]
+    pub fn iter_ds_toolow(msg: *mut dns_msg, dp: *mut delegpt) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " See if delegpt can go down a step to the qname or not\n @param qinfo: the query name looked up.\n @param dp: checked if the name can go lower to the qname\n @return true if can go down, false if that would not be possible.\n the current response seems to be the one and only, best possible, response."]
+    pub fn iter_dp_cangodown(qinfo: *mut query_info, dp: *mut delegpt) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Lookup if no_cache is set in stub or fwd.\n @param qstate: query state with env with hints and fwds.\n @param qinf: query name to lookup for.\n @param retdpname: returns NULL or the deepest enclosing name of fwd or stub.\n \tThis is the name under which the closest lookup is going to happen.\n \tUsed for NXDOMAIN checks, above that it is an nxdomain from a\n \tdifferent server and zone. You can pass NULL to not get it.\n @param retdpnamelen: returns the length of the dpname.\n @param dpname_storage: this is where the dpname buf is stored, if any.\n \tSo that caller can manage the buffer.\n @param dpname_storage_len: size of dpname_storage buffer.\n @return true if no_cache is set in stub or fwd."]
+    pub fn iter_stub_fwd_no_cache(
+        qstate: *mut module_qstate,
+        qinf: *mut query_info,
+        retdpname: *mut *mut u8,
+        retdpnamelen: *mut usize,
+        dpname_storage: *mut u8,
+        dpname_storage_len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Set support for IP4 and IP6 depending on outgoing interfaces\n in the outside network.  If none, no support, so no use to lookup\n the AAAA and then attempt to use it if there is no outgoing-interface\n for it.\n @param mods: modstack to find iterator module in.\n @param env: module env, find iterator module (if one) in there.\n @param outnet: outside network structure."]
+    pub fn iterator_set_ip46_support(
+        mods: *mut module_stack,
+        env: *mut module_env,
+        outnet: *mut outside_network,
+    );
+}
+extern "C" {
+    #[doc = " Taken from RFC 2535, section 7."]
+    pub static mut sldns_algorithms: *mut sldns_struct_lookup_table;
+}
+extern "C" {
+    #[doc = " DS record hash algorithms"]
+    pub static mut sldns_hashes: *mut sldns_struct_lookup_table;
+}
+extern "C" {
+    #[doc = " Taken from RFC 2538, section 2.1."]
+    pub static mut sldns_cert_algorithms: *mut sldns_struct_lookup_table;
+}
+extern "C" {
+    #[doc = " Response codes"]
+    pub static mut sldns_rcodes: *mut sldns_struct_lookup_table;
+}
+extern "C" {
+    #[doc = " Operation codes"]
+    pub static mut sldns_opcodes: *mut sldns_struct_lookup_table;
+}
+extern "C" {
+    #[doc = " EDNS flags"]
+    pub static mut sldns_edns_flags: *mut sldns_struct_lookup_table;
+}
+extern "C" {
+    #[doc = " EDNS option codes"]
+    pub static mut sldns_edns_options: *mut sldns_struct_lookup_table;
+}
+extern "C" {
+    #[doc = " EDNS EDE codes"]
+    pub static mut sldns_edns_ede_codes: *mut sldns_struct_lookup_table;
+}
+extern "C" {
+    #[doc = " error string from wireparse"]
+    pub static mut sldns_wireparse_errors: *mut sldns_struct_lookup_table;
+}
+extern "C" {
+    #[doc = " tsig errors are the rcodes with extra (higher) values"]
+    pub static mut sldns_tsig_errors: *mut sldns_struct_lookup_table;
+}
+extern "C" {
+    #[doc = " Convert wireformat packet to a string representation\n @param data: wireformat packet data (starting at ID bytes).\n @param len: length of packet.\n @return string(malloced) or NULL on failure."]
+    pub fn sldns_wire2str_pkt(data: *mut u8, len: usize) -> *mut ::std::os::raw::c_char;
+}
+extern "C" {
+    #[doc = " Convert wireformat RR to a string representation.\n @param rr: the wireformat RR, in uncompressed form.  Starts at the domain\n \tname start, ends with the rdata of the RR.\n @param len: length of the rr wireformat.\n @return string(malloced) or NULL on failure."]
+    pub fn sldns_wire2str_rr(rr: *mut u8, len: usize) -> *mut ::std::os::raw::c_char;
+}
+extern "C" {
+    #[doc = " Convert wire dname to a string.\n @param dname: the dname in uncompressed wireformat.\n @param dname_len: length of the dname.\n @return string or NULL on failure."]
+    pub fn sldns_wire2str_dname(dname: *mut u8, dname_len: usize) -> *mut ::std::os::raw::c_char;
+}
+extern "C" {
+    #[doc = " Convert wire RR type to a string, 'MX', 'TYPE1234'...\n @param rrtype: the RR type in host order.\n @return malloced string with the RR type or NULL on malloc failure."]
+    pub fn sldns_wire2str_type(rrtype: u16) -> *mut ::std::os::raw::c_char;
+}
+extern "C" {
+    #[doc = " Convert wire RR class to a string, 'IN', 'CLASS1'.\n @param rrclass: the RR class in host order.\n @return malloced string with the RR class or NULL on malloc failure."]
+    pub fn sldns_wire2str_class(rrclass: u16) -> *mut ::std::os::raw::c_char;
+}
+extern "C" {
+    #[doc = " Convert wire packet rcode to a string, 'NOERROR', 'NXDOMAIN'...\n @param rcode: as integer, host order\n @return malloced string with the rcode or NULL on malloc failure."]
+    pub fn sldns_wire2str_rcode(rcode: ::std::os::raw::c_int) -> *mut ::std::os::raw::c_char;
+}
+extern "C" {
+    #[doc = " Print to string, move string along for next content. With va_list.\n @param str: string buffer.  Adjusted at end to after the output.\n @param slen: length of the string buffer.  Adjusted at end.\n @param format: printf format string.\n @param args: arguments for printf.\n @return number of characters needed. Can be larger than slen."]
+    pub fn sldns_str_vprint(
+        str_: *mut *mut ::std::os::raw::c_char,
+        slen: *mut usize,
+        format: *const ::std::os::raw::c_char,
+        args: *mut __va_list_tag,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Print to string, move string along for next content.\n @param str: string buffer.  Adjusted at end to after the output.\n @param slen: length of the string buffer.  Adjusted at end.\n @param format: printf format string and arguments for it.\n @return number of characters needed. Can be larger than slen."]
+    pub fn sldns_str_print(
+        str_: *mut *mut ::std::os::raw::c_char,
+        slen: *mut usize,
+        format: *const ::std::os::raw::c_char,
+        ...
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert wireformat packet to a string representation with user buffer\n It appends every RR with default comments.\n For more formatter options use the function: TBD(TODO)\n @param data: wireformat packet data (starting at ID bytes).\n @param data_len: length of packet.\n @param str: the string buffer for the output.\n \tIf you pass NULL as the str the return value of the function is\n \tthe str_len you need for the entire packet.  It does not include\n \tthe 0 byte at the end.\n @param str_len: the size of the string buffer.  If more is needed, it'll\n \tsilently truncate the output to fit in the buffer.\n @return the number of characters for this element, excluding zerobyte.\n \tIs larger or equal than str_len if output was truncated."]
+    pub fn sldns_wire2str_pkt_buf(
+        data: *mut u8,
+        data_len: usize,
+        str_: *mut ::std::os::raw::c_char,
+        str_len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat packet to a string representation with user buffer\n It appends every RR with default comments.\n For more formatter options use the function: TBD(TODO)\n @param data: wireformat packet data (starting at ID bytes).\n @param data_len: length of packet.\n @param str: the string buffer for the output.\n @param str_len: the size of the string buffer.\n @return number of characters for string.\n returns the number of characters that are needed (except terminating null),\n so it may return a value larger than str_len.\n On error you get less output (i.e. shorter output in str (null terminated))\n On exit the data, data_len, str and str_len values are adjusted to move them\n from their original position along the input and output for the content\n that has been consumed (and produced) by this function.  If the end of the\n output string is reached, *str_len is set to 0.  The output string is null\n terminated (shortening the output if necessary).  If the end of the input\n is reached *data_len is set to 0."]
+    pub fn sldns_wire2str_pkt_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat rr to string, with user buffers.  It shifts the arguments\n to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param pkt: packet for decompression, if NULL no decompression.\n @param pktlen: length of packet buffer.\n @param comprloop: if pkt, bool detects compression loops.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_rr_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        pkt: *mut u8,
+        pktlen: usize,
+        comprloop: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat question rr to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param pkt: packet for decompression, if NULL no decompression.\n @param pktlen: length of packet buffer.\n @param comprloop: if pkt, bool detects compression loops.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_rrquestion_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        pkt: *mut u8,
+        pktlen: usize,
+        comprloop: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat RR to string in unknown RR format, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param pkt: packet for decompression, if NULL no decompression.\n @param pktlen: length of packet buffer.\n @param comprloop: if pkt, bool detects compression loops.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_rr_unknown_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        pkt: *mut u8,
+        pktlen: usize,
+        comprloop: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Print to string the RR-information comment in default format,\n with user buffers.  Moves string along.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param rr: wireformat data.\n @param rrlen: length of data buffer.\n @param dname_off: offset in buffer behind owner dname, the compressed size\n \tof the owner name.\n @param rrtype: type of the RR, host format.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_rr_comment_print(
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        rr: *mut u8,
+        rrlen: usize,
+        dname_off: usize,
+        rrtype: u16,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat packet header to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_header_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat rdata to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.  The length of the rdata in the\n \tbuffer.  The rdatalen itself has already been scanned, the data\n \tpoints to the rdata after the rdatalen.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param rrtype: RR type of Rdata, host format.\n @param pkt: packet for decompression, if NULL no decompression.\n @param pktlen: length of packet buffer.\n @param comprloop: if pkt, bool detects compression loops.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_rdata_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        rrtype: u16,
+        pkt: *mut u8,
+        pktlen: usize,
+        comprloop: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat rdata to string in unknown format, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer, the length of the rdata in buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_rdata_unknown_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat domain name to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param pkt: packet for decompression, if NULL no decompression.\n @param pktlen: length of packet buffer.\n @param comprloop: inout bool, that is set true if compression loop failure\n \thappens.  Pass in 0, if passsed in as true, a lower bound is set\n \ton compression loops to stop arbitrary long packet parse times.\n \tThis is meant so you can set it to 0 at the start of a list of dnames,\n \tand then scan all of them in sequence, if a loop happens, it becomes\n \ttrue and then it becomes more strict for the next dnames in the list.\n \tYou can leave it at NULL if there is no pkt (pkt is NULL too).\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_dname_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        pkt: *mut u8,
+        pktlen: usize,
+        comprloop: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat rr type to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_type_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat rr class to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_class_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat rr ttl to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_ttl_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Print host format rr type to string.  Moves string along, user buffers.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param rrtype: host format rr type.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_type_print(
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        rrtype: u16,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Print host format rr class to string.  Moves string along, user buffers.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param rrclass: host format rr class.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_class_print(
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        rrclass: u16,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Print host format rcode to string.  Moves string along, user buffers.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param rcode: host format rcode number.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_rcode_print(
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        rcode: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Print host format opcode to string.  Moves string along, user buffers.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param opcode: host format opcode number.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_opcode_print(
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        opcode: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Print host format EDNS0 option to string.  Moves string along, user buffers.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param opcode: host format option number.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_edns_option_code_print(
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        opcode: u16,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert RR to string presentation format, on one line.  User buffer.\n @param rr: wireformat RR data\n @param rr_len: length of the rr wire data.\n @param str: the string buffer to write to.\n \tIf you pass NULL as the str, the return value of the function is\n \tthe str_len you need for the entire packet.  It does not include\n \tthe 0 byte at the end.\n @param str_len: the size of the string buffer.  If more is needed, it'll\n \tsilently truncate the output to fit in the buffer.\n @return the number of characters for this element, excluding zerobyte.\n \tIs larger or equal than str_len if output was truncated."]
+    pub fn sldns_wire2str_rr_buf(
+        rr: *mut u8,
+        rr_len: usize,
+        str_: *mut ::std::os::raw::c_char,
+        str_len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert question RR to string presentation format, on one line.  User buffer.\n @param rr: wireformat RR data\n @param rr_len: length of the rr wire data.\n @param str: the string buffer to write to.\n \tIf you pass NULL as the str, the return value of the function is\n \tthe str_len you need for the entire packet.  It does not include\n \tthe 0 byte at the end.\n @param str_len: the size of the string buffer.  If more is needed, it'll\n \tsilently truncate the output to fit in the buffer.\n @return the number of characters for this element, excluding zerobyte.\n \tIs larger or equal than str_len if output was truncated."]
+    pub fn sldns_wire2str_rrquestion_buf(
+        rr: *mut u8,
+        rr_len: usize,
+        str_: *mut ::std::os::raw::c_char,
+        str_len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " 3597 printout of an RR in unknown rr format.\n There are more format and comment options available for printout\n with the function: TBD(TODO)\n @param rr: wireformat RR data\n @param rr_len: length of the rr wire data.\n @param str: the string buffer to write to.\n \tIf you pass NULL as the str, the return value of the function is\n \tthe str_len you need for the entire rr.  It does not include\n \tthe 0 byte at the end.\n @param str_len: the size of the string buffer.  If more is needed, it'll\n \tsilently truncate the output to fit in the buffer.\n @return the number of characters for this element, excluding zerobyte.\n \tIs larger or equal than str_len if output was truncated."]
+    pub fn sldns_wire2str_rr_unknown_buf(
+        rr: *mut u8,
+        rr_len: usize,
+        str_: *mut ::std::os::raw::c_char,
+        str_len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " This creates the comment to print after the RR. ; keytag=... , and other\n basic comments for RRs.\n There are more format and comment options available for printout\n with the function: TBD(TODO)\n @param rr: wireformat RR data\n @param rr_len: length of the rr wire data.\n @param dname_len: length of the dname in front of the RR.\n @param str: the string buffer to write to.\n \tIf you pass NULL as the str, the return value of the function is\n \tthe str_len you need for the entire comment.  It does not include\n \tthe 0 byte at the end.\n @param str_len: the size of the string buffer.  If more is needed, it'll\n \tsilently truncate the output to fit in the buffer.\n @return the number of characters for this element, excluding zerobyte.\n \tIs larger or equal than str_len if output was truncated."]
+    pub fn sldns_wire2str_rr_comment_buf(
+        rr: *mut u8,
+        rr_len: usize,
+        dname_len: usize,
+        str_: *mut ::std::os::raw::c_char,
+        str_len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert RDATA to string presentation format, on one line.  User buffer.\n @param rdata: wireformat rdata part of an RR.\n @param rdata_len: length of the rr wire data.\n @param str: the string buffer to write to.\n \tIf you pass NULL as the str, the return value of the function is\n \tthe str_len you need for the entire packet.  It does not include\n \tthe 0 byte at the end.\n @param str_len: the size of the string buffer.  If more is needed, it'll\n \tsilently truncate the output to fit in the buffer.\n @param rrtype: rr type of the data\n @return the number of characters for this element, excluding zerobyte.\n \tIs larger or equal than str_len if output was truncated."]
+    pub fn sldns_wire2str_rdata_buf(
+        rdata: *mut u8,
+        rdata_len: usize,
+        str_: *mut ::std::os::raw::c_char,
+        str_len: usize,
+        rrtype: u16,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert wire RR type to a string, 'MX', 'TYPE12'.  With user buffer.\n @param rrtype: the RR type in host order.\n @param str: the string to write to.\n @param len: length of str.\n @return the number of characters for this element, excluding zerobyte.\n \tIs larger or equal than str_len if output was truncated."]
+    pub fn sldns_wire2str_type_buf(
+        rrtype: u16,
+        str_: *mut ::std::os::raw::c_char,
+        len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert wire RR class to a string, 'IN', 'CLASS12'.  With user buffer.\n @param rrclass: the RR class in host order.\n @param str: the string to write to.\n @param len: length of str.\n @return the number of characters for this element, excluding zerobyte.\n \tIs larger or equal than str_len if output was truncated."]
+    pub fn sldns_wire2str_class_buf(
+        rrclass: u16,
+        str_: *mut ::std::os::raw::c_char,
+        len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert wire RR rcode to a string, 'NOERROR', 'NXDOMAIN'.  With user buffer.\n @param rcode: rcode as integer in host order\n @param str: the string to write to.\n @param len: length of str.\n @return the number of characters for this element, excluding zerobyte.\n \tIs larger or equal than str_len if output was truncated."]
+    pub fn sldns_wire2str_rcode_buf(
+        rcode: ::std::os::raw::c_int,
+        str_: *mut ::std::os::raw::c_char,
+        len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert host format opcode to a string. 'QUERY', 'NOTIFY', 'UPDATE'.\n With user buffer.\n @param opcode: opcode as integer in host order\n @param str: the string to write to.\n @param len: length of str.\n @return the number of characters for this element, excluding zerobyte.\n \tIs larger or equal than str_len if output was truncated."]
+    pub fn sldns_wire2str_opcode_buf(
+        opcode: ::std::os::raw::c_int,
+        str_: *mut ::std::os::raw::c_char,
+        len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert wire dname to a string, \"example.com.\".  With user buffer.\n @param dname: the dname in uncompressed wireformat.\n @param dname_len: length of the dname.\n @param str: the string to write to.\n @param len: length of string.\n @return the number of characters for this element, excluding zerobyte.\n \tIs larger or equal than str_len if output was truncated."]
+    pub fn sldns_wire2str_dname_buf(
+        dname: *mut u8,
+        dname_len: usize,
+        str_: *mut ::std::os::raw::c_char,
+        len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert wire SVCB to a string with user buffer.\n @param d: the SVCB data in uncompressed wireformat.\n @param dlen: length of the SVCB data.\n @param s: the string to write to.\n @param slen: length of string.\n @return the number of characters for this element, excluding zerobyte.\n \tIs larger or equal than str_len if output was truncated."]
+    pub fn sldns_wire2str_svcparam_scan(
+        d: *mut *mut u8,
+        dlen: *mut usize,
+        s: *mut *mut ::std::os::raw::c_char,
+        slen: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat rdf field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param rdftype: the type of the rdata field, enum sldns_rdf_type.\n @param pkt: packet for decompression, if NULL no decompression.\n @param pktlen: length of packet buffer.\n @param comprloop: if pkt, bool detects compression loops.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_rdf_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        rdftype: ::std::os::raw::c_int,
+        pkt: *mut u8,
+        pktlen: usize,
+        comprloop: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat int8 field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_int8_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat int16 field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_int16_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat int32 field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_int32_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat period field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_period_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat tsigtime field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_tsigtime_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat ip4 A field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_a_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat ip6 AAAA field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_aaaa_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat str field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_str_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat apl field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_apl_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat b32_ext field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_b32_ext_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat b64 field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_b64_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat hex field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_hex_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat nsec bitmap field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_nsec_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat nsec3_salt field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_nsec3_salt_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat cert_alg field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_cert_alg_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat alg field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_alg_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat type unknown field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_unknown_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat time field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_time_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat LOC field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_loc_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat WKS field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_wks_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat NSAP field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_nsap_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat ATMA field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_atma_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat IPSECKEY field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param pkt: packet for decompression, if NULL no decompression.\n @param pktlen: length of packet buffer.\n @param comprloop: if pkt, bool detects compression loops.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_ipseckey_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        pkt: *mut u8,
+        pktlen: usize,
+        comprloop: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat HIP (algo, HIT, pubkey) field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_hip_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat int16_data field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_int16_data_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat tsigerror field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_tsigerror_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat nsec3_next_owner field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_nsec3_next_owner_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat ILNP64 field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_ilnp64_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat EUI48 field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_eui48_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat EUI64 field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_eui64_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat TAG field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_tag_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat long_str field to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @return number of characters (except null) needed to print.\n \tCan return -1 on failure."]
+    pub fn sldns_wire2str_long_str_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Print EDNS LLQ option data to string.  User buffers, moves string pointers.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param option_data: buffer with EDNS option code data.\n @param option_len: length of the data for this option.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_edns_llq_print(
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        option_data: *mut u8,
+        option_len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Print EDNS UL option data to string.  User buffers, moves string pointers.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param option_data: buffer with EDNS option code data.\n @param option_len: length of the data for this option.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_edns_ul_print(
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        option_data: *mut u8,
+        option_len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Print EDNS NSID option data to string.  User buffers, moves string pointers.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param option_data: buffer with EDNS option code data.\n @param option_len: length of the data for this option.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_edns_nsid_print(
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        option_data: *mut u8,
+        option_len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Print EDNS DAU option data to string.  User buffers, moves string pointers.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param option_data: buffer with EDNS option code data.\n @param option_len: length of the data for this option.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_edns_dau_print(
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        option_data: *mut u8,
+        option_len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Print EDNS DHU option data to string.  User buffers, moves string pointers.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param option_data: buffer with EDNS option code data.\n @param option_len: length of the data for this option.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_edns_dhu_print(
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        option_data: *mut u8,
+        option_len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Print EDNS N3U option data to string.  User buffers, moves string pointers.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param option_data: buffer with EDNS option code data.\n @param option_len: length of the data for this option.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_edns_n3u_print(
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        option_data: *mut u8,
+        option_len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Print EDNS SUBNET option data to string. User buffers, moves string pointers.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param option_data: buffer with EDNS option code data.\n @param option_len: length of the data for this option.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_edns_subnet_print(
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        option_data: *mut u8,
+        option_len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Print EDNS EDE option data to string. User buffers, moves string pointers.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param option_data: buffer with EDNS option code data.\n @param option_len: length of the data for this option.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_edns_ede_print(
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        option_data: *mut u8,
+        option_len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Print an EDNS option as OPT: VALUE.  User buffers, moves string pointers.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param option_code: host format EDNS option code.\n @param option_data: buffer with EDNS option code data.\n @param option_len: length of the data for this option.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_edns_option_print(
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        option_code: u16,
+        option_data: *mut u8,
+        option_len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Scan wireformat EDNS OPT to string, with user buffers.\n It shifts the arguments to move along (see sldns_wire2str_pkt_scan).\n @param data: wireformat data.\n @param data_len: length of data buffer.\n @param str: string buffer.\n @param str_len: length of string buffer.\n @param pkt: packet with header and other info (may be NULL)\n @param pktlen: length of packet buffer.\n @return number of characters (except null) needed to print."]
+    pub fn sldns_wire2str_edns_scan(
+        data: *mut *mut u8,
+        data_len: *mut usize,
+        str_: *mut *mut ::std::os::raw::c_char,
+        str_len: *mut usize,
+        pkt: *mut u8,
+        pktlen: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert text string into dname wireformat, mallocless, with user buffer.\n @param str: the text string with the domain name.\n @param buf: the result buffer, suggested size LDNS_MAX_DOMAINLEN+1\n @param len: length of the buffer on input, length of the result on output.\n @return 0 on success, otherwise an error."]
+    pub fn sldns_str2wire_dname_buf(
+        str_: *const ::std::os::raw::c_char,
+        buf: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Same as sldns_str2wire_dname_buf, but concatenates origin if the domain\n name is relative (does not end in '.').\n @param str: the text string with the domain name.\n @param buf: the result buffer, suggested size LDNS_MAX_DOMAINLEN+1\n @param len: length of the buffer on input, length of the result on output.\n @param origin: the origin to append or NULL (nothing is appended).\n @param origin_len: length of origin.\n @return 0 on success, otherwise an error."]
+    pub fn sldns_str2wire_dname_buf_origin(
+        str_: *const ::std::os::raw::c_char,
+        buf: *mut u8,
+        len: *mut usize,
+        origin: *mut u8,
+        origin_len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert text string into dname wireformat\n @param str: the text string with the domain name.\n @param len: returned length of wireformat.\n @return wireformat dname (malloced) or NULL on failure."]
+    pub fn sldns_str2wire_dname(str_: *const ::std::os::raw::c_char, len: *mut usize) -> *mut u8;
+}
+extern "C" {
+    #[doc = " Convert text RR to wireformat, with user buffer.\n @param str: the RR data in text presentation format.\n @param rr: the buffer where the result is stored into.  This buffer has\n \tthe wire-dname(uncompressed), type, class, ttl, rdatalen, rdata.\n \tThese values are probably not aligned, and in network format.\n \tUse the sldns_wirerr_get_xxx functions to access them safely.\n \tbuffer size LDNS_RR_BUF_SIZE is suggested.\n @param len: on input the length of the buffer, on output the amount of\n \tthe buffer used for the rr.\n @param dname_len: if non-NULL, filled with the dname length as result.\n \tBecause after the dname you find the type, class, ttl, rdatalen, rdata.\n @param default_ttl: TTL used if no TTL available.\n @param origin: used for origin dname (if not NULL)\n @param origin_len: length of origin.\n @param prev: used for prev_rr dname (if not NULL)\n @param prev_len: length of prev.\n @return 0 on success, an error on failure."]
+    pub fn sldns_str2wire_rr_buf(
+        str_: *const ::std::os::raw::c_char,
+        rr: *mut u8,
+        len: *mut usize,
+        dname_len: *mut usize,
+        default_ttl: u32,
+        origin: *mut u8,
+        origin_len: usize,
+        prev: *mut u8,
+        prev_len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Same as sldns_str2wire_rr_buf, but there is no rdata, it returns an RR\n with zero rdata and no ttl.  It has name, type, class.\n You can access those with the sldns_wirerr_get_type and class functions.\n @param str: the RR data in text presentation format.\n @param rr: the buffer where the result is stored into.\n @param len: on input the length of the buffer, on output the amount of\n \tthe buffer used for the rr.\n @param dname_len: if non-NULL, filled with the dname length as result.\n \tBecause after the dname you find the type, class, ttl, rdatalen, rdata.\n @param origin: used for origin dname (if not NULL)\n @param origin_len: length of origin.\n @param prev: used for prev_rr dname (if not NULL)\n @param prev_len: length of prev.\n @return 0 on success, an error on failure."]
+    pub fn sldns_str2wire_rr_question_buf(
+        str_: *const ::std::os::raw::c_char,
+        rr: *mut u8,
+        len: *mut usize,
+        dname_len: *mut usize,
+        origin: *mut u8,
+        origin_len: usize,
+        prev: *mut u8,
+        prev_len: usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Get the type of the RR.\n @param rr: the RR in wire format.\n @param len: rr length.\n @param dname_len: dname length to skip.\n @return type in host byteorder"]
+    pub fn sldns_wirerr_get_type(rr: *mut u8, len: usize, dname_len: usize) -> u16;
+}
+extern "C" {
+    #[doc = " Get the class of the RR.\n @param rr: the RR in wire format.\n @param len: rr length.\n @param dname_len: dname length to skip.\n @return class in host byteorder"]
+    pub fn sldns_wirerr_get_class(rr: *mut u8, len: usize, dname_len: usize) -> u16;
+}
+extern "C" {
+    #[doc = " Get the ttl of the RR.\n @param rr: the RR in wire format.\n @param len: rr length.\n @param dname_len: dname length to skip.\n @return ttl in host byteorder"]
+    pub fn sldns_wirerr_get_ttl(rr: *mut u8, len: usize, dname_len: usize) -> u32;
+}
+extern "C" {
+    #[doc = " Get the rdata length of the RR.\n @param rr: the RR in wire format.\n @param len: rr length.\n @param dname_len: dname length to skip.\n @return rdata length in host byteorder\n \tIf the rdata length is larger than the rr-len allows, it is truncated.\n \tSo, that it is safe to read the data length returned\n \tfrom this function from the rdata pointer of sldns_wirerr_get_rdata."]
+    pub fn sldns_wirerr_get_rdatalen(rr: *mut u8, len: usize, dname_len: usize) -> u16;
+}
+extern "C" {
+    #[doc = " Get the rdata pointer of the RR.\n @param rr: the RR in wire format.\n @param len: rr length.\n @param dname_len: dname length to skip.\n @return rdata pointer"]
+    pub fn sldns_wirerr_get_rdata(rr: *mut u8, len: usize, dname_len: usize) -> *mut u8;
+}
+extern "C" {
+    #[doc = " Get the rdata pointer of the RR. prefixed with rdata length.\n @param rr: the RR in wire format.\n @param len: rr length.\n @param dname_len: dname length to skip.\n @return pointer to rdatalength, followed by the rdata."]
+    pub fn sldns_wirerr_get_rdatawl(rr: *mut u8, len: usize, dname_len: usize) -> *mut u8;
+}
+extern "C" {
+    #[doc = " Get reference to a constant string for the (parse) error.\n @param e: error return value\n @return string."]
+    pub fn sldns_get_errorstr_parse(e: ::std::os::raw::c_int) -> *const ::std::os::raw::c_char;
+}
+#[doc = " wire parse state for parsing files"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct sldns_file_parse_state {
+    #[doc = " the origin domain name, if len!=0. uncompressed wireformat"]
+    pub origin: [u8; 256usize],
+    #[doc = " length of origin domain name, in bytes. 0 if not set."]
+    pub origin_len: usize,
+    #[doc = " the previous domain name, if len!=0. uncompressed wireformat"]
+    pub prev_rr: [u8; 256usize],
+    #[doc = " length of the previous domain name, in bytes. 0 if not set."]
+    pub prev_rr_len: usize,
+    #[doc = " default TTL, this is used if the text does not specify a TTL,\n host byteorder"]
+    pub default_ttl: u32,
+    #[doc = " line number information"]
+    pub lineno: ::std::os::raw::c_int,
+}
+extern "C" {
+    #[doc = " Read one RR from zonefile with buffer for the data.\n @param in: file that is read from (one RR, multiple lines if it spans them).\n @param rr: this is malloced by the user and the result is stored here,\n \tif an RR is read.  If no RR is read this is signalled with the\n \treturn len set to 0 (for ORIGIN, TTL directives).\n \tThe read line is available in the rr_buf (zero terminated), for\n \t$DIRECTIVE style elements.\n @param len: on input, the length of the rr buffer.  on output the rr len.\n \tBuffer size of 64k should be enough.\n @param dname_len: returns the length of the dname initial part of the rr.\n @param parse_state: pass a pointer to user-allocated struct.\n \tContents are maintained by this function.\n \tIf you pass NULL then ORIGIN and TTL directives are not honored.\n \tYou can start out with a particular origin by pre-filling it.\n \totherwise, zero the structure before passing it.\n \tlineno is incremented when a newline is passed by the parser,\n \tyou should initialize it at 1 at the start of the file.\n @return 0 on success, error on failure."]
+    pub fn sldns_fp2wire_rr_buf(
+        in_: *mut FILE,
+        rr: *mut u8,
+        len: *mut usize,
+        dname_len: *mut usize,
+        parse_state: *mut sldns_file_parse_state,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert one rdf in rdata to wireformat and parse from string.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @param rdftype: the type of the rdf.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_rdf_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+        rdftype: sldns_rdf_type,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_INT8 from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_int8_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_INT16 from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_int16_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_INT32 from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_int32_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_A from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_a_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_AAAA from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_aaaa_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_STR from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_str_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_APL from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_apl_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_B64 from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_b64_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_B32_EXT from string to wireformat.\n And also LDNS_RDF_TYPE_NSEC3_NEXT_OWNER.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_b32_ext_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_HEX from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_hex_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_NSEC from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_nsec_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_TYPE from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_type_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_CLASS from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_class_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_CERT_ALG from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_cert_alg_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_ALG from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_alg_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_TIME from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_time_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_PERIOD from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_period_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_TSIGTIME from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_tsigtime_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_TSIGERROR from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_tsigerror_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_LOC from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_loc_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_WKS from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_wks_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_NSAP from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_nsap_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_ATMA from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_atma_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_IPSECKEY from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_ipseckey_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_NSEC3_SALT from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_nsec3_salt_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_ILNP64 from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_ilnp64_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_EUI48 from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_eui48_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_EUI64 from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_eui64_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_TAG from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_tag_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_LONG_STR from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_long_str_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_HIP from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_hip_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Convert rdf of type LDNS_RDF_TYPE_INT16_DATA from string to wireformat.\n @param str: the text to convert for this rdata element.\n @param rd: rdata buffer for the wireformat.\n @param len: length of rd buffer on input, used length on output.\n @return 0 on success, error on failure."]
+    pub fn sldns_str2wire_int16_data_buf(
+        str_: *const ::std::os::raw::c_char,
+        rd: *mut u8,
+        len: *mut usize,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[doc = " Strip whitespace from the start and the end of line.\n @param line: modified with 0 to shorten it.\n @return new start with spaces skipped."]
+    pub fn sldns_strip_ws(line: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
 }
 pub type __builtin_va_list = [__va_list_tag; 1usize];
 #[repr(C)]
@@ -2096,15 +8772,33 @@ pub struct __va_list_tag {
 pub struct infra_cache {
     pub _address: u8,
 }
-#[doc = " the 5011-probe timer (if any)"]
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct comm_timer {
-    pub _address: u8,
-}
 #[doc = " EDNS client string information"]
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct edns_strings {
+    pub _address: u8,
+}
+#[doc = " the dnstap environment"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct dt_env {
+    pub _address: u8,
+}
+#[doc = " the entry for the connection."]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct tcl_addr {
+    pub _address: u8,
+}
+#[doc = " the structure to keep track of open requests on this channel"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct tcp_req_info {
+    pub _address: u8,
+}
+#[doc = " the internal event stuff"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct internal_signal {
     pub _address: u8,
 }
