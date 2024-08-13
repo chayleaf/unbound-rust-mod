@@ -4,10 +4,7 @@ use std::{
     fmt::Display,
     io::{self, Write},
     net::{Ipv4Addr, Ipv6Addr},
-    os::{
-        fd::BorrowedFd,
-        raw::{c_char, c_void},
-    },
+    os::{fd::BorrowedFd, raw::c_void},
     rc::Rc,
     sync::mpsc,
 };
@@ -46,7 +43,7 @@ struct FlushSetMsg<'a> {
     set: &'a Set1,
 }
 unsafe impl<'a> NlMsg for FlushSetMsg<'a> {
-    unsafe fn write(&self, buf: *mut std::ffi::c_void, seq: u32, _msg_type: MsgType) {
+    unsafe fn write(&self, buf: *mut c_void, seq: u32, _msg_type: MsgType) {
         let header = nftnl_sys::nftnl_nlmsg_build_hdr(
             buf.cast(),
             libc::NFT_MSG_DELSETELEM as u16,
