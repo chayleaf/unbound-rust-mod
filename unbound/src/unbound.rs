@@ -155,14 +155,18 @@ impl<'a, T> Deref for ModuleQstateMut<'a, T> {
     }
 }
 
+unsafe fn cstr<'a>(ptr: *const c_char) -> Option<&'a CStr> {
+    if ptr.is_null() {
+        None
+    } else {
+        Some(CStr::from_ptr(ptr))
+    }
+}
+
 impl<'a> QueryInfo<'a> {
     #[doc = " Salient data on the query: qname, in wireformat.\n can be allocated or a pointer to outside buffer.\n User has to keep track on the status of this."]
     pub fn qname(&self) -> Option<&CStr> {
-        if unsafe { (*self.as_ptr()).qname.is_null() } {
-            None
-        } else {
-            Some(unsafe { CStr::from_ptr((*self.as_ptr()).qname as *const c_char) })
-        }
+        unsafe { cstr((*self.as_ptr()).qname.cast_const().cast()) }
     }
     #[doc = " qtype, host byte order"]
     pub fn qtype(&self) -> u16 {
@@ -458,11 +462,7 @@ impl ReplyInfo<'_> {
     }
     #[doc = " EDE (rfc8914) NULL-terminated string with human-readable reason\n for DNSSEC bogus status.\n Used for caching the EDE."]
     pub fn reason_bogus_str(&self) -> Option<&CStr> {
-        if unsafe { (*self.as_ptr()).reason_bogus_str.is_null() } {
-            None
-        } else {
-            Some(unsafe { CStr::from_ptr((*self.as_ptr()).reason_bogus_str) })
-        }
+        unsafe { cstr((*self.as_ptr()).reason_bogus_str) }
     }
     #[doc = " Number of RRsets in each section.\n The answer section. Add up the RRs in every RRset to calculate\n the number of RRs, and the count for the dns packet.\n The number of RRs in RRsets can change due to RRset updates."]
     pub fn an_numrrsets(&self) -> usize {
@@ -506,11 +506,7 @@ impl UbPackedRrsetKey<'_> {
 impl PackedRrsetKey<'_> {
     #[doc = " The domain name. If not null (for id=0) it is allocated, and\n contains the wireformat domain name.\n This dname is not canonicalized."]
     pub fn dname(&self) -> Option<&'_ CStr> {
-        if unsafe { (*self.as_ptr()).dname.is_null() } {
-            None
-        } else {
-            Some(unsafe { CStr::from_ptr((*self.as_ptr()).dname as *const c_char) })
-        }
+        unsafe { cstr((*self.as_ptr()).dname.cast_const().cast()) }
     }
     #[doc = " Flags. 32bit to be easy for hashing:\n \to PACKED_RRSET_NSEC_AT_APEX\n \to PACKED_RRSET_PARENT_SIDE\n \to PACKED_RRSET_SOA_NEG\n \to PACKED_RRSET_FIXEDTTL (not supposed to be cached)\n \to PACKED_RRSET_RPZ"]
     pub fn flags(&self) -> u32 {
