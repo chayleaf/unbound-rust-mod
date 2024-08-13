@@ -391,7 +391,7 @@ impl ExampleMod {
     }
     fn load_env(&mut self) -> Result<Vec<(NftData<Ipv4Net>, NftData<Ipv6Net>)>, ()> {
         self.nft_token = std::env::var_os("NFT_TOKEN")
-            .map(|x| x.to_str().ok_or(()).map(|s| s.to_owned()))
+            .map(|x| x.to_str().ok_or(()).map(ToOwned::to_owned))
             .transpose()?;
         self.tmp_nft_token = std::env::var_os("NFT_TOKEN")
             .map(|x| x.to_str().ok_or(()).map(|s| format!("tmp{s}")))

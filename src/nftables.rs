@@ -169,21 +169,46 @@ impl Set1 {
     pub const fn as_mut_ptr(&self) -> *mut nftnl_sys::nftnl_set {
         self.0
     }
-    pub fn table_name(&self) -> Option<&str> {
+    pub fn table_name(&self) -> Option<&CStr> {
         let ret =
             unsafe { nftnl_sys::nftnl_set_get_str(self.0, nftnl_sys::NFTNL_SET_TABLE as u16) };
-        (!ret.is_null())
-            .then(|| unsafe { CStr::from_ptr(ret) }.to_str().ok())
-            .flatten()
+        (!ret.is_null()).then(|| unsafe { CStr::from_ptr(ret) })
     }
-    pub fn name(&self) -> Option<&str> {
+    pub fn table_name_str(&self) -> Option<&str> {
+        self.table_name().and_then(|s| s.to_str().ok())
+    }
+    pub fn set_table_name(&mut self, s: &CStr) -> Result<(), ()> {
+        if unsafe {
+            nftnl_sys::nftnl_set_set_str(self.0, nftnl_sys::NFTNL_SET_TABLE as u16, s.as_ptr())
+        } == 0
+        {
+            Ok(())
+        } else {
+            Err(())
+        }
+    }
+    pub fn name(&self) -> Option<&CStr> {
         let ret = unsafe { nftnl_sys::nftnl_set_get_str(self.0, nftnl_sys::NFTNL_SET_NAME as u16) };
-        (!ret.is_null())
-            .then(|| unsafe { CStr::from_ptr(ret) }.to_str().ok())
-            .flatten()
+        (!ret.is_null()).then(|| unsafe { CStr::from_ptr(ret) })
+    }
+    pub fn name_str(&self) -> Option<&str> {
+        self.name().and_then(|s| s.to_str().ok())
+    }
+    pub fn set_name(&mut self, s: &CStr) -> Result<(), ()> {
+        if unsafe {
+            nftnl_sys::nftnl_set_set_str(self.0, nftnl_sys::NFTNL_SET_NAME as u16, s.as_ptr())
+        } == 0
+        {
+            Ok(())
+        } else {
+            Err(())
+        }
     }
     pub fn family(&self) -> u32 {
         unsafe { nftnl_sys::nftnl_set_get_u32(self.0, nftnl_sys::NFTNL_SET_FAMILY as u16) }
+    }
+    pub fn set_family(&mut self, val: u32) {
+        unsafe { nftnl_sys::nftnl_set_set_u32(self.0, nftnl_sys::NFTNL_SET_FAMILY as u16, val) }
     }
     pub fn add_range<K: SetKey>(&mut self, lower: &K, excl_upper: Option<&K>) {
         let data1 = lower.data();
@@ -230,7 +255,21 @@ impl Set1 {
         // FIXME: why 2048?
         let max_batch_size = 2048;
         let mut count = 0;
-        let mut set = self.clone();
+        let clone_self = || {
+            let mut set = Self::new();
+            if let Some(s) = self.table_name() {
+                set.set_table_name(s).expect("oom");
+            }
+            if let Some(s) = self.name() {
+                set.set_name(s).expect("oom");
+            }
+            let family = self.family();
+            if family != 0 {
+                set.set_family(self.family());
+            }
+            set
+        };
+        let mut set = clone_self();
         if flush {
             count += 1;
             batch.add(&set.flush_msg(), nftnl::MsgType::Del);
@@ -239,7 +278,7 @@ impl Set1 {
             if count + 2 > max_batch_size {
                 batch.add_iter(SetElemsIter::new(&set), MsgType::Add);
                 send_and_process(socket, &batch.finalize())?;
-                set = self.clone();
+                set = clone_self();
                 batch = Batch::new();
             }
             match net {
@@ -258,12 +297,6 @@ impl Set1 {
 
     const fn flush_msg(&self) -> FlushSetMsg<'_> {
         FlushSetMsg { set: self }
-    }
-}
-
-impl Clone for Set1 {
-    fn clone(&self) -> Self {
-        Self(unsafe { nftnl_sys::nftnl_set_clone(self.0) })
     }
 }
 
@@ -441,12 +474,12 @@ pub(crate) fn nftables_thread(
     let all_sets = crate::nftables::get_sets(&socket).unwrap();
     for set in all_sets {
         for ruleset in &mut rulesets {
-            if set.table_name() == Some("global") && set.family() == libc::NFPROTO_INET as u32 {
-                if set.name() == Some(ruleset.0.name()) {
+            if set.table_name_str() == Some("global") && set.family() == libc::NFPROTO_INET as u32 {
+                if set.name_str() == Some(ruleset.0.name()) {
                     println!("found set {}", ruleset.0.name());
                     ruleset.0.set_set(set);
                     break;
-                } else if set.name() == Some(ruleset.1.name()) {
+                } else if set.name_str() == Some(ruleset.1.name()) {
                     println!("found set {}", ruleset.1.name());
                     ruleset.1.set_set(set);
                     break;
@@ -511,9 +544,11 @@ mod test {
         let sets = get_sets(&socket).unwrap();
         assert!(!sets.is_empty());
         for set in sets {
-            if set.table_name() != Some("test") || set.name() != Some("test7") {
+            // add set inet test test7 { type ipv6_addr ; flags interval ; }
+            if set.table_name_str() != Some("test") || set.name_str() != Some("test7") {
                 continue;
             }
+            // must end with ::3ffe/127
             set.add_cidrs(
                 &socket,
                 true,
