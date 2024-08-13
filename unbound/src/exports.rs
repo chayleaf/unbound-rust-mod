@@ -1,4 +1,4 @@
-use crate::bindings::{module_env, module_ev, module_qstate, outbound_entry};
+use crate::sys::{module_env, module_ev, module_qstate, outbound_entry};
 
 /// Initialize module internals, like database etc.
 /// Called just once on module load.
@@ -16,14 +16,16 @@ pub unsafe extern "C" fn init(
     env: *mut module_env,
     id: ::std::os::raw::c_int,
 ) -> ::std::os::raw::c_int {
-    crate::MODULE_FACTORY.take().map_or(0, |fac| fac(env, id))
+    crate::module::MODULE_FACTORY
+        .take()
+        .map_or(0, |fac| fac(env, id))
 }
 
 /// Deinitialize module internals.
 /// Called just once on module unload.
 #[no_mangle]
 pub unsafe extern "C" fn deinit(env: *mut module_env, id: ::std::os::raw::c_int) {
-    if let Some(module) = crate::MODULE.take() {
+    if let Some(module) = crate::module::MODULE.take() {
         module.internal_deinit(env, id);
     }
 }
@@ -45,7 +47,7 @@ pub unsafe extern "C" fn operate(
     id: ::std::os::raw::c_int,
     entry: *mut outbound_entry,
 ) {
-    if let Some(module) = crate::module() {
+    if let Some(module) = crate::module::module() {
         module.internal_operate(qstate, event, id, entry);
     }
 }
@@ -64,7 +66,7 @@ pub unsafe extern "C" fn inform_super(
     id: ::std::os::raw::c_int,
     super_qstate: *mut module_qstate,
 ) {
-    if let Some(module) = crate::module() {
+    if let Some(module) = crate::module::module() {
         module.internal_inform_super(qstate, id, super_qstate);
     }
 }
@@ -73,7 +75,7 @@ pub unsafe extern "C" fn inform_super(
 /// back. It is used to clear up any per-query allocations.
 #[no_mangle]
 pub unsafe extern "C" fn clear(qstate: *mut module_qstate, id: ::std::os::raw::c_int) {
-    if let Some(module) = crate::module() {
+    if let Some(module) = crate::module::module() {
         module.internal_clear(qstate, id);
     }
 }
@@ -82,13 +84,13 @@ pub unsafe extern "C" fn clear(qstate: *mut module_qstate, id: ::std::os::raw::c
 /// only happens explicitly and is only used to show memory usage to the user.
 #[no_mangle]
 pub unsafe extern "C" fn get_mem(env: *mut module_env, id: ::std::os::raw::c_int) -> usize {
-    crate::module().map_or(0, |module| module.internal_get_mem(env, id))
+    crate::module::module().map_or(0, |module| module.internal_get_mem(env, id))
 }
 
 // function interface assertions
-const _INIT: crate::bindings::func_init_t = Some(init);
-const _DEINIT: crate::bindings::func_deinit_t = Some(deinit);
-const _OPERATE: crate::bindings::func_operate_t = Some(operate);
-const _INFORM: crate::bindings::func_inform_t = Some(inform_super);
-const _CLEAR: crate::bindings::func_clear_t = Some(clear);
-const _GET_MEM: crate::bindings::func_get_mem_t = Some(get_mem);
+const _INIT: crate::sys::func_init_t = Some(init);
+const _DEINIT: crate::sys::func_deinit_t = Some(deinit);
+const _OPERATE: crate::sys::func_operate_t = Some(operate);
+const _INFORM: crate::sys::func_inform_t = Some(inform_super);
+const _CLEAR: crate::sys::func_clear_t = Some(clear);
+const _GET_MEM: crate::sys::func_get_mem_t = Some(get_mem);

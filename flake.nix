@@ -24,7 +24,12 @@
             opts+=(--allowlist-file ".*/$file")
           done
 
-          bindgen --no-layout-tests "''${opts[@]}" dummy.h -- -I "$PWD" $(grep ^CPPFLAGS= config.log | sed "s/.*='//;s/'//" | head -c-1 && grep ^CFLAGS= config.log | sed "s/.*-pthread//;s/'//") > "$out"
+          bindgen \
+            --raw-line "#![allow(non_camel_case_types, non_snake_case, non_upper_case_globals, clippy::all)]" \
+            --no-layout-tests "''${opts[@]}" dummy.h \
+            -- -I "$PWD" \
+            $(grep ^CPPFLAGS= config.log | sed "s/.*='//;s/'//" | head -c-1 && grep ^CFLAGS= config.log | sed "s/.*-pthread//;s/'//") \
+            >"$out"
         '';
       });
       unbound-mod = let
@@ -36,7 +41,7 @@
         cargoExtraArgs = "--package example";
         postPatch = ''
           ls -la
-          cp ${bindings} unbound-mod/src/bindings.rs
+          cp ${bindings} unbound-sys/src/lib.rs
         '';
         src = nixpkgs.lib.cleanSourceWith {
           src = ./.;

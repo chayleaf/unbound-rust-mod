@@ -1,7 +1,6 @@
 use std::panic::{RefUnwindSafe, UnwindSafe};
 
-use crate::unbound::ModuleExtState;
-use crate::UnboundMod;
+use crate::{module::UnboundMod, ModuleExtState};
 
 macro_rules! impl_tuple {
     ($($i:tt $t:tt),*) => {

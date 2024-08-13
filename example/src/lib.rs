@@ -23,12 +23,9 @@ use smallvec::SmallVec;
 
 use domain_tree::PrefixSet;
 use nftables::{nftables_thread, NftData};
-use unbound_mod::{
-    unbound::{
-        rr_class, rr_type, ModuleEnvMut, ModuleEvent, ModuleExtState, ModuleQstateMut,
-        OutboundEntryMut, ReplyInfo,
-    },
-    UnboundMod,
+use unbound::{
+    module::UnboundMod, rr_class, rr_type, set_module, ModuleEnvMut, ModuleEvent, ModuleExtState,
+    ModuleQstateMut, OutboundEntryMut, ReplyInfo,
 };
 
 mod domain_tree;
@@ -37,7 +34,7 @@ mod nftables;
 type Domain = SmallVec<[u8; 32]>;
 type DomainSeg = SmallVec<[u8; 16]>;
 
-unbound_mod::set_module!(ExampleMod);
+set_module!(ExampleMod);
 
 struct IpNetDeser(IpNet);
 struct IpNetVisitor;
@@ -728,7 +725,7 @@ impl UnboundMod for ExampleMod {
             }
         }
         let info = qstate.qinfo();
-        let name = info.qname().to_bytes();
+        let name = info.qname().unwrap().to_bytes();
         let split_domain = unwire_domain(name);
         if let Some(val) = self.run_commands(&split_domain) {
             return Some(val);
@@ -756,7 +753,7 @@ mod test {
     use smallvec::smallvec;
 
     use super::{ignore, ExampleMod, IpCacheKey, IpNetDeser, DATA_PREFIX};
-    use unbound_mod::unbound::ModuleExtState;
+    use unbound::ModuleExtState;
 
     #[test]
     fn test() {

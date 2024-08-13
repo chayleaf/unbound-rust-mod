@@ -78,7 +78,7 @@ dependencies = [
  "serde",
  "serde_json",
  "smallvec",
- "unbound-mod",
+ "unbound",
 ]
 
 [[package]]
@@ -363,11 +363,16 @@ dependencies = [
 ]
 
 [[package]]
-name = "unbound-mod"
+name = "unbound"
 version = "0.1.0"
 dependencies = [
  "ctor",
+ "unbound-sys",
 ]
+
+[[package]]
+name = "unbound-sys"
+version = "0.1.0"
 
 [[package]]
 name = "unicode-ident"
