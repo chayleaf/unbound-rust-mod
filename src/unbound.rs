@@ -157,7 +157,7 @@ impl<T> ModuleEnvMut<T> {
                     addr4.sin_port = x.port();
                     addr4.sin_addr.s_addr = (*x.ip()).into();
                     (
-                        &addr4 as *const _ as *const sockaddr_storage,
+                        std::ptr::addr_of!(addr4).cast::<sockaddr_storage>(),
                         std::mem::size_of_val(&addr4),
                     )
                 }
@@ -166,29 +166,27 @@ impl<T> ModuleEnvMut<T> {
                     addr6.sin6_flowinfo = x.flowinfo();
                     addr6.sin6_scope_id = x.scope_id();
                     (
-                        &addr6 as *const _ as *const sockaddr_storage,
+                        std::ptr::addr_of!(addr6).cast(),
                         std::mem::size_of_val(&addr6),
                     )
                 }
             };
             ((*self.0).send_query.unwrap_unchecked())(
-                &qinfo.0 as *const _ as *mut _,
+                qinfo.0 .0,
                 flags,
                 dnssec as i32,
                 want_dnssec.into(),
                 nocaps.into(),
                 check_ratelimit.into(),
-                addr as *mut _,
+                addr.cast_mut(),
                 addr_len as u32,
-                zone.as_ptr() as *mut _,
+                zone.as_ptr().cast_mut(),
                 zone.len(),
                 tcp_upstream.into(),
                 ssl_upstream.into(),
-                tls_auth_name
-                    .map(|x| x.as_ptr() as *mut _)
-                    .unwrap_or(ptr::null_mut()),
+                tls_auth_name.map_or_else(ptr::null_mut, |x| x.as_ptr().cast_mut()),
                 q.0,
-                &mut was_ratelimited as *mut _,
+                std::ptr::addr_of_mut!(was_ratelimited),
             )
         };
         if ret.is_null() {
@@ -216,7 +214,7 @@ impl<T> ModuleEnvMut<T> {
         let res = unsafe {
             ((*self.0).attach_sub.unwrap_unchecked())(
                 qstate.0,
-                &qinfo.0 as *const _ as *mut _,
+                qinfo.0 .0,
                 qflags,
                 prime.into(),
                 valrec.into(),
@@ -245,7 +243,7 @@ impl<T> ModuleEnvMut<T> {
 impl<T> ModuleQstate<'_, T> {
     pub fn qinfo(&self) -> QueryInfo<'_> {
         QueryInfo(
-            unsafe { &mut (*self.0).qinfo as *mut query_info },
+            unsafe { std::ptr::addr_of_mut!((*self.0).qinfo) },
             Default::default(),
         )
     }
@@ -347,7 +345,7 @@ impl ReplyInfo<'_> {
 impl UbPackedRrsetKey<'_> {
     pub fn entry(&self) -> LruHashEntry<'_> {
         LruHashEntry(
-            unsafe { &mut (*self.0).entry as *mut _ },
+            unsafe { std::ptr::addr_of_mut!((*self.0).entry) },
             Default::default(),
         )
     }
@@ -355,7 +353,10 @@ impl UbPackedRrsetKey<'_> {
         unsafe { (*self.0).id }
     }
     pub fn rk(&self) -> PackedRrsetKey<'_> {
-        PackedRrsetKey(unsafe { &mut (*self.0).rk as *mut _ }, Default::default())
+        PackedRrsetKey(
+            unsafe { std::ptr::addr_of_mut!((*self.0).rk) },
+            Default::default(),
+        )
     }
 }
 
@@ -381,7 +382,7 @@ impl PackedRrsetKey<'_> {
 impl LruHashEntry<'_> {
     pub fn data(&self) -> PackedRrsetData<'_> {
         // FIXME: shouldnt pthread lock be used here?
-        unsafe { PackedRrsetData((*self.0).data as *mut packed_rrset_data, Default::default()) }
+        unsafe { PackedRrsetData((*self.0).data.cast(), Default::default()) }
     }
 }
 
@@ -639,8 +640,8 @@ pub enum ModuleExtState {
 }
 
 impl ModuleExtState {
-    pub(crate) fn importance(&self) -> usize {
-        match *self {
+    pub(crate) const fn importance(self) -> usize {
+        match self {
             Self::Unknown => 0,
             Self::InitialState => 1,
             Self::Finished => 2,

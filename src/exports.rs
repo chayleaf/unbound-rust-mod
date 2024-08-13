@@ -16,11 +16,7 @@ pub unsafe extern "C" fn init(
     env: *mut module_env,
     id: ::std::os::raw::c_int,
 ) -> ::std::os::raw::c_int {
-    if let Some(fac) = crate::MODULE_FACTORY.take() {
-        fac(env, id)
-    } else {
-        0
-    }
+    crate::MODULE_FACTORY.take().map_or(0, |fac| fac(env, id))
 }
 
 /// Deinitialize module internals.
@@ -33,7 +29,7 @@ pub unsafe extern "C" fn deinit(env: *mut module_env, id: ::std::os::raw::c_int)
 }
 
 /// Perform action on pending query. Accepts a new query, or work on pending query.
-/// You have to set qstate.ext_state on exit.
+/// You have to set `qstate.ext_state` on exit.
 /// The state informs unbound about result and controls the following states.
 ///
 /// # Arguments
@@ -50,7 +46,7 @@ pub unsafe extern "C" fn operate(
     entry: *mut outbound_entry,
 ) {
     if let Some(module) = crate::module() {
-        module.internal_operate(qstate, event, id, entry)
+        module.internal_operate(qstate, event, id, entry);
     }
 }
 
@@ -69,7 +65,7 @@ pub unsafe extern "C" fn inform_super(
     super_qstate: *mut module_qstate,
 ) {
     if let Some(module) = crate::module() {
-        module.internal_inform_super(qstate, id, super_qstate)
+        module.internal_inform_super(qstate, id, super_qstate);
     }
 }
 
@@ -78,7 +74,7 @@ pub unsafe extern "C" fn inform_super(
 #[no_mangle]
 pub unsafe extern "C" fn clear(qstate: *mut module_qstate, id: ::std::os::raw::c_int) {
     if let Some(module) = crate::module() {
-        module.internal_clear(qstate, id)
+        module.internal_clear(qstate, id);
     }
 }
 
@@ -86,9 +82,7 @@ pub unsafe extern "C" fn clear(qstate: *mut module_qstate, id: ::std::os::raw::c
 /// only happens explicitly and is only used to show memory usage to the user.
 #[no_mangle]
 pub unsafe extern "C" fn get_mem(env: *mut module_env, id: ::std::os::raw::c_int) -> usize {
-    crate::module()
-        .map(|module| module.internal_get_mem(env, id))
-        .unwrap_or(0)
+    crate::module().map_or(0, |module| module.internal_get_mem(env, id))
 }
 
 // function interface assertions

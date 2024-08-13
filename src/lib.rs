@@ -9,10 +9,9 @@ use unbound::ModuleExtState;
     non_snake_case,
     non_upper_case_globals,
     unused_imports,
-    clippy::useless_transmute,
-    clippy::type_complexity,
-    clippy::too_many_arguments,
-    clippy::upper_case_acronyms
+    clippy::all,
+    clippy::nursery,
+    clippy::pedantic
 )]
 mod bindings;
 mod combine;
@@ -22,10 +21,6 @@ mod example;
 mod exports;
 mod nftables;
 mod unbound;
-
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
 
 pub trait UnboundMod: Send + Sync + Sized + RefUnwindSafe + UnwindSafe {
     type EnvData;
@@ -97,7 +92,7 @@ unsafe impl<T: UnboundMod> SealedUnboundMod for T {
         id: ::std::os::raw::c_int,
     ) {
         std::panic::catch_unwind(|| {
-            self.deinit(&mut unbound::ModuleEnvMut(env, id, Default::default()))
+            self.deinit(&mut unbound::ModuleEnvMut(env, id, Default::default()));
         })
         .unwrap_or(());
     }
@@ -141,7 +136,7 @@ unsafe impl<T: UnboundMod> SealedUnboundMod for T {
                     -1,
                     Default::default(),
                 )),
-            )
+            );
         })
         .unwrap_or(());
     }
@@ -155,7 +150,7 @@ unsafe impl<T: UnboundMod> SealedUnboundMod for T {
                 qstate,
                 id,
                 Default::default(),
-            )))
+            )));
         })
         .unwrap_or(());
     }
@@ -188,29 +183,17 @@ pub fn set_unbound_mod<T: 'static + UnboundMod>() {
         MODULE_FACTORY
             .set(Box::new(|env, id| {
                 std::panic::catch_unwind(|| {
-                    if let Ok(module) =
-                        T::init(&mut unbound::ModuleEnvMut(env, id, Default::default()))
-                    {
-                        MODULE.set(Box::new(module)).map_err(|_| ()).unwrap();
-                        1
-                    } else {
-                        0
-                    }
+                    T::init(&mut unbound::ModuleEnvMut(env, id, Default::default())).map_or(
+                        0,
+                        |module| {
+                            MODULE.set(Box::new(module)).map_err(|_| ()).unwrap();
+                            1
+                        },
+                    )
                 })
                 .unwrap_or(0)
             }))
             .map_err(|_| "set_unbound_mod failed")
             .unwrap();
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
     }
 }

@@ -151,7 +151,7 @@ impl<T> IpCache<T> {
             let mut val = Some(ignore);
             val = None;
             val
-        })
+        });
     }
     fn get_maybe_update_rev<F: for<'a> FnOnce(&'a mut smallvec::SmallVec<[T; 4]>)>(
         &self,
@@ -236,7 +236,7 @@ impl<T: FromStr> IpCache<T> {
         let mut lock = self.0.write().unwrap();
         assert!(lock.1.is_empty());
         let domains = std::fs::read_dir(dir)?;
-        for entry in domains.filter_map(|x| x.ok()) {
+        for entry in domains.filter_map(Result::ok) {
             let domain = entry.file_name();
             let Some(domain) = domain.to_str() else {
                 continue;
@@ -324,7 +324,7 @@ impl ExampleMod {
         Ok(ret)
     }
     fn load_json(&mut self, rulesets: &mut [(NftData<Ipv4Net>, NftData<Ipv6Net>)]) {
-        for (k, v) in self.nft_queries.iter_mut() {
+        for (k, v) in &mut self.nft_queries {
             let r = &mut rulesets[v.index];
             let mut v_domains = v.domains.write().unwrap();
             for base in [CONFIG_PREFIX, DATA_PREFIX] {
@@ -333,13 +333,8 @@ impl ExampleMod {
                     match read_json::<Vec<String>>(file) {
                         Ok(domains) => {
                             for domain in domains {
-                                v_domains.insert(
-                                    domain
-                                        .split('.')
-                                        .rev()
-                                        .map(|x| x.as_bytes().into())
-                                        .collect::<SmallVec<[DomainSeg; 5]>>(),
-                                );
+                                v_domains
+                                    .insert(domain.split('.').rev().map(|x| x.as_bytes().into()));
                             }
                         }
                         Err(err) => Self::report2(&self.error_lock, "domains", err),
@@ -350,13 +345,8 @@ impl ExampleMod {
                     match read_json::<Vec<DpiInfo>>(file) {
                         Ok(dpi_info) => {
                             for domain in dpi_info.iter().flat_map(|x| &x.domains) {
-                                v_domains.insert(
-                                    domain
-                                        .split('.')
-                                        .rev()
-                                        .map(|x| x.as_bytes().into())
-                                        .collect::<SmallVec<[DomainSeg; 5]>>(),
-                                );
+                                v_domains
+                                    .insert(domain.split('.').rev().map(|x| x.as_bytes().into()));
                             }
                         }
                         Err(err) => Self::report2(&self.error_lock, "dpi", err),
@@ -409,7 +399,7 @@ impl ExampleMod {
         if let Some(s) = std::env::var_os("NFT_QUERIES") {
             for (i, (name, set4, set6)) in s
                 .to_str()
-                .map(|x| x.to_owned())
+                .map(ToOwned::to_owned)
                 .ok_or(())?
                 .split(';')
                 .filter_map(|x| x.split_once(':'))
@@ -418,11 +408,9 @@ impl ExampleMod {
                 })
                 .enumerate()
             {
-                let (name, dynamic) = if let Some(name) = name.strip_suffix('!') {
-                    (name, true)
-                } else {
-                    (name, false)
-                };
+                let (name, dynamic) = name
+                    .strip_suffix('!')
+                    .map_or((name, false), |name| (name, true));
                 self.nft_queries.insert(
                     name.to_owned(),
                     NftQuery {
@@ -545,7 +533,7 @@ impl ExampleMod {
                 .filter(|(a, _)| **a == token.as_bytes())
                 .map(|(_, b)| b)
         }) {
-            for (qname, query) in self.nft_queries.iter() {
+            for (qname, query) in &self.nft_queries {
                 if query.dynamic {
                     if let Some(split_domain) = split_domain
                         .split_last()
@@ -606,7 +594,7 @@ impl ExampleMod {
                 .filter(|(a, _)| **a == token.as_bytes())
                 .map(|(_, b)| b)
         }) {
-            for (qname, query) in self.nft_queries.iter() {
+            for (qname, query) in &self.nft_queries {
                 if query.dynamic {
                     if let Some(split_domain) = split_domain
                         .split_last()

@@ -48,7 +48,7 @@ struct FlushSetMsg<'a> {
 unsafe impl<'a> NlMsg for FlushSetMsg<'a> {
     unsafe fn write(&self, buf: *mut std::ffi::c_void, seq: u32, _msg_type: MsgType) {
         let header = nftnl_sys::nftnl_nlmsg_build_hdr(
-            buf as *mut c_char,
+            buf.cast(),
             libc::NFT_MSG_DELSETELEM as u16,
             self.set.family() as u16,
             0,
@@ -68,9 +68,7 @@ pub struct SetElemsIter<'a> {
 impl<'a> SetElemsIter<'a> {
     fn new(set: &'a Set1) -> Self {
         let iter = unsafe { nftnl_sys::nftnl_set_elems_iter_create(set.as_mut_ptr()) };
-        if iter.is_null() {
-            panic!("oom");
-        }
+        assert!(!iter.is_null(), "oom");
         SetElemsIter {
             set,
             iter,
@@ -125,7 +123,7 @@ unsafe impl<'a> NlMsg for SetElemsMsg<'a> {
             MsgType::Del => (libc::NFT_MSG_DELSETELEM, 0),
         };
         let header = nftnl_sys::nftnl_nlmsg_build_hdr(
-            buf as *mut c_char,
+            buf.cast(),
             type_ as u16,
             self.set.family() as u16,
             flags as u16,
@@ -171,7 +169,7 @@ impl Set1 {
     pub fn new() -> Self {
         Self(unsafe { nftnl_sys::nftnl_set_alloc() })
     }
-    pub fn as_mut_ptr(&self) -> *mut nftnl_sys::nftnl_set {
+    pub const fn as_mut_ptr(&self) -> *mut nftnl_sys::nftnl_set {
         self.0
     }
     pub fn table_name(&self) -> Option<&str> {
@@ -195,30 +193,26 @@ impl Set1 {
         let data1_len = data1.len() as u32;
         unsafe {
             let elem = nftnl_sys::nftnl_set_elem_alloc();
-            if elem.is_null() {
-                panic!("oom");
-            }
+            assert!(!elem.is_null(), "oom");
             nftnl_sys::nftnl_set_elem_set(
                 elem,
                 nftnl_sys::NFTNL_SET_ELEM_KEY as u16,
-                data1.as_ptr() as *const c_void,
+                data1.as_ptr().cast(),
                 data1_len,
             );
             nftnl_sys::nftnl_set_elem_add(self.as_mut_ptr(), elem);
 
-            let Some(data2) = excl_upper.map(|key| key.data()) else {
+            let Some(data2) = excl_upper.map(SetKey::data) else {
                 return;
             };
             let data2_len = data2.len() as u32;
 
             let elem = nftnl_sys::nftnl_set_elem_alloc();
-            if elem.is_null() {
-                panic!("oom");
-            }
+            assert!(!elem.is_null(), "oom");
             nftnl_sys::nftnl_set_elem_set(
                 elem,
                 nftnl_sys::NFTNL_SET_ELEM_KEY as u16,
-                data2.as_ptr() as *const c_void,
+                data2.as_ptr().cast(),
                 data2_len,
             );
             nftnl_sys::nftnl_set_elem_set_u32(
@@ -244,7 +238,7 @@ impl Set1 {
             count += 1;
             batch.add(&set.flush_msg(), nftnl::MsgType::Del);
         }
-        for net in cidrs.into_iter() {
+        for net in cidrs {
             if count + 2 > max_batch_size {
                 batch.add_iter(SetElemsIter::new(&set), MsgType::Add);
                 send_and_process(socket, &batch.finalize())?;
@@ -265,7 +259,7 @@ impl Set1 {
         send_and_process(socket, &batch.finalize())
     }
 
-    fn flush_msg(&self) -> FlushSetMsg<'_> {
+    const fn flush_msg(&self) -> FlushSetMsg<'_> {
         FlushSetMsg { set: self }
     }
 }
@@ -282,7 +276,7 @@ pub fn get_sets(socket: &mnl::Socket) -> io::Result<Vec<Set1>> {
     let mut ret = Vec::new();
     unsafe {
         nftnl_sys::nftnl_nlmsg_build_hdr(
-            buffer.as_mut_ptr() as *mut c_char,
+            buffer.as_mut_ptr().cast(),
             libc::NFT_MSG_GETSET as u16,
             nftnl::ProtoFamily::Inet as u16,
             (libc::NLM_F_DUMP | libc::NLM_F_ACK) as u16,
@@ -335,11 +329,8 @@ fn should_add<T: Helper>(trie: &RTrieSet<T>, elem: &T) -> bool {
 
 fn iter_ip_trie<T: Helper>(trie: &RTrieSet<T>) -> impl '_ + Iterator<Item = T> {
     trie.iter().copied().filter(|x| {
-        if let Some(par) = x.direct_parent() {
-            should_add(trie, &par)
-        } else {
-            *x != T::ZERO
-        }
+        x.direct_parent()
+            .map_or_else(|| *x != T::ZERO, |par| should_add(trie, &par))
     })
 }
 
@@ -482,11 +473,10 @@ pub(crate) fn nftables_thread(
             println!("nftables init done");
             first = false;
         }
-        let (rulesets1, ips) = match rx.recv() {
-            Ok(val) => val,
-            Err(_) => break,
+        let Ok((rulesets1, ips)) = rx.recv() else {
+            break;
         };
-        for i in rulesets1.into_iter() {
+        for i in rulesets1 {
             let ruleset = &mut rulesets[i];
             for ip1 in ips.iter().copied() {
                 match ip1 {
