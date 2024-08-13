@@ -549,14 +549,14 @@ impl ExampleMod {
                         if domains.insert(split_domain.iter().copied().rev().map(From::from)) {
                             drop(domains);
                             let file_name = format!("{DATA_PREFIX}/{qname}_domains.json");
-                            let mut first = false;
+                            let mut first = true;
                             let domain = match split_domain
                                 .iter()
                                 .copied()
                                 .map(std::str::from_utf8)
                                 .try_fold(String::new(), |mut s, comp| {
-                                    if !first {
-                                        first = true;
+                                    if first {
+                                        first = false;
                                     } else {
                                         s.push('.');
                                     }
