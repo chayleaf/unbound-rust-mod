@@ -420,7 +420,16 @@ where
                     iter_ip_trie(&self.ips).next(),
                 );
             }
-            let ret = set.add_cidrs(socket, flush_set, iter_ip_trie(&self.ips).map(IpNet::from));
+            let ret = set.add_cidrs(
+                socket,
+                flush_set,
+                iter_ip_trie(&self.ips)
+                    .map(|ip| {
+                        self.all_ips.insert(ip);
+                        ip
+                    })
+                    .map(IpNet::from),
+            );
             self.ips = RTrieSet::new();
             ret
         } else {
@@ -438,9 +447,9 @@ where
         } else {
             self.set.is_some()
         }) && should_add(&self.all_ips, &ip)
+            && should_add(&self.ips, &ip)
         {
             self.ips.insert(ip);
-            self.all_ips.insert(ip);
         }
     }
     #[cfg(test)]
